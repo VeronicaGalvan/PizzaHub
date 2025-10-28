@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/../.gitignore">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/../.gitignore" />
+              <option name="updatedContent" value="# Android/IntelliJ&#10;.gradle/&#10;/local.properties&#10;/.idea/&#10;/build/&#10;/captures/&#10;.externalNativeBuild/&#10;*.iml&#10;&#10;# Kotlin/Java&#10;*.class&#10;*.jar&#10;*.war&#10;*.ear&#10;&#10;# Gradle&#10;.gradle/&#10;**/build/&#10;!gradle/wrapper/gradle-wrapper.jar&#10;&#10;# Android Studio&#10;.idea/&#10;.DS_Store&#10;&#10;# Keystore&#10;**/*.jks&#10;**/*.keystore&#10;&#10;# Misc&#10;*.log&#10;*.tmp&#10;&#10;# Ignore local env files&#10;.env&#10;&#10;# Exclude generated Google services files (add yours if needed)&#10;google-services.json&#10;&#10;# Node/npm&#10;node_modules/&#10;dist/&#10;&#10;# PWA build outputs&#10;pwa/dist/&#10;&#10;# Backend artifacts&#10;backend/**/bin/&#10;backend/**/obj/&#10;&#10;# Terraform state&#10;infra/terraform/*.tfstate&#10;infra/terraform/*.tfstate.backup&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
