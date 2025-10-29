@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.example.pizzahub_mobile"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.pizzahub_mobile"
         minSdk = 30
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -49,6 +49,13 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    // Navigation for Compose
+    implementation("androidx.navigation:navigation-compose:2.6.0")
+
+    // Coil for image loading in Compose
+    implementation("io.coil-kt:coil-compose:2.2.2")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

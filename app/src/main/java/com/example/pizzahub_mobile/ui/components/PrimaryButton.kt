@@ -1,0 +1,27 @@
+package com.example.pizzahub_mobile.ui.components
+
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
+import com.example.pizzahub_mobile.ui.theme.PizzaRed
+
+@Composable
+fun PrimaryButton(modifier: Modifier = Modifier, text: String, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        modifier = modifier
+            .clip(RoundedCornerShape(14.dp))
+            .padding(vertical = 0.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = PizzaRed),
+        shape = RoundedCornerShape(14.dp)
+    ) {
+        Text(text = text, color = androidx.compose.ui.graphics.Color.White)
+    }
+}
+
