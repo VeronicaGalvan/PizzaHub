@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PizzaHubAPI</name>
+    </assembly>
+    <members>
+        <member name="M:PizzaHubAPI.Controllers.AuthController.Login(PizzaHubAPI.Models.DTOs.LoginRequestDTO)">
+            <summary>
+            Autentica un usuario y retorna los tokens de acceso
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.AuthController.RefreshToken(PizzaHubAPI.Models.DTOs.RefreshTokenRequestDTO)">
+            <summary>
+            Refresca el token de acceso usando un refresh token válido
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.AuthController.Logout">
+            <summary>
+            Cierra la sesión del usuario revocando sus tokens
+            </summary>
+        </member>
+    </members>
+</doc>
