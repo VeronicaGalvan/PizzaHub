@@ -17,6 +17,7 @@ public interface IAuthService
     Task<LoginResponseDTO?> LoginAsync(LoginRequestDTO request);
     Task<bool> RevocarTokenAsync(string token, int userId);
     Task<LoginResponseDTO?> RefreshTokenAsync(string refreshToken);
+    Task<LoginResponseDTO?> RegisterAsync(RegisterRequestDTO request);
 }
 
 public class AuthService : IAuthService
@@ -68,6 +69,50 @@ public class AuthService : IAuthService
             .Include(u => u.UsuariosRoles)
             .ThenInclude(ur => ur.Rol)
             .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (usuario == null)
+            return null;
+
+        return await GenerateAuthResponseAsync(usuario);
+    }
+
+    public async Task<LoginResponseDTO?> RegisterAsync(RegisterRequestDTO request)
+    {
+        // Check if email already exists
+        if (await _context.Usuarios.AnyAsync(u => u.Email == request.Email))
+            return null;
+
+        // Create user
+        var usuario = new Usuario
+        {
+            Email = request.Email,
+            NombreCompleto = request.NombreCompleto,
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
+            TelefonoContacto = request.TelefonoContacto,
+            CreadoEn = DateTime.UtcNow
+        };
+
+        _context.Usuarios.Add(usuario);
+        await _context.SaveChangesAsync();
+
+        // Ensure there is a default role "User" and assign it
+        var role = await _context.Roles.FirstOrDefaultAsync(r => r.Nombre == "User");
+        if (role == null)
+        {
+            role = new Rol { Nombre = "User" };
+            _context.Roles.Add(role);
+            await _context.SaveChangesAsync();
+        }
+
+        var usuarioRol = new UsuarioRol { UsuarioId = usuario.Id, RolId = role.Id };
+        _context.UsuariosRoles.Add(usuarioRol);
+        await _context.SaveChangesAsync();
+
+        // Reload usuario with roles
+        usuario = await _context.Usuarios
+            .Include(u => u.UsuariosRoles)
+            .ThenInclude(ur => ur.Rol)
+            .FirstOrDefaultAsync(u => u.Id == usuario.Id);
 
         if (usuario == null)
             return null;

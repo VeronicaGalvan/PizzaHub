@@ -33,6 +33,21 @@ public class AuthController : ControllerBase
     }
 
     /// <summary>
+    /// Registra un nuevo usuario y retorna tokens (login automático)
+    /// </summary>
+    [HttpPost("register")]
+    [ProducesResponseType(typeof(LoginResponseDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> Register([FromBody] RegisterRequestDTO request)
+    {
+        var response = await _authService.RegisterAsync(request);
+        if (response == null)
+            return Conflict(new { message = "El email ya está en uso" });
+
+        return Ok(response);
+    }
+
+    /// <summary>
     /// Refresca el token de acceso usando un refresh token válido
     /// </summary>
     [HttpPost("refresh")]
