@@ -36,7 +36,7 @@ public class AuthController : ControllerBase
     /// Registra un nuevo usuario y retorna tokens (login automático)
     /// </summary>
     [HttpPost("register")]
-    [ProducesResponseType(typeof(LoginResponseDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(LoginResponseDTO), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> Register([FromBody] RegisterRequestDTO request)
     {
@@ -44,7 +44,8 @@ public class AuthController : ControllerBase
         if (response == null)
             return Conflict(new { message = "El email ya está en uso" });
 
-        return Ok(response);
+        // Return 201 Created with location header pointing to the newly created resource
+        return Created($"/api/v1/users/{response.Usuario.Id}", response);
     }
 
     /// <summary>

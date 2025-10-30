@@ -93,7 +93,15 @@ public class AuthService : IAuthService
         };
 
         _context.Usuarios.Add(usuario);
-        await _context.SaveChangesAsync();
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (Microsoft.EntityFrameworkCore.DbUpdateException)
+        {
+            // Likely a unique constraint violation (email) created by a race condition — treat as conflict
+            return null;
+        }
 
         // Ensure there is a default role "User" and assign it
         var role = await _context.Roles.FirstOrDefaultAsync(r => r.Nombre == "User");

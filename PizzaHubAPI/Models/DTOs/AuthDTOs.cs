@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace PizzaHubAPI.Models.DTOs;
 
 public class LoginRequestDTO
@@ -26,8 +28,19 @@ public class UserInfoDTO
 
 public class RegisterRequestDTO
 {
+    [Required]
+    [EmailAddress]
     public string Email { get; set; } = null!;
+
+    [Required]
+    [MinLength(8)]
     public string Password { get; set; } = null!;
+
+    [Required]
+    [MaxLength(100)]
     public string NombreCompleto { get; set; } = null!;
+
+    [Phone]
+    [MaxLength(50)]
     public string? TelefonoContacto { get; set; }
 }
