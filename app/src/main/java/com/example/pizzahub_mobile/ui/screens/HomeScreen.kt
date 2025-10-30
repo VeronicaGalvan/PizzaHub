@@ -1,10 +1,12 @@
 package com.example.pizzahub_mobile.ui.screens
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -25,158 +27,190 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(onNavigate: (String) -> Unit) {
-    val terracota = Color(0xFFD35400)
-    val brownDark = Color(0xFF4E342E)
-    val cream = Color(0xFFFFF8EE)
-    val softBeige = Color(0xFFFFEFD5)
+        val terracota = Color(0xFFD35400)
+        val brownDark = Color(0xFF4E342E)
+        val cream = Color(0xFFFFF8EE)
 
-    // Fondo degradado sutil
-    Box(
-            modifier =
-                    Modifier.fillMaxSize()
-                            .background(Brush.verticalGradient(listOf(cream, Color.White)))
-                            .padding(horizontal = 20.dp, vertical = 16.dp)
-    ) {
-        Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
+        Box(
+                modifier =
+                        Modifier.fillMaxSize()
+                                .background(Brush.verticalGradient(listOf(cream, Color.White)))
+                                .padding(horizontal = 20.dp, vertical = 16.dp)
         ) {
-            // Encabezado
-            Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(onClick = { onNavigate("profile") }) {
-                    Icon(Icons.Default.Menu, contentDescription = "Menu", tint = brownDark)
-                }
-
-                Text(
-                        text = "PizzaHub",
-                        color = brownDark,
-                        fontSize = 26.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = FontFamily.SansSerif
-                )
-
-                IconButton(onClick = { onNavigate("order") }) {
-                    Icon(Icons.Default.ShoppingCart, contentDescription = "Cart", tint = brownDark)
-                }
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Imagen central (emoji)
-            Box(
-                    modifier =
-                            Modifier.size(240.dp)
-                                    .shadow(8.dp, shape = CircleShape, clip = false)
-                                    .background(Color.White, shape = CircleShape),
-                    contentAlignment = Alignment.Center
-            ) { Text(text = "🍕", fontSize = 90.sp) }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Texto principal
-            Text(
-                    text = "Pizza Deliciosa",
-                    fontSize = 28.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = brownDark
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                    text = "Disfruta la mejor pizza",
-                    fontSize = 16.sp,
-                    color = brownDark.copy(alpha = 0.7f)
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Botón principal
-            Button(
-                    onClick = { onNavigate("catalog") },
-                    colors = ButtonDefaults.buttonColors(containerColor = terracota),
-                    shape = RoundedCornerShape(14.dp),
-                    modifier =
-                            Modifier.fillMaxWidth(0.85f)
-                                    .height(52.dp)
-                                    .shadow(4.dp, RoundedCornerShape(14.dp))
-            ) {
-                Text(
-                        text = "Ordenar ahora",
-                        color = Color.White,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 16.sp
-                )
-            }
-
-            Spacer(modifier = Modifier.height(28.dp))
-
-            // Categorías
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
-                Text(
-                        text = "Categorías",
-                        fontWeight = FontWeight.SemiBold,
-                        color = brownDark,
-                        fontSize = 18.sp
-                )
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            val categories =
-                    listOf(Pair("Pizzas", "🍕"), Pair("Bebidas", "🥤"), Pair("Complementos", "🍟"))
-
-            LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(horizontal = 6.dp)
-            ) {
-                items(categories) { (label, icon) ->
-                    CategoryCard(
-                            label = label,
-                            icon = icon,
-                            onClick = {
-                                when (label) {
-                                    "Pizzas" -> onNavigate("catalog/pizzas")
-                                    "Bebidas" -> onNavigate("catalog/bebidas")
-                                    "Complementos" -> onNavigate("catalog/complementos")
-                                    else -> onNavigate("catalog")
+                Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                        // Encabezado
+                        Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                        ) {
+                                IconButton(onClick = { onNavigate("profile") }) {
+                                        Icon(
+                                                Icons.Default.Menu,
+                                                contentDescription = "Menu",
+                                                tint = brownDark
+                                        )
                                 }
-                            }
-                    )
+
+                                Text(
+                                        text = "PizzaHub",
+                                        color = brownDark,
+                                        fontSize = 26.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        fontFamily = FontFamily.SansSerif
+                                )
+
+                                IconButton(onClick = { onNavigate("order") }) {
+                                        Icon(
+                                                Icons.Default.ShoppingCart,
+                                                contentDescription = "Cart",
+                                                tint = brownDark
+                                        )
+                                }
+                        }
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        // Imagen central (emoji)
+                        Box(
+                                modifier =
+                                        Modifier.size(220.dp)
+                                                .shadow(8.dp, shape = CircleShape, clip = false)
+                                                .background(Color.White, shape = CircleShape),
+                                contentAlignment = Alignment.Center
+                        ) { Text(text = "🍕", fontSize = 84.sp) }
+
+                        Spacer(modifier = Modifier.height(20.dp))
+
+                        // Texto principal
+                        Text(
+                                text = "Pizza Deliciosa",
+                                fontSize = 26.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = brownDark
+                        )
+
+                        Spacer(modifier = Modifier.height(6.dp))
+
+                        Text(
+                                text = "Disfruta la mejor pizza artesanal",
+                                fontSize = 15.sp,
+                                color = brownDark.copy(alpha = 0.75f)
+                        )
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        // Botón principal
+                        Button(
+                                onClick = { onNavigate("catalog") },
+                                colors = ButtonDefaults.buttonColors(containerColor = terracota),
+                                shape = RoundedCornerShape(14.dp),
+                                modifier =
+                                        Modifier.fillMaxWidth(0.85f)
+                                                .height(52.dp)
+                                                .shadow(4.dp, RoundedCornerShape(14.dp))
+                        ) {
+                                Text(
+                                        text = "Ordenar ahora",
+                                        color = Color.White,
+                                        fontWeight = FontWeight.SemiBold,
+                                        fontSize = 16.sp
+                                )
+                        }
+
+                        Spacer(modifier = Modifier.height(28.dp))
+
+                        // Categorías
+                        Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Start
+                        ) {
+                                Text(
+                                        text = "Categorías",
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = brownDark,
+                                        fontSize = 18.sp
+                                )
+                        }
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        val categories =
+                                listOf(
+                                        Pair("Pizzas", "🍕"),
+                                        Pair("Bebidas", "🥤"),
+                                        Pair("Complementos", "🍟"),
+                                        Pair("Ofertas", "🔥")
+                                )
+
+                        // Grid 2 columnas
+                        LazyVerticalGrid(
+                                columns = GridCells.Fixed(2),
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalArrangement = Arrangement.spacedBy(16.dp),
+                                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp)
+                        ) {
+                                items(categories) { (label, icon) ->
+                                        CategoryCardGrid(
+                                                label = label,
+                                                icon = icon,
+                                                onClick = {
+                                                        when (label) {
+                                                                "Pizzas" ->
+                                                                        onNavigate("catalog/pizzas")
+                                                                "Bebidas" ->
+                                                                        onNavigate(
+                                                                                "catalog/bebidas"
+                                                                        )
+                                                                "Complementos" ->
+                                                                        onNavigate(
+                                                                                "catalog/complementos"
+                                                                        )
+                                                                else -> onNavigate("catalog")
+                                                        }
+                                                }
+                                        )
+                                }
+                        }
                 }
-            }
         }
-    }
 }
 
 @Composable
-fun CategoryCard(label: String, icon: String, onClick: () -> Unit) {
-    val background = Color(0xFFFFF1D6)
-    val textColor = Color(0xFF4E342E)
+fun CategoryCardGrid(label: String, icon: String, onClick: () -> Unit) {
+        val background = Color(0xFFFFF1D6)
+        val textColor = Color(0xFF4E342E)
 
-    Column(
-            modifier =
-                    Modifier.width(100.dp)
-                            .clickable(onClick = onClick)
-                            .clip(RoundedCornerShape(18.dp))
-                            .background(background)
-                            .padding(vertical = 18.dp, horizontal = 12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = icon, fontSize = 36.sp)
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(text = label, color = textColor, fontSize = 14.sp, fontWeight = FontWeight.Medium)
-    }
+        Column(
+                modifier =
+                        Modifier.aspectRatio(1f)
+                                .clip(RoundedCornerShape(22.dp))
+                                .background(background)
+                                .clickable { onClick() }
+                                .padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+        ) {
+                Text(text = icon, fontSize = 44.sp)
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                        text = label,
+                        color = textColor,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Medium
+                )
+        }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    PizzaHub_MobileTheme { HomeScreen(onNavigate = {}) }
+        PizzaHub_MobileTheme { HomeScreen(onNavigate = {}) }
 }

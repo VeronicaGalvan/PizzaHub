@@ -21,7 +21,11 @@ import androidx.compose.ui.unit.sp
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
 
 @Composable
-fun RegisterScreen(onBack: (() -> Unit)? = null, onRegister: (String, String) -> Unit) {
+fun RegisterScreen(
+        onBack: (() -> Unit)? = null,
+        onRegister: (String, String) -> Unit,
+        onNavigateToLogin: () -> Unit = {}
+) {
     val terracota = Color(0xFFC0392B)
     val cream = Color(0xFFFFF4E8)
     val brownDark = Color(0xFF4E342E)
@@ -140,7 +144,7 @@ fun RegisterScreen(onBack: (() -> Unit)? = null, onRegister: (String, String) ->
                         color = terracota,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 14.sp,
-                        modifier = Modifier.clickable { onBack?.invoke() }
+                        modifier = Modifier.clickable { onNavigateToLogin() }
                 )
             }
 

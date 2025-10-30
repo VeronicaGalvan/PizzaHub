@@ -70,19 +70,22 @@ fun AppNavHost(modifier: Modifier = Modifier) {
                         pendingRedirect.value = null
                         if (!dest.isNullOrBlank()) navController.navigate(dest)
                         else navController.popBackStack()
-                    }
+                    },
+                    onNavigateToRegister = { navController.navigate("register") }
             )
         }
 
         composable("register") {
             RegisterScreen(
-                    onRegister = { _name, _phone ->
+                    onBack = { navController.popBackStack() },
+                    onRegister = { name, phone ->
                         isLoggedIn.value = true
                         val dest = pendingRedirect.value
                         pendingRedirect.value = null
                         if (!dest.isNullOrBlank()) navController.navigate(dest)
                         else navController.popBackStack()
-                    }
+                    },
+                    onNavigateToLogin = { navController.navigate("login") }
             )
         }
 
