@@ -126,7 +126,6 @@ C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\PizzaHubAPI\obj\
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\staticwebassets.development.json
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\PizzaHub.5F9ACB34.Up2Date
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\PizzaHubAPI.dll
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\refint\PizzaHubAPI.dll
@@ -142,3 +141,4 @@ C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\PizzaHubAPI\bin\
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\PizzaHubAPI\bin\Debug\net9.0\BCrypt.Net-Next.dll
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\PizzaHubAPI\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\PizzaHubAPI.xml
+C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\PizzaHubAPI.sourcelink.json

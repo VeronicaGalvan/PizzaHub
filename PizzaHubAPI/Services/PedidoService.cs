@@ -13,7 +13,7 @@ public class PedidoService
         _context = context;
     }
 
-    public async Task<Usuario?> AsignarRepartidorDisponible()
+    public async Task<Repartidor?> AsignarRepartidorDisponible()
     {
         // Obtener repartidores que no están en un pedido en curso
         var repartidoresOcupados = await _context.Pedidos
@@ -21,13 +21,13 @@ public class PedidoService
             .Select(p => p.RepartidorId)
             .ToListAsync();
 
-        // Buscar un repartidor disponible (con rol "Repartidor" y que no esté en un pedido en curso)
-        var repartidorDisponible = await _context.UsuariosRoles
-            .Include(ur => ur.Usuario)
-            .Where(ur => ur.Rol.Nombre == "Repartidor" && 
-                        ur.Usuario.Activo &&
-                        !repartidoresOcupados.Contains(ur.UsuarioId))
-            .Select(ur => ur.Usuario)
+        // Buscar un repartidor disponible que no esté en un pedido en curso
+        var repartidorDisponible = await _context.Repartidores
+            .Include(r => r.Usuario)
+            .Where(r => r.Disponible && 
+                       r.Activo &&
+                       r.Usuario.Activo &&
+                       !repartidoresOcupados.Contains(r.Id))
             .FirstOrDefaultAsync();
 
         return repartidorDisponible;

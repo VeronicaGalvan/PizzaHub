@@ -9,6 +9,11 @@
             Autentica un usuario y retorna los tokens de acceso
             </summary>
         </member>
+        <member name="M:PizzaHubAPI.Controllers.AuthController.Register(PizzaHubAPI.Models.DTOs.RegisterRequestDTO)">
+            <summary>
+            Registra un nuevo usuario y retorna tokens (login automático)
+            </summary>
+        </member>
         <member name="M:PizzaHubAPI.Controllers.AuthController.RefreshToken(PizzaHubAPI.Models.DTOs.RefreshTokenRequestDTO)">
             <summary>
             Refresca el token de acceso usando un refresh token válido
@@ -18,6 +23,102 @@
             <summary>
             Cierra la sesión del usuario revocando sus tokens
             </summary>
+        </member>
+        <member name="T:PizzaHubAPI.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:PizzaHubAPI.Migrations.InitialCreate2">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.InitialCreate2.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.InitialCreate2.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.InitialCreate2.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:PizzaHubAPI.Migrations.InitialCreate3">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.InitialCreate3.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.InitialCreate3.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.InitialCreate3.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:PizzaHubAPI.Migrations.InitialCreate4">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.InitialCreate4.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.InitialCreate4.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.InitialCreate4.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:PizzaHubAPI.Migrations.AddProductoInventario">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.AddProductoInventario.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.AddProductoInventario.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.AddProductoInventario.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:PizzaHubAPI.Migrations.AddPedidos">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.AddPedidos.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.AddPedidos.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.AddPedidos.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:PizzaHubAPI.Migrations.UpdateUsuariosClientesRepartidores">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.UpdateUsuariosClientesRepartidores.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.UpdateUsuariosClientesRepartidores.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.UpdateUsuariosClientesRepartidores.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:PizzaHubAPI.Migrations.FixPedidoRelations">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.FixPedidoRelations.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.FixPedidoRelations.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.FixPedidoRelations.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
         </member>
     </members>
 </doc>

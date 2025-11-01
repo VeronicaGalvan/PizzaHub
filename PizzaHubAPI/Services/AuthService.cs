@@ -86,9 +86,7 @@ public class AuthService : IAuthService
         var usuario = new Usuario
         {
             Email = request.Email,
-            NombreCompleto = request.NombreCompleto,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
-            TelefonoContacto = request.TelefonoContacto,
             CreadoEn = DateTime.UtcNow
         };
 
@@ -135,7 +133,7 @@ public class AuthService : IAuthService
         {
             new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
             new Claim(ClaimTypes.Email, usuario.Email),
-            new Claim(ClaimTypes.Name, usuario.NombreCompleto),
+            new Claim(ClaimTypes.Name, usuario.Email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         }.Concat(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
@@ -162,9 +160,7 @@ public class AuthService : IAuthService
             Usuario = new UserInfoDTO
             {
                 Id = usuario.Id,
-                Email = usuario.Email,
-                NombreCompleto = usuario.NombreCompleto,
-                TelefonoContacto = usuario.TelefonoContacto
+                Email = usuario.Email
             }
         });
     }

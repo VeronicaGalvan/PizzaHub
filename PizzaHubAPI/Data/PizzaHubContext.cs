@@ -13,6 +13,8 @@ public class PizzaHubContext : DbContext
     public DbSet<Rol> Roles { get; set; } = null!;
     public DbSet<UsuarioRol> UsuariosRoles { get; set; } = null!;
     public DbSet<TokenRevocado> TokensRevocados { get; set; } = null!;
+    public DbSet<Cliente> Clientes { get; set; } = null!;
+    public DbSet<Repartidor> Repartidores { get; set; } = null!;
     public DbSet<Producto> Productos { get; set; } = null!;
     public DbSet<MovimientoInventario> MovimientosInventario { get; set; } = null!;
     public DbSet<Pedido> Pedidos { get; set; } = null!;

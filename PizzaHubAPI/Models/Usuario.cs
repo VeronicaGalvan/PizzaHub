@@ -13,16 +13,9 @@ public class Usuario
     public string Email { get; set; } = null!;
     
     [Required]
-    [MaxLength(100)]
-    public string NombreCompleto { get; set; } = null!;
-    
-    [Required]
     public string PasswordHash { get; set; } = null!;
     
     public bool Activo { get; set; } = true;
-    
-    [MaxLength(50)]
-    public string? TelefonoContacto { get; set; }
     
     [Timestamp]
     public byte[] RowVersion { get; set; } = null!;
@@ -34,4 +27,6 @@ public class Usuario
     // Relaciones
     public virtual ICollection<UsuarioRol> UsuariosRoles { get; set; } = new List<UsuarioRol>();
     public virtual ICollection<TokenRevocado> TokensRevocados { get; set; } = new List<TokenRevocado>();
+    public virtual Cliente? Cliente { get; set; }
+    public virtual Repartidor? Repartidor { get; set; }
 }

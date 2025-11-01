@@ -17,9 +17,10 @@ public class Pedido
     [Key]
     public int Id { get; set; }
     
-    [Required]
+    [ForeignKey("Cliente")]
     public int ClienteId { get; set; }
     
+    [ForeignKey("Repartidor")]
     public int? RepartidorId { get; set; }
     
     [Required]
@@ -53,8 +54,8 @@ public class Pedido
     public DateTime? ActualizadoEn { get; set; }
     
     // Relaciones
-    public virtual Usuario Cliente { get; set; } = null!;
-    public virtual Usuario? Repartidor { get; set; }
+    public virtual Cliente Cliente { get; set; } = null!;
+    public virtual Repartidor? Repartidor { get; set; }
     public virtual ICollection<DetallePedido> Detalles { get; set; } = new List<DetallePedido>();
     public virtual ICollection<HistorialEstadoPedido> HistorialEstados { get; set; } = new List<HistorialEstadoPedido>();
 }

@@ -59,8 +59,8 @@ public class PedidosController : ControllerBase
                 DireccionEntrega = p.DireccionEntrega,
                 TelefonoContacto = p.TelefonoContacto,
                 CreadoEn = p.CreadoEn,
-                Cliente = p.Cliente.NombreCompleto,
-                Repartidor = p.Repartidor != null ? p.Repartidor.NombreCompleto : null,
+                Cliente = $"{p.Cliente.Nombre} {p.Cliente.Apellido}",
+                Repartidor = p.Repartidor != null ? $"{p.Repartidor.Nombre} {p.Repartidor.Apellido}" : null,
                 Detalles = p.Detalles.Select(d => new DetallePedidoResumenDTO
                 {
                     Producto = d.Producto.Nombre,
@@ -108,8 +108,8 @@ public class PedidosController : ControllerBase
             DireccionEntrega = pedido.DireccionEntrega,
             TelefonoContacto = pedido.TelefonoContacto,
             CreadoEn = pedido.CreadoEn,
-            Cliente = pedido.Cliente.NombreCompleto,
-            Repartidor = pedido.Repartidor?.NombreCompleto,
+            Cliente = $"{pedido.Cliente.Nombre} {pedido.Cliente.Apellido}",
+            Repartidor = pedido.Repartidor != null ? $"{pedido.Repartidor.Nombre} {pedido.Repartidor.Apellido}" : null,
             Detalles = pedido.Detalles.Select(d => new DetallePedidoResumenDTO
             {
                 Producto = d.Producto.Nombre,
