@@ -15,6 +15,9 @@ public class PizzaHubContext : DbContext
     public DbSet<TokenRevocado> TokensRevocados { get; set; } = null!;
     public DbSet<Producto> Productos { get; set; } = null!;
     public DbSet<MovimientoInventario> MovimientosInventario { get; set; } = null!;
+    public DbSet<Pedido> Pedidos { get; set; } = null!;
+    public DbSet<DetallePedido> DetallesPedido { get; set; } = null!;
+    public DbSet<HistorialEstadoPedido> HistorialEstadoPedido { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -59,6 +62,51 @@ public class PizzaHubContext : DbContext
             .HasOne(m => m.Producto)
             .WithMany(p => p.MovimientosInventario)
             .HasForeignKey(m => m.ProductoId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Configuración de Pedido
+        modelBuilder.Entity<Pedido>()
+            .Property(p => p.CreadoEn)
+            .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+        modelBuilder.Entity<Pedido>()
+            .Property(p => p.RowVersion)
+            .IsRowVersion();
+
+        modelBuilder.Entity<Pedido>()
+            .HasOne(p => p.Cliente)
+            .WithMany()
+            .HasForeignKey(p => p.ClienteId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Pedido>()
+            .HasOne(p => p.Repartidor)
+            .WithMany()
+            .HasForeignKey(p => p.RepartidorId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Configuración de HistorialEstadoPedido
+        modelBuilder.Entity<HistorialEstadoPedido>()
+            .Property(h => h.CreadoEn)
+            .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+        modelBuilder.Entity<HistorialEstadoPedido>()
+            .HasOne(h => h.Pedido)
+            .WithMany(p => p.HistorialEstados)
+            .HasForeignKey(h => h.PedidoId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Configuración de DetallePedido
+        modelBuilder.Entity<DetallePedido>()
+            .HasOne(d => d.Pedido)
+            .WithMany(p => p.Detalles)
+            .HasForeignKey(d => d.PedidoId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<DetallePedido>()
+            .HasOne(d => d.Producto)
+            .WithMany()
+            .HasForeignKey(d => d.ProductoId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

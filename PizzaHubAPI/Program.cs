@@ -70,6 +70,10 @@ builder.Services.AddDbContext<PizzaHubContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(typeof(Program));
 
+// Registrar servicios
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<PedidoService>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
