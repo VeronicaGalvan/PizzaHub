@@ -13,6 +13,8 @@ public class PizzaHubContext : DbContext
     public DbSet<Rol> Roles { get; set; } = null!;
     public DbSet<UsuarioRol> UsuariosRoles { get; set; } = null!;
     public DbSet<TokenRevocado> TokensRevocados { get; set; } = null!;
+    public DbSet<Producto> Productos { get; set; } = null!;
+    public DbSet<MovimientoInventario> MovimientosInventario { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -33,10 +35,30 @@ public class PizzaHubContext : DbContext
         // Configuración de propiedades de auditoría
         modelBuilder.Entity<Usuario>()
             .Property(u => u.CreadoEn)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
             
         modelBuilder.Entity<Usuario>()
             .Property(u => u.RowVersion)
             .IsRowVersion();
+
+        // Configuración de Producto
+        modelBuilder.Entity<Producto>()
+            .Property(p => p.CreadoEn)
+            .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+            
+        modelBuilder.Entity<Producto>()
+            .Property(p => p.RowVersion)
+            .IsRowVersion();
+
+        // Configuración de MovimientoInventario
+        modelBuilder.Entity<MovimientoInventario>()
+            .Property(m => m.CreadoEn)
+            .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+        modelBuilder.Entity<MovimientoInventario>()
+            .HasOne(m => m.Producto)
+            .WithMany(p => p.MovimientosInventario)
+            .HasForeignKey(m => m.ProductoId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
