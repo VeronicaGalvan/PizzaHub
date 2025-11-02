@@ -66,7 +66,7 @@ fun HomeScreen(onNavigate: (String) -> Unit) {
                                         fontFamily = FontFamily.SansSerif
                                 )
 
-                                IconButton(onClick = { onNavigate("order") }) {
+                                IconButton(onClick = { onNavigate("cart") }) {
                                         Icon(
                                                 Icons.Default.ShoppingCart,
                                                 contentDescription = "Cart",

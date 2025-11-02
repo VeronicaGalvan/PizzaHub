@@ -56,7 +56,7 @@ fun CatalogScreen(onBack: () -> Unit, onNavigate: (String) -> Unit, category: St
                                 fontSize = 22.sp
                         )
 
-                        IconButton(onClick = { onNavigate("order") }) {
+                        IconButton(onClick = { onNavigate("cart") }) {
                                 Icon(
                                         imageVector = Icons.Filled.ShoppingCart,
                                         contentDescription = "Cart",
@@ -86,7 +86,7 @@ fun CatalogScreen(onBack: () -> Unit, onNavigate: (String) -> Unit, category: St
                                 ProductItemCard(
                                         product.name,
                                         product.price.toString(),
-                                        onClick = { onNavigate("product/${product.id}") }
+                                        onClick = { onNavigate("product_detail/${product.id}") }
                                 )
                         }
                 }
