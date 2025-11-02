@@ -91,5 +91,26 @@ fun AppNavHost(modifier: Modifier = Modifier) {
 
         composable("order") { OrderTrackingScreen(onBack = { navController.popBackStack() }) }
         composable("profile") { ProfileScreen(onBack = { navController.popBackStack() }) }
+        composable("cart") {
+            CartScreen(
+                    onBack = { navController.popBackStack() },
+                    onProceedToCheckout = { navigateTo("checkout") }
+            )
+        }
+
+        composable("checkout") {
+            CheckoutScreen(
+                    onBack = { navController.popBackStack() },
+                    onShowMap = { navController.navigate("map") },
+                    onConfirmOrder = { navController.navigate("order") }
+            )
+        }
+
+        composable("map") {
+            MapPreviewScreen(
+                    onBack = { navController.popBackStack() },
+                    onConfirm = { navController.popBackStack() }
+            )
+        }
     }
 }
