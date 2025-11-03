@@ -131,7 +131,47 @@ fun AppNavHost(modifier: Modifier = Modifier) {
             val orderId = backStackEntry.arguments?.getString("id") ?: ""
             OrderTrackingScreen(onBack = { navController.popBackStack() }, orderId = orderId)
         }
-        composable("profile") { ProfileScreen(onBack = { navController.popBackStack() }) }
+        composable("profile") {
+            ProfileScreen(
+                    onBack = { navController.popBackStack() },
+                    onNavigateToOrderHistory = { navigateTo("order_history") }
+            )
+        }
+        composable("order_history") {
+            OrderHistoryScreen(
+                    onBack = { navController.popBackStack() },
+                    onOpenDetail = { id -> navController.navigate("order_detail/$id") },
+                    onRepeatOrder = { id ->
+                        // For design-only, recreate order items into cart and navigate to cart
+                        (SampleData.pizzas + SampleData.beverages + SampleData.complements)
+                                .forEach { cartViewModel.addProduct(it) }
+                        navigateTo("cart")
+                    }
+            )
+        }
+
+        composable("order_detail/{id}") { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id") ?: ""
+            OrderDetailScreen(
+                    orderId = id,
+                    onBack = { navController.popBackStack() },
+                    onRepeat = { orderId ->
+                        (SampleData.pizzas + SampleData.beverages + SampleData.complements)
+                                .forEach { cartViewModel.addProduct(it) }
+                        navigateTo("cart")
+                    },
+                    onRate = { orderId -> navController.navigate("rating/$orderId") }
+            )
+        }
+
+        composable("rating/{orderId}") { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("orderId") ?: ""
+            RatingScreen(
+                    orderId = id,
+                    onBack = { navController.popBackStack() },
+                    onSubmit = { stars, comment -> navController.popBackStack() }
+            )
+        }
         composable("cart") {
             val cartState by cartViewModel.cartState.collectAsState()
             CartScreen(
