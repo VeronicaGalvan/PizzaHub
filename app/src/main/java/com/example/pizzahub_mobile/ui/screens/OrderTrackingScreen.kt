@@ -9,15 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Place
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,107 +23,89 @@ import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
 @Composable
 fun OrderTrackingScreen(
         onBack: () -> Unit,
-        orderId: String = "",
+        orderId: String = "#12345",
         onOpenMap: (String) -> Unit = {}
 ) {
-        val terracota = Color(0xFFC0392B)
-        val cream = Color(0xFFFFF4E8)
+        val terracota = Color(0xFFD35400)
+        val cream = Color(0xFFFFF8EE)
         val brownDark = Color(0xFF4E342E)
+        val softBeige = Color(0xFFFFEEDD)
 
-        // demo current step: 1 = preparación, 2 = en camino, 3 = entregado
-        val currentStep = 2
+        val currentStep = 2 // demo
 
         Column(modifier = Modifier.fillMaxSize().background(cream).padding(16.dp)) {
-                // Header
-                Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                ) {
-                        IconButton(onClick = onBack) {
+                // Header centrado
+                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                        IconButton(
+                                onClick = onBack,
+                                modifier = Modifier.align(Alignment.CenterStart)
+                        ) {
                                 Icon(
-                                        imageVector = Icons.Filled.ArrowBack,
-                                        contentDescription = "Back",
+                                        Icons.Filled.ArrowBack,
+                                        contentDescription = "Volver",
                                         tint = brownDark
                                 )
                         }
-                        Column(modifier = Modifier.weight(1f)) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Text(
-                                        text = "Tu pedido",
-                                        style = MaterialTheme.typography.titleLarge,
+                                        "Tu pedido",
                                         color = brownDark,
-                                        fontWeight = FontWeight.Bold
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 20.sp
                                 )
                                 Text(
-                                        text = if (orderId.isNotBlank()) "#$orderId" else "#12345",
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        color = brownDark.copy(alpha = 0.7f)
-                                )
-                        }
-                        // small status pill
-                        Surface(
-                                shape = RoundedCornerShape(12.dp),
-                                color = terracota.copy(alpha = 0.12f)
-                        ) {
-                                Text(
-                                        text = "En camino",
-                                        modifier =
-                                                Modifier.padding(
-                                                        horizontal = 12.dp,
-                                                        vertical = 8.dp
-                                                ),
-                                        color = terracota
+                                        orderId,
+                                        color = brownDark.copy(alpha = 0.7f),
+                                        fontSize = 13.sp
                                 )
                         }
                 }
 
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-                // Order summary
+                // Card resumen
                 Card(
-                        shape = RoundedCornerShape(14.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        shape = RoundedCornerShape(18.dp),
+                        colors = CardDefaults.cardColors(containerColor = softBeige),
                         modifier = Modifier.fillMaxWidth()
                 ) {
                         Row(
                                 modifier = Modifier.padding(14.dp),
                                 verticalAlignment = Alignment.CenterVertically
                         ) {
-                                // items preview (emoji)
                                 Box(
                                         modifier =
                                                 Modifier.size(64.dp)
                                                         .background(
-                                                                Color(0xFFF7EDEA),
-                                                                shape = RoundedCornerShape(10.dp)
+                                                                Color(0xFFF6E1C3),
+                                                                RoundedCornerShape(10.dp)
                                                         ),
                                         contentAlignment = Alignment.Center
-                                ) { Text(text = "🍕", fontSize = 28.sp) }
+                                ) { Text("🍕", fontSize = 28.sp) }
 
                                 Spacer(modifier = Modifier.width(12.dp))
 
                                 Column(modifier = Modifier.weight(1f)) {
                                         Text(
-                                                text = "Pizza Pepperoni x1",
-                                                style = MaterialTheme.typography.titleMedium,
-                                                color = brownDark
+                                                "Pizza Pepperoni x1",
+                                                color = brownDark,
+                                                fontWeight = FontWeight.SemiBold
                                         )
-                                        Spacer(modifier = Modifier.height(6.dp))
+                                        Spacer(modifier = Modifier.height(4.dp))
                                         Text(
-                                                text = "Entrega estimada: 25-35 min",
-                                                style = MaterialTheme.typography.bodySmall,
+                                                "Entrega estimada: 25–35 min",
                                                 color = brownDark.copy(alpha = 0.7f)
                                         )
                                 }
 
                                 Column(horizontalAlignment = Alignment.End) {
                                         Text(
-                                                text = "Total",
-                                                style = MaterialTheme.typography.bodySmall,
-                                                color = brownDark.copy(alpha = 0.7f)
+                                                "Total",
+                                                color = brownDark.copy(alpha = 0.6f),
+                                                fontSize = 13.sp
                                         )
                                         Text(
-                                                text = "$12.50",
-                                                style = MaterialTheme.typography.titleMedium,
+                                                "$12.50",
                                                 color = brownDark,
                                                 fontWeight = FontWeight.Bold
                                         )
@@ -139,101 +113,78 @@ fun OrderTrackingScreen(
                         }
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
-                // Progress steps
+                // Progreso del pedido
                 Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                 ) {
-                        StepIndicator(
-                                label = "Preparación",
-                                step = 1,
-                                current = currentStep,
-                                brown = brownDark,
-                                activeColor = terracota
-                        )
-                        StepIndicator(
-                                label = "En camino",
-                                step = 2,
-                                current = currentStep,
-                                brown = brownDark,
-                                activeColor = terracota
-                        )
-                        StepIndicator(
-                                label = "Entregado",
-                                step = 3,
-                                current = currentStep,
-                                brown = brownDark,
-                                activeColor = terracota
-                        )
+                        StepIndicator("Preparación", 1, currentStep, brownDark, terracota)
+                        StepIndicator("En camino", 2, currentStep, brownDark, terracota)
+                        StepIndicator("Entregado", 3, currentStep, brownDark, terracota)
                 }
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                // Short status text
-                Text(
-                        text =
-                                when (currentStep) {
-                                        1 -> "Tu pedido está en preparación."
-                                        2 -> "Tu pedido está en camino."
-                                        else -> "Pedido entregado"
-                                },
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = brownDark
-                )
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // Delivery info
+                Text(
+                        text =
+                                when (currentStep) {
+                                        1 -> "Tu pedido está en preparación 🧑‍🍳"
+                                        2 -> "Tu pedido está en camino 🚗"
+                                        else -> "Pedido entregado ✅"
+                                },
+                        color = brownDark,
+                        fontSize = 15.sp
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                // Info del repartidor
                 Card(
-                        shape = RoundedCornerShape(12.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        shape = RoundedCornerShape(18.dp),
+                        colors = CardDefaults.cardColors(containerColor = softBeige),
                         modifier = Modifier.fillMaxWidth()
                 ) {
                         Row(
-                                modifier = Modifier.padding(12.dp),
+                                modifier = Modifier.padding(14.dp),
                                 verticalAlignment = Alignment.CenterVertically
                         ) {
                                 Box(
                                         modifier =
                                                 Modifier.size(56.dp)
-                                                        .background(
-                                                                Color(0xFFF7EDEA),
-                                                                shape = CircleShape
-                                                        ),
+                                                        .background(Color(0xFFF6E1C3), CircleShape),
                                         contentAlignment = Alignment.Center
-                                ) { Text(text = "🚴", fontSize = 24.sp) }
+                                ) { Text("🚴", fontSize = 24.sp) }
 
                                 Spacer(modifier = Modifier.width(12.dp))
 
                                 Column(modifier = Modifier.weight(1f)) {
                                         Text(
-                                                text = "Repartidor: Mateo R.",
-                                                style = MaterialTheme.typography.titleSmall,
+                                                "Repartidor: Mateo R.",
                                                 color = brownDark,
                                                 fontWeight = FontWeight.SemiBold
                                         )
                                         Text(
-                                                text = "Moto - 20 min",
-                                                style = MaterialTheme.typography.bodySmall,
-                                                color = brownDark.copy(alpha = 0.7f)
+                                                "Moto - 20 min",
+                                                color = brownDark.copy(alpha = 0.7f),
+                                                fontSize = 13.sp
                                         )
                                 }
 
-                                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Row {
                                         IconButton(onClick = { /* call */}) {
                                                 Icon(
-                                                        imageVector = Icons.Filled.Phone,
-                                                        contentDescription = "Call",
+                                                        Icons.Filled.Phone,
+                                                        contentDescription = "Llamar",
                                                         tint = terracota
                                                 )
                                         }
                                         IconButton(onClick = { onOpenMap(orderId) }) {
                                                 Icon(
-                                                        imageVector = Icons.Filled.Place,
-                                                        contentDescription = "Locate",
+                                                        Icons.Filled.Place,
+                                                        contentDescription = "Ver mapa",
                                                         tint = terracota
                                                 )
                                         }
@@ -243,29 +194,27 @@ fun OrderTrackingScreen(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                // Actions
+                // Botones inferiores
                 Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                        Button(
-                                onClick = { /* ver detalles */},
+                        OutlinedButton(
+                                onClick = { /* ver pedido */},
                                 modifier = Modifier.weight(1f),
-                                colors = ButtonDefaults.buttonColors(containerColor = Color.White)
-                        ) { Text(text = "Ver pedido", color = brownDark) }
+                                colors =
+                                        ButtonDefaults.outlinedButtonColors(
+                                                contentColor = terracota
+                                        )
+                        ) { Text("Ver pedido") }
+
                         Button(
                                 onClick = { /* contactar */},
                                 modifier = Modifier.weight(1f),
                                 colors = ButtonDefaults.buttonColors(containerColor = terracota)
-                        ) { Text(text = "Contactar", color = Color.White) }
+                        ) { Text("Contactar", color = Color.White) }
                 }
         }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun OrderTrackingScreenPreview() {
-        PizzaHub_MobileTheme { OrderTrackingScreen(onBack = {}) }
 }
 
 @Composable
@@ -276,23 +225,25 @@ private fun StepIndicator(
         brown: Color,
         activeColor: Color
 ) {
+        val isActive = step <= current
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                val isActive = step <= current
-                Box(contentAlignment = Alignment.Center, modifier = Modifier.size(52.dp)) {
-                        Canvas(modifier = Modifier.size(52.dp)) {
+                Box(contentAlignment = Alignment.Center) {
+                        Canvas(modifier = Modifier.size(48.dp)) {
                                 drawCircle(
                                         color = if (isActive) activeColor else Color(0xFFF4E6E0),
                                         radius = size.minDimension / 2
                                 )
                         }
-                        if (isActive) Text(text = "", color = Color.White)
+                        if (isActive && step < current)
+                                Text("✓", color = Color.White, fontWeight = FontWeight.Bold)
                 }
                 Spacer(modifier = Modifier.height(6.dp))
-                Text(
-                        text = label,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = brown,
-                        fontSize = 12.sp
-                )
+                Text(label, color = brown, fontSize = 12.sp)
         }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun OrderTrackingScreenPreview() {
+        PizzaHub_MobileTheme { OrderTrackingScreen(onBack = {}) }
 }

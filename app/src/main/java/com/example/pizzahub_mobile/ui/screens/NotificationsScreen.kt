@@ -27,96 +27,54 @@ data class NotificationItem(
 )
 
 @Composable
-fun NotificationsScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
+fun NotificationsScreen(onBack: () -> Unit) {
     val cream = Color(0xFFFFF8EE)
     val brownDark = Color(0xFF4E342E)
     val terracota = Color(0xFFD35400)
+    val softBeige = Color(0xFFFFEEDD)
 
     val notifications = remember {
         mutableStateListOf(
-                NotificationItem(
-                        "n1",
-                        "Pedido actualizado",
-                        "Tu pedido #o1 está en preparación",
-                        false
-                ),
-                NotificationItem("n2", "Promoción", "2x1 en pizzas medianas hoy", false),
-                NotificationItem(
-                        "n3",
-                        "En camino",
-                        "El repartidor está en ruta para tu pedido #o2",
-                        true
-                )
+                NotificationItem("n1", "Pedido actualizado", "Tu pedido #o1 está en preparación"),
+                NotificationItem("n2", "Promoción", "🎉 2x1 en pizzas medianas solo por hoy"),
+                NotificationItem("n3", "En camino", "🚗 Tu pedido #o2 ya está en ruta", true)
         )
     }
 
-    Column(modifier = modifier.fillMaxSize().background(cream)) {
-        // Local top bar to keep this file self-contained
-        Row(
+    Column(modifier = Modifier.fillMaxSize().background(cream)) {
+        Box(
                 modifier = Modifier.fillMaxWidth().padding(12.dp),
-                verticalAlignment = Alignment.CenterVertically
+                contentAlignment = Alignment.Center
         ) {
-            IconButton(onClick = onBack) {
-                Icon(Icons.Filled.ArrowBack, contentDescription = "Volver")
+            IconButton(onClick = onBack, modifier = Modifier.align(Alignment.CenterStart)) {
+                Icon(Icons.Filled.ArrowBack, contentDescription = "Volver", tint = brownDark)
             }
-            Text(
-                    text = "Notificaciones",
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(start = 8.dp)
-            )
+            Text("Notificaciones", color = brownDark, fontWeight = FontWeight.Bold)
         }
 
         LazyColumn(
                 modifier = Modifier.padding(12.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             items(notifications, key = { it.id }) { n ->
                 Card(
                         modifier =
                                 Modifier.fillMaxWidth().clickable {
-                                    // toggle read on click (UI only)
-                                    val idx = notifications.indexOfFirst { it.id == n.id }
-                                    if (idx >= 0)
-                                            notifications[idx] =
-                                                    notifications[idx].copy(read = true)
+                                    val i = notifications.indexOfFirst { it.id == n.id }
+                                    if (i >= 0)
+                                            notifications[i] = notifications[i].copy(read = true)
                                 },
-                        shape = RoundedCornerShape(12.dp),
+                        shape = RoundedCornerShape(14.dp),
                         colors =
                                 CardDefaults.cardColors(
                                         containerColor =
-                                                if (n.read) Color.White else Color(0xFFFFFBF6)
+                                                if (n.read) softBeige else Color(0xFFFFE4CC)
                                 )
                 ) {
-                    Row(
-                            modifier = Modifier.padding(12.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                    text = n.title,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = brownDark
-                            )
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Text(
-                                    text = n.body,
-                                    color = brownDark.copy(alpha = 0.8f),
-                                    fontSize = 13.sp
-                            )
-                        }
-                        if (!n.read) {
-                            Surface(shape = RoundedCornerShape(8.dp), color = terracota) {
-                                Text(
-                                        text = "Nuevo",
-                                        modifier =
-                                                Modifier.padding(
-                                                        horizontal = 8.dp,
-                                                        vertical = 6.dp
-                                                ),
-                                        color = Color.White
-                                )
-                            }
-                        }
+                    Column(modifier = Modifier.padding(14.dp)) {
+                        Text(n.title, fontWeight = FontWeight.SemiBold, color = brownDark)
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(n.body, color = brownDark.copy(alpha = 0.8f), fontSize = 13.sp)
                     }
                 }
             }

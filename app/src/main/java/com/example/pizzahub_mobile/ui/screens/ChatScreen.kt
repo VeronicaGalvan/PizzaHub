@@ -27,17 +27,19 @@ data class ChatMessage(val id: String, val text: String, val isUser: Boolean)
 fun ChatScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
     val cream = Color(0xFFFFF8EE)
     val terracota = Color(0xFFD35400)
+    val brownDark = Color(0xFF4E342E)
+    val softBeige = Color(0xFFFFEEDD)
     var input by remember { mutableStateOf("") }
     val messages = remember { mutableStateListOf<ChatMessage>() }
     val scope = rememberCoroutineScope()
 
-    // prepopulate friendly prompt
+    // mensaje inicial
     LaunchedEffect(Unit) {
         if (messages.isEmpty()) {
             messages.add(
                     ChatMessage(
                             "m1",
-                            "Hola! 👋 ¿En qué puedo ayudarte hoy? Puedo sugerirte pizzas populares o ayudarte a repetir un pedido.",
+                            "👋 ¡Hola! Soy tu asistente PizzaHub. ¿Deseas repetir un pedido o ver nuestras recomendaciones?",
                             false
                     )
             )
@@ -45,25 +47,21 @@ fun ChatScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
     }
 
     Column(modifier = modifier.fillMaxSize().background(cream)) {
-        // Simple top bar (local copy to avoid depending on other files)
-        Row(
+        // encabezado con título centrado
+        Box(
                 modifier = Modifier.fillMaxWidth().padding(12.dp),
-                verticalAlignment = Alignment.CenterVertically
+                contentAlignment = Alignment.Center
         ) {
-            IconButton(onClick = onBack) {
-                Icon(Icons.Filled.ArrowBack, contentDescription = "Volver")
+            IconButton(onClick = onBack, modifier = Modifier.align(Alignment.CenterStart)) {
+                Icon(Icons.Filled.ArrowBack, contentDescription = "Volver", tint = brownDark)
             }
-            Text(
-                    text = "Asistente",
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(start = 8.dp)
-            )
+            Text("Asistente", color = brownDark, fontWeight = FontWeight.Bold)
         }
 
+        // mensajes
         LazyColumn(
                 modifier = Modifier.weight(1f).padding(horizontal = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                reverseLayout = false
+                verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(messages, key = { it.id }) { msg ->
                 Row(
@@ -72,28 +70,27 @@ fun ChatScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
                                 if (msg.isUser) Arrangement.End else Arrangement.Start
                 ) {
                     Card(
-                            shape = RoundedCornerShape(12.dp),
+                            shape = RoundedCornerShape(14.dp),
                             colors =
                                     CardDefaults.cardColors(
                                             containerColor =
-                                                    if (msg.isUser) terracota else Color.White
+                                                    if (msg.isUser) terracota else softBeige
                                     ),
                             modifier = Modifier.widthIn(max = 280.dp)
                     ) {
-                        Column(modifier = Modifier.padding(10.dp)) {
-                            Text(
-                                    text = msg.text,
-                                    color = if (msg.isUser) Color.White else Color(0xFF4E342E),
-                                    fontSize = 14.sp
-                            )
-                        }
+                        Text(
+                                msg.text,
+                                modifier = Modifier.padding(12.dp),
+                                color = if (msg.isUser) Color.White else brownDark,
+                                fontSize = 14.sp
+                        )
                     }
                 }
             }
         }
 
-        // Input row
-        Surface(tonalElevation = 2.dp) {
+        // input
+        Surface(tonalElevation = 2.dp, color = cream) {
             Row(
                     modifier = Modifier.fillMaxWidth().padding(10.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -112,15 +109,17 @@ fun ChatScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
                         onClick = {
                             val text = input.trim()
                             if (text.isNotEmpty()) {
-                                val id = "u${messages.size + 1}"
-                                messages.add(ChatMessage(id, text, true))
+                                messages.add(ChatMessage("u${messages.size}", text, true))
                                 input = ""
-
-                                // simulated bot reply
                                 scope.launch {
-                                    delay(800)
-                                    val reply = generateBotReply(text)
-                                    messages.add(ChatMessage("b${messages.size + 1}", reply, false))
+                                    delay(700)
+                                    messages.add(
+                                            ChatMessage(
+                                                    "b${messages.size}",
+                                                    generateBotReply(text),
+                                                    false
+                                            )
+                                    )
                                 }
                             }
                         }
@@ -130,16 +129,15 @@ fun ChatScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
     }
 }
 
-// Simple canned reply generator (design-only). Replace with server/AI integration later.
-private fun generateBotReply(userText: String): String {
-    val low = userText.lowercase()
+private fun generateBotReply(text: String): String {
+    val t = text.lowercase()
     return when {
-        "pizza" in low ->
-                "Te recomiendo nuestra pizza Pepperoni Especial. ¿Quieres agregarla al carrito? 🍕"
-        "repetir" in low || "otra vez" in low -> "Puedo repetir tu último pedido. ¿Confirmas?"
-        "bebida" in low || "refresco" in low -> "Tenemos Coca-Cola y Agua Mineral. ¿Cuál prefieres?"
+        "pizza" in t ->
+                "🍕 Te recomiendo nuestra Pizza Pepperoni Especial. ¿La agrego a tu carrito?"
+        "pedido" in t -> "Puedo ayudarte a repetir tu último pedido. ¿Deseas hacerlo?"
+        "bebida" in t -> "Tenemos Coca-Cola, Agua Mineral y Naranjada. ¿Cuál prefieres?"
         else ->
-                "Interesante — puedo recomendarte nuestras pizzas más populares o ayudarte a buscar por categoría. ¿Qué prefieres?"
+                "Puedo recomendarte nuestras pizzas más populares o ayudarte a buscar por categoría. ¿Qué prefieres?"
     }
 }
 
