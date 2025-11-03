@@ -14,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -31,7 +33,9 @@ fun OrderHistoryScreen(
         onRepeatOrder: (String) -> Unit = {}
 ) {
     val cream = Color(0xFFFFF8EE)
+    val softBeige = Color(0xFFFFF2D5)
     val brownDark = Color(0xFF4E342E)
+    val terracota = Color(0xFFD35400)
 
     val orders = remember {
         listOf(
@@ -41,17 +45,40 @@ fun OrderHistoryScreen(
         )
     }
 
-    Column(modifier = Modifier.fillMaxSize().background(cream).padding(16.dp)) {
-        TopAppBarSimple(title = "Historial de pedidos", onBack = onBack)
+    Column(
+            modifier =
+                    Modifier.fillMaxSize()
+                            .background(Brush.verticalGradient(listOf(cream, Color.White)))
+                            .padding(16.dp)
+    ) {
+        // Título centrado
+        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+            IconButton(onClick = onBack, modifier = Modifier.align(Alignment.CenterStart)) {
+                Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "Volver",
+                        tint = brownDark
+                )
+            }
+            Text(
+                    "Historial de pedidos",
+                    color = brownDark,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
+            )
+        }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             items(orders) { order ->
                 Card(
-                        modifier = Modifier.fillMaxWidth().clickable { onOpenDetail(order.id) },
+                        modifier =
+                                Modifier.fillMaxWidth()
+                                        .shadow(3.dp, RoundedCornerShape(14.dp))
+                                        .clickable { onOpenDetail(order.id) },
                         shape = RoundedCornerShape(14.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White)
+                        colors = CardDefaults.cardColors(containerColor = softBeige)
                 ) {
                     Row(
                             modifier = Modifier.padding(14.dp),
@@ -59,16 +86,16 @@ fun OrderHistoryScreen(
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text(text = "Pedido ", color = brownDark.copy(alpha = 0.8f))
+                                Text("Pedido ", color = brownDark.copy(alpha = 0.8f))
                                 Text(
-                                        text = "#${order.id}",
+                                        "#${order.id}",
                                         fontWeight = FontWeight.SemiBold,
                                         color = brownDark
                                 )
                             }
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
-                                    text = order.date,
+                                    order.date,
                                     color = brownDark.copy(alpha = 0.7f),
                                     fontSize = 13.sp,
                                     maxLines = 1,
@@ -82,11 +109,10 @@ fun OrderHistoryScreen(
                                                 "Entregado" -> Color(0xFFDFF6E9)
                                                 "En preparación" -> Color(0xFFFFF4E8)
                                                 else -> Color(0xFFFFF8EE)
-                                            },
-                                    tonalElevation = 0.dp
+                                            }
                             ) {
                                 Text(
-                                        text = order.status,
+                                        order.status,
                                         modifier =
                                                 Modifier.padding(
                                                         horizontal = 10.dp,
@@ -100,42 +126,25 @@ fun OrderHistoryScreen(
 
                         Column(horizontalAlignment = Alignment.End) {
                             Text(
-                                    text = "$${"%.2f".format(order.total)}",
+                                    "$${"%.2f".format(order.total)}",
                                     fontWeight = FontWeight.Bold,
                                     color = brownDark
                             )
                             Spacer(modifier = Modifier.height(8.dp))
-                            Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                                TextButton(onClick = { onRepeatOrder(order.id) }) {
-                                    Icon(
-                                            Icons.Filled.Refresh,
-                                            contentDescription = "Repetir",
-                                            tint = Color(0xFFD35400)
-                                    )
-                                    Spacer(modifier = Modifier.width(6.dp))
-                                    Text(text = "Repetir", color = Color(0xFFD35400))
-                                }
+                            TextButton(onClick = { onRepeatOrder(order.id) }) {
+                                Icon(
+                                        Icons.Filled.Refresh,
+                                        contentDescription = "Repetir",
+                                        tint = terracota
+                                )
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Text("Repetir", color = terracota)
                             }
                         }
                     }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun TopAppBarSimple(title: String, onBack: () -> Unit) {
-    val brownDark = Color(0xFF4E342E)
-    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-        IconButton(onClick = onBack, modifier = Modifier.align(Alignment.CenterStart)) {
-            Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "Volver",
-                    tint = brownDark
-            )
-        }
-        Text(text = title, fontWeight = FontWeight.Bold, color = brownDark)
     }
 }
 

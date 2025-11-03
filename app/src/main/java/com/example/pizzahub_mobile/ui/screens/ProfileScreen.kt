@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -33,7 +34,11 @@ import com.example.pizzahub_mobile.ui.theme.PizzaBrown
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
 
 @Composable
-fun ProfileScreen(onBack: () -> Unit, onNavigateToOrderHistory: () -> Unit = {}) {
+fun ProfileScreen(
+        onBack: () -> Unit,
+        onNavigateToOrderHistory: () -> Unit = {},
+        onNavigateToNotifications: () -> Unit = {}
+) {
         // Palette consistent with HomeScreen
         val terracota = Color(0xFFC0392B)
         val cream = Color(0xFFFFF4E8)
@@ -59,12 +64,21 @@ fun ProfileScreen(onBack: () -> Unit, onNavigateToOrderHistory: () -> Unit = {})
                                 color = brownDark,
                                 fontWeight = FontWeight.Bold
                         )
-                        IconButton(onClick = { /* TODO: edit profile */}) {
-                                Icon(
-                                        imageVector = Icons.Filled.Edit,
-                                        contentDescription = "Edit",
-                                        tint = brownDark
-                                )
+                        Row {
+                                IconButton(onClick = { onNavigateToNotifications() }) {
+                                        Icon(
+                                                imageVector = Icons.Filled.Notifications,
+                                                contentDescription = "Notifications",
+                                                tint = brownDark
+                                        )
+                                }
+                                IconButton(onClick = { /* TODO: edit profile */}) {
+                                        Icon(
+                                                imageVector = Icons.Filled.Edit,
+                                                contentDescription = "Edit",
+                                                tint = brownDark
+                                        )
+                                }
                         }
                 }
 
@@ -175,6 +189,19 @@ fun ProfileScreen(onBack: () -> Unit, onNavigateToOrderHistory: () -> Unit = {})
                                                 modifier =
                                                         Modifier.fillMaxWidth().clickable {
                                                                 onNavigateToOrderHistory()
+                                                        }
+                                        ) {
+                                                SimpleCardItem(
+                                                        initial = it.second,
+                                                        title = it.first,
+                                                        brown = brownDark
+                                                )
+                                        }
+                                } else if (it.first == "Notificaciones") {
+                                        Box(
+                                                modifier =
+                                                        Modifier.fillMaxWidth().clickable {
+                                                                onNavigateToNotifications()
                                                         }
                                         ) {
                                                 SimpleCardItem(

@@ -29,7 +29,11 @@ import androidx.compose.ui.unit.sp
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
 
 @Composable
-fun OrderTrackingScreen(onBack: () -> Unit, orderId: String = "") {
+fun OrderTrackingScreen(
+        onBack: () -> Unit,
+        orderId: String = "",
+        onOpenMap: (String) -> Unit = {}
+) {
         val terracota = Color(0xFFC0392B)
         val cream = Color(0xFFFFF4E8)
         val brownDark = Color(0xFF4E342E)
@@ -226,7 +230,7 @@ fun OrderTrackingScreen(onBack: () -> Unit, orderId: String = "") {
                                                         tint = terracota
                                                 )
                                         }
-                                        IconButton(onClick = { /* locate */}) {
+                                        IconButton(onClick = { onOpenMap(orderId) }) {
                                                 Icon(
                                                         imageVector = Icons.Filled.Place,
                                                         contentDescription = "Locate",

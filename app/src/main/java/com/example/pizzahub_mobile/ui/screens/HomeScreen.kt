@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -66,12 +67,21 @@ fun HomeScreen(onNavigate: (String) -> Unit) {
                                         fontFamily = FontFamily.SansSerif
                                 )
 
-                                IconButton(onClick = { onNavigate("cart") }) {
-                                        Icon(
-                                                Icons.Default.ShoppingCart,
-                                                contentDescription = "Cart",
-                                                tint = brownDark
-                                        )
+                                Row {
+                                        IconButton(onClick = { onNavigate("notifications") }) {
+                                                Icon(
+                                                        Icons.Default.Notifications,
+                                                        contentDescription = "Notifications",
+                                                        tint = brownDark
+                                                )
+                                        }
+                                        IconButton(onClick = { onNavigate("cart") }) {
+                                                Icon(
+                                                        Icons.Default.ShoppingCart,
+                                                        contentDescription = "Cart",
+                                                        tint = brownDark
+                                                )
+                                        }
                                 }
                         }
 
@@ -179,6 +189,14 @@ fun HomeScreen(onNavigate: (String) -> Unit) {
                                         )
                                 }
                         }
+                }
+                // Floating chat button
+                Box(modifier = Modifier.fillMaxSize()) {
+                        FloatingActionButton(
+                                onClick = { onNavigate("chat") },
+                                containerColor = terracota,
+                                modifier = Modifier.align(Alignment.BottomEnd).padding(18.dp)
+                        ) { Text(text = "💬") }
                 }
         }
 }

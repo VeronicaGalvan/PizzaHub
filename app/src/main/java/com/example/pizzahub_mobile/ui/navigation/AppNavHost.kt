@@ -129,12 +129,17 @@ fun AppNavHost(modifier: Modifier = Modifier) {
         // order tracking with id
         composable("order_tracking/{id}") { backStackEntry ->
             val orderId = backStackEntry.arguments?.getString("id") ?: ""
-            OrderTrackingScreen(onBack = { navController.popBackStack() }, orderId = orderId)
+            OrderTrackingScreen(
+                    onBack = { navController.popBackStack() },
+                    orderId = orderId,
+                    onOpenMap = { id -> navigateTo("delivery_tracking/$id") }
+            )
         }
         composable("profile") {
             ProfileScreen(
                     onBack = { navController.popBackStack() },
-                    onNavigateToOrderHistory = { navigateTo("order_history") }
+                    onNavigateToOrderHistory = { navigateTo("order_history") },
+                    onNavigateToNotifications = { navigateTo("notifications") }
             )
         }
         composable("order_history") {
@@ -206,6 +211,19 @@ fun AppNavHost(modifier: Modifier = Modifier) {
                     onBack = { navController.popBackStack() },
                     onConfirm = { navController.popBackStack() }
             )
+        }
+        // chat assistant
+        composable("chat") { ChatScreen(onBack = { navController.popBackStack() }) }
+
+        // delivery tracking detailed map (design-only)
+        composable("delivery_tracking/{orderId}") { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("orderId") ?: ""
+            DeliveryTrackingMapScreen(orderId = id, onBack = { navController.popBackStack() })
+        }
+
+        // notifications center
+        composable("notifications") {
+            NotificationsScreen(onBack = { navController.popBackStack() })
         }
     }
 }
