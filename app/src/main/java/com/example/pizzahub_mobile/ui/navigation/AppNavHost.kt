@@ -1,6 +1,7 @@
 package com.example.pizzahub_mobile.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,16 +13,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.pizzahub_mobile.data.sample.SampleData
 import com.example.pizzahub_mobile.ui.screens.*
+import com.example.pizzahub_mobile.ui.viewmodel.AuthViewModel
 import com.example.pizzahub_mobile.ui.viewmodel.CartViewModel
 
 @Composable
 fun AppNavHost(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
 
-    // Simple in-memory auth state for gating protected routes. In a real app this should be
-    // provided by a proper Auth/ViewModel and persistent store.
-    val isLoggedIn = remember { mutableStateOf(false) }
+    // Auth state from ViewModel
+    val authViewModel: AuthViewModel = viewModel()
+    val isLoggedIn by authViewModel.isAuthenticated.collectAsState()
     val pendingRedirect = remember { mutableStateOf<String?>(null) }
+    LaunchedEffect(Unit) { authViewModel.checkExistingToken() }
 
     // Navigation helper that enforces auth for protected routes.
     val protectedRoutes = setOf("home", "catalog", "cart", "checkout", "profile", "order_tracking")
@@ -30,7 +33,7 @@ fun AppNavHost(modifier: Modifier = Modifier) {
         val base = route.substringBefore('?') // ignore query params when checking
         // normalize param routes like order_tracking/{id} or product_detail/{id}
         val baseKey = base.substringBefore('/')
-        if (baseKey in protectedRoutes && !isLoggedIn.value) {
+        if (baseKey in protectedRoutes && !isLoggedIn) {
             // remember where the user wanted to go, then send to login
             pendingRedirect.value = route
             navController.navigate("login")
@@ -45,7 +48,7 @@ fun AppNavHost(modifier: Modifier = Modifier) {
         // general catalog (all)
         composable("catalog") { CatalogScreen({ navController.popBackStack() }, navigateTo, "all") }
 
-        // filtered catalog: catalog/{category} where category = pizzas|bebidas|complementos
+        // filtered catalog: catalog/{category}
         composable("catalog/{category}") { backStackEntry ->
             val cat = backStackEntry.arguments?.getString("category") ?: "all"
             CatalogScreen({ navController.popBackStack() }, navigateTo, cat)
@@ -57,16 +60,12 @@ fun AppNavHost(modifier: Modifier = Modifier) {
             ProductDetailScreen(
                     productId = id,
                     onAddToCart = {
-                        // find product from sample data (in a real app use repository)
                         val product =
                                 (SampleData.pizzas + SampleData.beverages + SampleData.complements)
                                         .firstOrNull { it.id == id }
-                        if (product != null) {
-                            cartViewModel.addProduct(product)
-                        }
+                        if (product != null) cartViewModel.addProduct(product)
 
-                        // require auth for viewing cart/checkout
-                        if (!isLoggedIn.value) {
+                        if (!isLoggedIn) {
                             pendingRedirect.value = "cart"
                             navController.navigate("login")
                         } else {
@@ -81,13 +80,10 @@ fun AppNavHost(modifier: Modifier = Modifier) {
         composable("login") {
             LoginScreen(
                     onBack = { navController.popBackStack() },
-                    onLogin = { _phone ->
-                        // mark logged in and redirect if we had a pending route
-                        isLoggedIn.value = true
+                    onLogin = {
                         val dest = pendingRedirect.value
                         pendingRedirect.value = null
                         if (!dest.isNullOrBlank()) {
-                            // navigate to the pending destination and clear login from backstack
                             navController.navigate(dest) {
                                 popUpTo("login") { inclusive = true }
                                 launchSingleTop = true
@@ -106,8 +102,7 @@ fun AppNavHost(modifier: Modifier = Modifier) {
         composable("register") {
             RegisterScreen(
                     onBack = { navController.popBackStack() },
-                    onRegister = { _name, _phone ->
-                        isLoggedIn.value = true
+                    onRegister = { _accessToken ->
                         val dest = pendingRedirect.value
                         pendingRedirect.value = null
                         if (!dest.isNullOrBlank()) {
@@ -126,7 +121,7 @@ fun AppNavHost(modifier: Modifier = Modifier) {
             )
         }
 
-        // order tracking with id
+        // order tracking
         composable("order_tracking/{id}") { backStackEntry ->
             val orderId = backStackEntry.arguments?.getString("id") ?: ""
             OrderTrackingScreen(
@@ -135,19 +130,29 @@ fun AppNavHost(modifier: Modifier = Modifier) {
                     onOpenMap = { id -> navigateTo("delivery_tracking/$id") }
             )
         }
+
         composable("profile") {
             ProfileScreen(
                     onBack = { navController.popBackStack() },
                     onNavigateToOrderHistory = { navigateTo("order_history") },
-                    onNavigateToNotifications = { navigateTo("notifications") }
+                    onNavigateToNotifications = { navigateTo("notifications") },
+                    onNavigateToAddresses = { navigateTo("addresses") },
+                    onLogout = {
+                        // perform logout in ViewModel and navigate to login screen
+                        authViewModel.logout()
+                        navController.navigate("login") {
+                            popUpTo("profile") { inclusive = true }
+                            launchSingleTop = true
+                        }
+                    }
             )
         }
+
         composable("order_history") {
             OrderHistoryScreen(
                     onBack = { navController.popBackStack() },
                     onOpenDetail = { id -> navController.navigate("order_detail/$id") },
                     onRepeatOrder = { id ->
-                        // For design-only, recreate order items into cart and navigate to cart
                         (SampleData.pizzas + SampleData.beverages + SampleData.complements)
                                 .forEach { cartViewModel.addProduct(it) }
                         navigateTo("cart")
@@ -177,6 +182,7 @@ fun AppNavHost(modifier: Modifier = Modifier) {
                     onSubmit = { stars, comment -> navController.popBackStack() }
             )
         }
+
         composable("cart") {
             val cartState by cartViewModel.cartState.collectAsState()
             CartScreen(
@@ -196,13 +202,13 @@ fun AppNavHost(modifier: Modifier = Modifier) {
                     onBack = { navController.popBackStack() },
                     onShowMap = { navController.navigate("map_preview") },
                     onConfirmOrder = { orderId ->
-                        // clear cart after creating order
                         cartViewModel.clearCart()
                         navController.navigate("order_tracking/$orderId") {
                             popUpTo("cart") { inclusive = true }
                             launchSingleTop = true
                         }
-                    }
+                    },
+                    onSelectAddress = { navController.navigate("addresses") }
             )
         }
 
@@ -212,16 +218,21 @@ fun AppNavHost(modifier: Modifier = Modifier) {
                     onConfirm = { navController.popBackStack() }
             )
         }
-        // chat assistant
+
+        composable("addresses") {
+            AddressManagementScreen(
+                    onBack = { navController.popBackStack() },
+                    onSelect = { _ -> navController.popBackStack() }
+            )
+        }
+
         composable("chat") { ChatScreen(onBack = { navController.popBackStack() }) }
 
-        // delivery tracking detailed map (design-only)
         composable("delivery_tracking/{orderId}") { backStackEntry ->
             val id = backStackEntry.arguments?.getString("orderId") ?: ""
             DeliveryTrackingMapScreen(orderId = id, onBack = { navController.popBackStack() })
         }
 
-        // notifications center
         composable("notifications") {
             NotificationsScreen(onBack = { navController.popBackStack() })
         }

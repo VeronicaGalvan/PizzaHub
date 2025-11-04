@@ -1,6 +1,7 @@
 package com.example.pizzahub_mobile.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -26,7 +27,8 @@ fun CheckoutScreen(
         itemsWithQty: List<CartItem> = SampleData.pizzas.map { CartItem(it, 1) },
         onBack: () -> Unit,
         onShowMap: () -> Unit = {},
-        onConfirmOrder: (orderId: String) -> Unit = {}
+        onConfirmOrder: (orderId: String) -> Unit = {},
+        onSelectAddress: () -> Unit = {}
 ) {
         val cream = Color(0xFFFFF8EE)
         val softBeige = Color(0xFFFFEEDD)
@@ -106,7 +108,10 @@ fun CheckoutScreen(
                                         OutlinedTextField(
                                                 value = "Calle Falsa 123",
                                                 onValueChange = {},
-                                                modifier = Modifier.fillMaxWidth(),
+                                                modifier =
+                                                        Modifier.fillMaxWidth().clickable {
+                                                                onSelectAddress()
+                                                        },
                                                 readOnly = true
                                         )
                                         Spacer(modifier = Modifier.height(12.dp))

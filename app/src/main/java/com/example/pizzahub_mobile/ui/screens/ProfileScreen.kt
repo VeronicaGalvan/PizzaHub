@@ -1,5 +1,7 @@
 package com.example.pizzahub_mobile.ui.screens
 
+import android.content.pm.ApplicationInfo
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -26,18 +28,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pizzahub_mobile.ui.theme.PizzaBrown
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
+import com.google.firebase.messaging.FirebaseMessaging
 
 @Composable
 fun ProfileScreen(
         onBack: () -> Unit,
         onNavigateToOrderHistory: () -> Unit = {},
-        onNavigateToNotifications: () -> Unit = {}
+        onNavigateToNotifications: () -> Unit = {},
+        onNavigateToAddresses: () -> Unit = {},
+        onLogout: () -> Unit = {}
 ) {
         // Palette consistent with HomeScreen
         val terracota = Color(0xFFC0392B)
@@ -176,53 +182,112 @@ fun ProfileScreen(
                 val items =
                         listOf(
                                 Pair("Mis pedidos", "P"),
-                                Pair("Metodo de pago", "M"),
-                                Pair("Direccion", "D"),
-                                Pair("Notificaciones", "N"),
-                                Pair("Soporte", "S")
+                                Pair("Direcciones", "D"),
+                                Pair("Notificaciones", "N")
                         )
 
                 LazyColumn(modifier = Modifier.fillMaxWidth()) {
                         items(items) { it ->
-                                if (it.first == "Mis pedidos") {
-                                        Box(
-                                                modifier =
-                                                        Modifier.fillMaxWidth().clickable {
-                                                                onNavigateToOrderHistory()
-                                                        }
-                                        ) {
+                                when (it.first) {
+                                        "Mis pedidos" -> {
+                                                Box(
+                                                        modifier =
+                                                                Modifier.fillMaxWidth().clickable {
+                                                                        onNavigateToOrderHistory()
+                                                                }
+                                                ) {
+                                                        SimpleCardItem(
+                                                                initial = it.second,
+                                                                title = it.first,
+                                                                brown = brownDark
+                                                        )
+                                                }
+                                        }
+                                        "Notificaciones" -> {
+                                                Box(
+                                                        modifier =
+                                                                Modifier.fillMaxWidth().clickable {
+                                                                        onNavigateToNotifications()
+                                                                }
+                                                ) {
+                                                        SimpleCardItem(
+                                                                initial = it.second,
+                                                                title = it.first,
+                                                                brown = brownDark
+                                                        )
+                                                }
+                                        }
+                                        "Direccion", "Direcciones" -> {
+                                                Box(
+                                                        modifier =
+                                                                Modifier.fillMaxWidth().clickable {
+                                                                        onNavigateToAddresses()
+                                                                }
+                                                ) {
+                                                        SimpleCardItem(
+                                                                initial = it.second,
+                                                                title = it.first,
+                                                                brown = brownDark
+                                                        )
+                                                }
+                                        }
+                                        else -> {
                                                 SimpleCardItem(
                                                         initial = it.second,
                                                         title = it.first,
                                                         brown = brownDark
                                                 )
                                         }
-                                } else if (it.first == "Notificaciones") {
-                                        Box(
-                                                modifier =
-                                                        Modifier.fillMaxWidth().clickable {
-                                                                onNavigateToNotifications()
-                                                        }
-                                        ) {
-                                                SimpleCardItem(
-                                                        initial = it.second,
-                                                        title = it.first,
-                                                        brown = brownDark
-                                                )
-                                        }
-                                } else {
-                                        SimpleCardItem(
-                                                initial = it.second,
-                                                title = it.first,
-                                                brown = brownDark
-                                        )
                                 }
                         }
 
                         item {
                                 Spacer(modifier = Modifier.height(8.dp))
+                                // Debug-only: show FCM token so developer can copy it for Firebase
+                                // Console tests
+                                val ctx = LocalContext.current
+                                val isDebug =
+                                        (ctx.applicationInfo.flags and
+                                                ApplicationInfo.FLAG_DEBUGGABLE) != 0
+                                if (isDebug) {
+                                        Text(
+                                                text = "Mostrar token FCM",
+                                                color = terracota,
+                                                modifier =
+                                                        Modifier.fillMaxWidth()
+                                                                .clickable {
+                                                                        FirebaseMessaging
+                                                                                .getInstance()
+                                                                                .token
+                                                                                .addOnCompleteListener {
+                                                                                        task ->
+                                                                                        if (task.isSuccessful
+                                                                                        ) {
+                                                                                                val token =
+                                                                                                        task.result
+                                                                                                Toast.makeText(
+                                                                                                                ctx,
+                                                                                                                "FCM token:\n$token",
+                                                                                                                Toast.LENGTH_LONG
+                                                                                                        )
+                                                                                                        .show()
+                                                                                        } else {
+                                                                                                Toast.makeText(
+                                                                                                                ctx,
+                                                                                                                "Error obteniendo token FCM",
+                                                                                                                Toast.LENGTH_SHORT
+                                                                                                        )
+                                                                                                        .show()
+                                                                                        }
+                                                                                }
+                                                                }
+                                                                .padding(vertical = 8.dp),
+                                                fontWeight = FontWeight.SemiBold
+                                        )
+                                        Spacer(modifier = Modifier.height(6.dp))
+                                }
                                 Button(
-                                        onClick = { /* cerrar sesion */},
+                                        onClick = { onLogout() },
                                         colors =
                                                 ButtonDefaults.buttonColors(
                                                         containerColor = terracota

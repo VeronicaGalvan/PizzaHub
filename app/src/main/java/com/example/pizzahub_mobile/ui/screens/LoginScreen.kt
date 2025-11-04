@@ -9,16 +9,22 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.pizzahub_mobile.data.storage.TokenDataStore
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
+import com.example.pizzahub_mobile.ui.viewmodel.AuthViewModel
 
 @Composable
 fun LoginScreen(
@@ -32,8 +38,22 @@ fun LoginScreen(
         val brownDark = Color(0xFF4E342E)
         val softBeige = Color(0xFFFFEEDD)
 
-        var phone by remember { mutableStateOf("") }
-        var name by remember { mutableStateOf("") }
+        var email by remember { mutableStateOf("") }
+        var password by remember { mutableStateOf("") }
+        val scope = rememberCoroutineScope()
+        val authViewModel: AuthViewModel = viewModel()
+        val loading by authViewModel.isLoading.collectAsState()
+        val error by authViewModel.error.collectAsState()
+        val isAuthenticated by authViewModel.isAuthenticated.collectAsState()
+        val ctx = LocalContext.current
+
+        LaunchedEffect(Unit) { authViewModel.checkExistingToken() }
+        LaunchedEffect(isAuthenticated) {
+                if (isAuthenticated) {
+                        // notify caller with the stored access token
+                        onLogin(TokenDataStore.getAccessTokenBlocking(ctx) ?: "")
+                }
+        }
 
         Surface(modifier = Modifier.fillMaxSize().background(cream), color = cream) {
                 Column(
@@ -94,9 +114,9 @@ fun LoginScreen(
                         ) {
                                 Column(modifier = Modifier.padding(20.dp)) {
                                         OutlinedTextField(
-                                                value = name,
-                                                onValueChange = { name = it },
-                                                label = { Text("Nombre completo") },
+                                                value = email,
+                                                onValueChange = { email = it },
+                                                label = { Text("Correo electrónico") },
                                                 modifier = Modifier.fillMaxWidth(),
                                                 shape = RoundedCornerShape(12.dp)
                                         )
@@ -104,17 +124,19 @@ fun LoginScreen(
                                         Spacer(modifier = Modifier.height(16.dp))
 
                                         OutlinedTextField(
-                                                value = phone,
-                                                onValueChange = { phone = it },
-                                                label = { Text("Número de teléfono") },
+                                                value = password,
+                                                onValueChange = { password = it },
+                                                label = { Text("Contraseña") },
                                                 modifier = Modifier.fillMaxWidth(),
-                                                shape = RoundedCornerShape(12.dp)
+                                                shape = RoundedCornerShape(12.dp),
+                                                visualTransformation =
+                                                        PasswordVisualTransformation()
                                         )
 
                                         Spacer(modifier = Modifier.height(24.dp))
 
                                         Button(
-                                                onClick = { onLogin(phone) },
+                                                onClick = { authViewModel.login(email, password) },
                                                 modifier = Modifier.fillMaxWidth().height(52.dp),
                                                 colors =
                                                         ButtonDefaults.buttonColors(
@@ -122,14 +144,23 @@ fun LoginScreen(
                                                         ),
                                                 shape = RoundedCornerShape(14.dp)
                                         ) {
-                                                Text(
-                                                        text = "Continuar",
-                                                        color = Color.White,
-                                                        fontWeight = FontWeight.SemiBold,
-                                                        fontSize = 16.sp
-                                                )
+                                                if (loading) Text("…", color = Color.White)
+                                                else
+                                                        Text(
+                                                                text = "Continuar",
+                                                                color = Color.White,
+                                                                fontWeight = FontWeight.SemiBold,
+                                                                fontSize = 16.sp
+                                                        )
                                         }
                                 }
+                        }
+                        error?.let {
+                                Text(
+                                        text = it,
+                                        color = Color.Red,
+                                        modifier = Modifier.padding(top = 8.dp)
+                                )
                         }
 
                         Spacer(modifier = Modifier.height(24.dp))
