@@ -7,6 +7,7 @@
 --   - Galván García Verónica Lizethe
 --   - Jasso Flores Miguel Ernesto
 --   - Macías Estrada Ulises
+--   - Jose Antonio Gomez Valades 		
 -- GRUPO: IDGS1002
 -- FECHA: 03/Nov/2025
 -- ======================================================
@@ -22,7 +23,7 @@ CREATE DATABASE IF NOT EXISTS pizzahub CHARACTER SET utf8mb4 COLLATE utf8mb4_gen
 USE pizzahub;
 
 -- ======================================================
--- 1️⃣ USUARIOS Y PERSONAS
+-- 1️ USUARIOS Y PERSONAS
 -- ======================================================
 
 -- Tabla principal de usuarios del sistema (autenticación y roles)
@@ -53,7 +54,7 @@ CREATE TABLE personas (
 );
 
 -- ======================================================
--- 2️⃣ EMPLEADOS / REPARTIDORES / CLIENTES
+-- 2️ EMPLEADOS / REPARTIDORES / CLIENTES
 -- ======================================================
 
 -- Tabla de empleados administrativos o de cocina
@@ -74,6 +75,7 @@ CREATE TABLE repartidores (
     vehiculo_asignado VARCHAR(100),
     horario_trabajo VARCHAR(100),
     estado ENUM('Activo','Inactivo') DEFAULT 'Activo',
+    estado_actual ENUM('Disponible','En entrega','Desconectado') DEFAULT 'Desconectado',
     FOREIGN KEY (id_persona) REFERENCES personas(id_persona) ON DELETE CASCADE
 );
 
@@ -87,7 +89,7 @@ CREATE TABLE clientes (
 );
 
 -- ======================================================
--- 3️⃣ INVENTARIO Y MATERIA PRIMA
+-- 3️ INVENTARIO Y MATERIA PRIMA
 -- ======================================================
 
 -- Proveedores de materia prima
@@ -111,7 +113,7 @@ CREATE TABLE materia_prima (
 );
 
 -- ======================================================
--- 4️⃣ PRODUCTOS
+-- 4️ PRODUCTOS
 -- ======================================================
 
 -- Catálogo general de productos (pizzas, bebidas, complementos)
@@ -126,7 +128,7 @@ CREATE TABLE productos (
 );
 
 -- ======================================================
--- 5️⃣ PEDIDOS Y DETALLES
+-- 5️ PEDIDOS Y DETALLES
 -- ======================================================
 
 -- Registro maestro de pedidos realizados (por App o PWA)
@@ -171,7 +173,7 @@ CREATE TABLE pedido_estados_historial (
 );
 
 -- ======================================================
--- 6️⃣ CALIFICACIONES Y CHAT (Nuevas funciones móviles)
+-- 6️ CALIFICACIONES Y CHAT (Nuevas funciones móviles)
 -- ======================================================
 
 -- Valoración del servicio y productos por parte del cliente
@@ -197,7 +199,7 @@ CREATE TABLE chat_mensajes (
 );
 
 -- ======================================================
--- 7️⃣ MERMAS
+-- 7️ MERMAS
 -- ======================================================
 
 -- Registro de pérdidas de materia prima por causas diversas
@@ -212,7 +214,7 @@ CREATE TABLE mermas (
 );
 
 -- ======================================================
--- 8️⃣ CAJA Y MOVIMIENTOS
+-- 8️ CAJA Y MOVIMIENTOS
 -- ======================================================
 
 -- Control de turnos de caja (apertura y cierre por usuario)
@@ -250,7 +252,7 @@ CREATE TABLE movimientos_caja (
 );
 
 -- ======================================================
--- 9️⃣ ÍNDICES Y OPTIMIZACIÓN
+-- 9️ ÍNDICES Y OPTIMIZACIÓN
 -- ======================================================
 
 CREATE INDEX idx_usuarios_email ON usuarios(email);
