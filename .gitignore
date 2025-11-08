@@ -1,0 +1,65 @@
+.vs/
+# Build folders
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+
+# VS Code
+.vscode/
+
+# NuGet
+packages/
+*.nupkg
+
+# Dotnet build artifacts
+*.dll
+*.exe
+*.pdb
+
+# EF Migrations snapshots / local DB
+*.db
+*.sqlite
+*.db-journal
+*.mdf
+*.ldf
+
+# Publish output
+publish/
+out/
+
+# Logs
+*.log
+
+# OS files
+*.DS_Store
+Thumbs.db
+
+# Secrets and env
+.env
+secrets.json
+
+# Visual Studio cache and indexes
+*.VC.db
+*.VC.VC.opendb
+
+# Rider caches
+*.sln.iml
+
+# Temporary files
+*.tmp
+*.temp
+
+# Ignore build directories in any subfolders
+**/bin/
+**/obj/
+
+# Ignore compiled/publish output recursively
+**/publish/
