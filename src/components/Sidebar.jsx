@@ -32,12 +32,14 @@ const AppSidebar = () => {
     dispatch({ type: 'set', sidebarShow: visible })
   }}
   style={{
-    backgroundColor: '#f9b115 ', // naranja bonito
-  }}
+  background: 'linear-gradient(45deg, #ffb984 0%, #fe7947 100%)', // Degradado como un string
+  opacity: 1,
+  padding: '10px 0',
+}}
     >
       <CSidebarHeader className="border-bottom d-flex align-items-center justify-content-center"
   style={{
-    backgroundColor: '#FF7A00',
+    backgroundColor: '#fa4802e7',
     padding: '10px 0',
   }}
 >

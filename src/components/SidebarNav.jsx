@@ -8,6 +8,20 @@ import 'simplebar-react/dist/simplebar.min.css'
 import { CBadge, CNavLink, CSidebarNav } from '@coreui/react'
 
 export const AppSidebarNav = ({ items }) => {
+
+  // ESTILOS PARA EL ITEM ACTIVO (SIN ARCHIVO CSS)
+  const activeStyles = `
+    .nav-link.active {
+      color: #ffb984 !important;
+      font-weight: bold !important;
+      background-color: rgba(255, 255, 255, 0.25) !important;
+      border-radius: 6px;
+    }
+    .nav-link.active .nav-icon {
+      color: #ffb984 !important;
+    }
+  `
+
   const navLink = (name, icon, badge, indent = false) => {
     return (
       <>
@@ -18,7 +32,14 @@ export const AppSidebarNav = ({ items }) => {
                 <span className="nav-icon-bullet"></span>
               </span>
             )}
-        {name && name}
+
+        {/* Color aplicado directamente al texto */}
+        {name && (
+          <span style={{ color: '#000000', fontWeight: '500' }}>
+            {name}
+          </span>
+        )}
+
         {badge && (
           <CBadge color={badge.color} className="ms-auto" size="sm">
             {badge.text}
@@ -31,24 +52,28 @@ export const AppSidebarNav = ({ items }) => {
   const navItem = (item, index, indent = false) => {
     const { component, name, badge, icon, ...rest } = item
     const Component = component
+
+    // TITULOS
     if (Component.displayName === 'CNavTitle' || Component.name === 'CNavTitle') {
-    return (
-      <Component
-        key={index}
-        {...rest}
-        style={{
-          color: '#000',            // letras negras
-          fontWeight: 'bold',       // más marcadas
-          opacity: 1,               // sin transparencia
-          borderBottom: '1px solid white', // línea blanca decorativa
-          paddingBottom: '4px',
-          marginBottom: '6px',
-        }}
-      >
-        {name}
-      </Component>
-    )
-  }
+      return (
+        <Component
+          key={index}
+          {...rest}
+          style={{
+            color: '#000',
+            fontWeight: 'bold',
+            opacity: 1,
+            borderBottom: '1px solid white',
+            paddingBottom: '4px',
+            marginBottom: '6px',
+          }}
+        >
+          {name}
+        </Component>
+      )
+    }
+
+    // ITEMS NORMALES
     return (
       <Component as="div" key={index}>
         {rest.to || rest.href ? (
@@ -77,12 +102,19 @@ export const AppSidebarNav = ({ items }) => {
       </Component>
     )
   }
-  
+
   return (
-    <CSidebarNav as={SimpleBar}>
-      {items &&
-        items.map((item, index) => (item.items ? navGroup(item, index) : navItem(item, index)))}
-    </CSidebarNav>
+    <>
+      {/* INYECCIÓN DE ESTILOS PARA EL ITEM ACTIVO */}
+      <style>{activeStyles}</style>
+
+      <CSidebarNav as={SimpleBar}>
+        {items &&
+          items.map((item, index) =>
+            item.items ? navGroup(item, index) : navItem(item, index),
+          )}
+      </CSidebarNav>
+    </>
   )
 }
 

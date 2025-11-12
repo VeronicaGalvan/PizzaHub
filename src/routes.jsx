@@ -6,6 +6,11 @@ const Provedores = React.lazy(() => import('./pages/Provedores'))
 const Usuarios = React.lazy(() => import('./pages/Usuarios'))
 const UsuariosMovil = React.lazy(() => import('./pages/UsuariosMovil'))
 const Movimientos = React.lazy(() => import('./pages/Movimientos'))
+const EntradaPedidos = React.lazy(() => import('./pages/EntradaPedidos'))
+const Enproceso = React.lazy(() => import('./pages/Enproceso'))
+const Mermas = React.lazy(() => import('./pages/Mermas'))
+const AgregarMermas = React.lazy(() => import('./pages/agregarMermas'))
+const Repartidores = React.lazy(() => import('./pages/Repartidores'))
 
 const routes = [
 
@@ -16,6 +21,11 @@ const routes = [
     { path: '/pages/Usuarios', name: 'Usuarios', element: Usuarios },
     { path: '/pages/UsuariosMovil', name: 'UsuariosMovil', element: UsuariosMovil },
     { path: '/pages/Movimientos', name: 'Movimientos', element: Movimientos },
+    { path: '/pages/EntradaPedidos', name: 'Entrada Pedidos', element: EntradaPedidos },
+    { path: '/pages/Enproceso', name: 'En proceso', element: Enproceso },
+    { path: '/pages/Mermas', name: 'Mermas', element: Mermas },
+    { path: '/pages/AgregarMermas', name: 'Agregar mermas', element: AgregarMermas },
+    { path: '/pages/Repartidores', name: 'Repartidores', element: Repartidores },
 
 ]
 export default routes

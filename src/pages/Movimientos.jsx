@@ -57,7 +57,7 @@ import MainChart from './MainChart'
 const Movimientos = () => {
   const progressExample = [
     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
-    { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
+    { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },       
     { title: 'Pageviews', value: '78.706 Views', percent: 60, color: 'warning' },
     { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
     { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
