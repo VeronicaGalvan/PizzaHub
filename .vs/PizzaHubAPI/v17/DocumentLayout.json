@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "C:\\Actividades_Universidad_UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Actividades_Universidad_UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251106002314_DB3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:PizzaHubAPI\\Migrations\\20251106002314_DB3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Actividades_Universidad_UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251112000900_BD1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:PizzaHubAPI\\Migrations\\20251112000900_BD1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|c:\\actividades_universidad_utl\\pizzahub\\pizzahubapi\\pizzahubapi\\pizzahubapi\\pizzahubapi\\models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|solutionrelative:pizzahubapi\\models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,14 +39,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "20251106002314_DB3.cs",
-              "DocumentMoniker": "C:\\Actividades_Universidad_UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251106002314_DB3.cs",
-              "RelativeDocumentMoniker": "PizzaHubAPI\\Migrations\\20251106002314_DB3.cs",
-              "ToolTip": "C:\\Actividades_Universidad_UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251106002314_DB3.cs",
-              "RelativeToolTip": "PizzaHubAPI\\Migrations\\20251106002314_DB3.cs",
+              "Title": "20251112000900_BD1.cs",
+              "DocumentMoniker": "C:\\Actividades_Universidad_UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251112000900_BD1.cs",
+              "RelativeDocumentMoniker": "PizzaHubAPI\\Migrations\\20251112000900_BD1.cs",
+              "ToolTip": "C:\\Actividades_Universidad_UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251112000900_BD1.cs",
+              "RelativeToolTip": "PizzaHubAPI\\Migrations\\20251112000900_BD1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T00:23:15.381Z",
+              "WhenOpened": "2025-11-12T00:09:00.881Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Usuario.cs",
+              "DocumentMoniker": "C:\\Actividades_Universidad_UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\Models\\Usuario.cs",
+              "RelativeDocumentMoniker": "PizzaHubAPI\\Models\\Usuario.cs",
+              "ToolTip": "C:\\Actividades_Universidad_UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\Models\\Usuario.cs",
+              "RelativeToolTip": "PizzaHubAPI\\Models\\Usuario.cs",
+              "ViewState": "AgIAACsAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-11T23:38:20.73Z",
               "EditorCaption": ""
             }
           ]

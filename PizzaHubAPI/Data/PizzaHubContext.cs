@@ -9,99 +9,72 @@ public class PizzaHubContext : DbContext
     {
     }
 
+    // Nuevas tablas según el esquema de base de datos
     public DbSet<Usuario> Usuarios { get; set; } = null!;
-    // Roles are now represented by the enum on Usuario; tables Rol/UsuarioRol removed from usage
-    public DbSet<TokenRevocado> TokensRevocados { get; set; } = null!;
     public DbSet<Cliente> Clientes { get; set; } = null!;
+    public DbSet<Empleado> Empleados { get; set; } = null!;
     public DbSet<Repartidor> Repartidores { get; set; } = null!;
-    public DbSet<Persona> Personas { get; set; } = null!;
+    public DbSet<Insumo> Insumos { get; set; } = null!;
     public DbSet<Producto> Productos { get; set; } = null!;
-    public DbSet<MovimientoInventario> MovimientosInventario { get; set; } = null!;
     public DbSet<Pedido> Pedidos { get; set; } = null!;
     public DbSet<DetallePedido> DetallesPedido { get; set; } = null!;
-    public DbSet<HistorialEstadoPedido> HistorialEstadoPedido { get; set; } = null!;
-    public DbSet<Proveedor> Proveedores { get; set; } = null!;
-    public DbSet<MateriaPrima> MateriasPrimas { get; set; } = null!;
-    public DbSet<Merma> Mermas { get; set; } = null!;
-    public DbSet<SesionCaja> SesionesCaja { get; set; } = null!;
-    public DbSet<MovimientoCaja> MovimientosCaja { get; set; } = null!;
-    public DbSet<CalificacionPedido> CalificacionesPedido { get; set; } = null!;
-    public DbSet<ChatMensaje> ChatMensajes { get; set; } = null!;
+    public DbSet<Caja> Cajas { get; set; } = null!;
+    public DbSet<Venta> Ventas { get; set; } = null!;
+    public DbSet<Calificacion> Calificaciones { get; set; } = null!;
+    public DbSet<InventarioLog> InventarioLogs { get; set; } = null!;
+    public DbSet<TokenRevocado> TokensRevocados { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        // Configuración de índices y relaciones
+        // Configuración de Usuario
         modelBuilder.Entity<Usuario>()
-            .HasIndex(u => u.Email)
+            .HasIndex(u => u.Correo)
             .IsUnique();
 
-        // DB entity Rol removed from active model configuration
-
+        // Configuración de TokenRevocado
         modelBuilder.Entity<TokenRevocado>()
             .HasIndex(t => t.Token);
 
-        // Configuración de propiedades de auditoría
-        modelBuilder.Entity<Usuario>()
-            .Property(u => u.FechaRegistro)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
-            
-        modelBuilder.Entity<Usuario>()
-            .Property(u => u.RowVersion)
-            .IsRowVersion();
+        // Configuración de Empleado
+        modelBuilder.Entity<Empleado>()
+            .HasOne(e => e.Usuario)
+            .WithMany(u => u.Empleados)
+            .HasForeignKey(e => e.UsuarioId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-        // Configuración de Producto
-        modelBuilder.Entity<Producto>()
-            .Property(p => p.CreadoEn)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
-            
-        modelBuilder.Entity<Producto>()
-            .Property(p => p.RowVersion)
-            .IsRowVersion();
+        // Configuración de Cliente
+        modelBuilder.Entity<Cliente>()
+            .HasOne(c => c.Usuario)
+            .WithMany(u => u.Clientes)
+            .HasForeignKey(c => c.UsuarioId)
+            .OnDelete(DeleteBehavior.SetNull);
 
-        // Configuración de MovimientoInventario
-        modelBuilder.Entity<MovimientoInventario>()
-            .Property(m => m.CreadoEn)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+        // Configuración de Repartidor
+        modelBuilder.Entity<Repartidor>()
+            .HasOne(r => r.Usuario)
+            .WithMany(u => u.Repartidores)
+            .HasForeignKey(r => r.UsuarioId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<MovimientoInventario>()
-            .HasOne(m => m.Producto)
-            .WithMany(p => p.MovimientosInventario)
-            .HasForeignKey(m => m.ProductoId)
-            .OnDelete(DeleteBehavior.Restrict);
+        // Configuración de Insumo
+        modelBuilder.Entity<Insumo>()
+            .Property(i => i.UltimaActualizacion)
+            .ValueGeneratedOnAddOrUpdate();
 
         // Configuración de Pedido
         modelBuilder.Entity<Pedido>()
-            .Property(p => p.CreadoEn)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
-
-        modelBuilder.Entity<Pedido>()
-            .Property(p => p.RowVersion)
-            .IsRowVersion();
-
-        modelBuilder.Entity<Pedido>()
             .HasOne(p => p.Cliente)
-            .WithMany()
+            .WithMany(c => c.Pedidos)
             .HasForeignKey(p => p.ClienteId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.SetNull);
 
         modelBuilder.Entity<Pedido>()
             .HasOne(p => p.Repartidor)
-            .WithMany()
+            .WithMany(r => r.Pedidos)
             .HasForeignKey(p => p.RepartidorId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        // Configuración de HistorialEstadoPedido
-        modelBuilder.Entity<HistorialEstadoPedido>()
-            .Property(h => h.CreadoEn)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
-
-        modelBuilder.Entity<HistorialEstadoPedido>()
-            .HasOne(h => h.Pedido)
-            .WithMany(p => p.HistorialEstados)
-            .HasForeignKey(h => h.PedidoId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.SetNull);
 
         // Configuración de DetallePedido
         modelBuilder.Entity<DetallePedido>()
@@ -112,26 +85,52 @@ public class PizzaHubContext : DbContext
 
         modelBuilder.Entity<DetallePedido>()
             .HasOne(d => d.Producto)
-            .WithMany()
+            .WithMany(p => p.DetallesPedido)
             .HasForeignKey(d => d.ProductoId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
-        // Configuración de Persona
-        modelBuilder.Entity<Persona>()
-            .Property(p => p.FechaRegistro)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+        // Configuración de Caja
+        modelBuilder.Entity<Caja>()
+            .HasIndex(c => c.Fecha)
+            .IsUnique();
 
-        // Configuración de MateriaPrima
-        modelBuilder.Entity<MateriaPrima>()
-            .Property(m => m.FechaActualizacion)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+        modelBuilder.Entity<Caja>()
+            .HasOne(c => c.Empleado)
+            .WithMany(e => e.Cajas)
+            .HasForeignKey(c => c.EmpleadoId)
+            .OnDelete(DeleteBehavior.SetNull);
 
-        // Configuración de SesionCaja
-        modelBuilder.Entity<SesionCaja>()
-            .Property(s => s.FechaApertura)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+        // Configuración de Venta
+        modelBuilder.Entity<Venta>()
+            .HasOne(v => v.Caja)
+            .WithMany(c => c.Ventas)
+            .HasForeignKey(v => v.CajaId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-        // Índices sugeridos
-        modelBuilder.Entity<Persona>().HasIndex(p => p.Telefono).IsUnique(false);
+        modelBuilder.Entity<Venta>()
+            .HasOne(v => v.Pedido)
+            .WithMany(p => p.Ventas)
+            .HasForeignKey(v => v.PedidoId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<Venta>()
+            .HasOne(v => v.Empleado)
+            .WithMany(e => e.Ventas)
+            .HasForeignKey(v => v.EmpleadoId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        // Configuración de Calificacion
+        modelBuilder.Entity<Calificacion>()
+            .HasOne(c => c.Pedido)
+            .WithMany(p => p.Calificaciones)
+            .HasForeignKey(c => c.PedidoId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Configuración de InventarioLog
+        modelBuilder.Entity<InventarioLog>()
+            .HasOne(i => i.Insumo)
+            .WithMany(ins => ins.InventarioLogs)
+            .HasForeignKey(i => i.InsumoId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

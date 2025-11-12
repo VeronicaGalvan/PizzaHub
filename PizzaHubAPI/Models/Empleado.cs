@@ -4,8 +4,8 @@ using System.Text.Json.Serialization;
 
 namespace PizzaHubAPI.Models;
 
-[Table("repartidores")]
-public class Repartidor
+[Table("empleados")]
+public class Empleado
 {
     [Key]
     [Column("id")]
@@ -29,20 +29,18 @@ public class Repartidor
     [Column("usuario_id")]
     public int UsuarioId { get; set; }
     
-    [Column("estado")]
-    public RepartidorEstadoEnum Estado { get; set; } = RepartidorEstadoEnum.Disponible;
+    [Column("fecha_ingreso")]
+    public DateTime FechaIngreso { get; set; } = DateTime.Now.Date;
+    
+    [Column("activo")]
+    public bool Activo { get; set; } = true;
 
     // Relaciones
     [ForeignKey("UsuarioId")]
     public virtual Usuario Usuario { get; set; } = null!;
     
     [JsonIgnore]
-    public virtual ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
-}
-
-public enum RepartidorEstadoEnum
-{
-    Disponible,
-    Ocupado,
-    Inactivo
+    public virtual ICollection<Venta> Ventas { get; set; } = new List<Venta>();
+    [JsonIgnore]
+    public virtual ICollection<Caja> Cajas { get; set; } = new List<Caja>();
 }

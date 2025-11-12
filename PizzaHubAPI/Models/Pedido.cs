@@ -1,61 +1,100 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PizzaHubAPI.Models;
 
-public enum EstadoPedido
-{
-    PENDIENTE,
-    PREPARACION,
-    EN_CAMINO,
-    ENTREGADO,
-    CANCELADO
-}
-
+[Table("pedidos")]
 public class Pedido
 {
     [Key]
+    [Column("id")]
     public int Id { get; set; }
     
-    [ForeignKey("Cliente")]
-    public int ClienteId { get; set; }
+    [Column("cliente_id")]
+    public int? ClienteId { get; set; }
     
-    [ForeignKey("Repartidor")]
+    [Column("repartidor_id")]
     public int? RepartidorId { get; set; }
     
     [Required]
-    public EstadoPedido Estado { get; set; } = EstadoPedido.PENDIENTE;
+    [Column("tipo")]
+    public TipoPedidoEnum Tipo { get; set; }
     
     [Required]
-    [Column(TypeName = "decimal(18,2)")]
-    public decimal Total { get; set; }
+    [Column("estado")]
+    public EstadoPedidoEnum Estado { get; set; } = EstadoPedidoEnum.Pendiente;
     
     [Required]
-    [MaxLength(200)]
-    public string DireccionEntrega { get; set; } = null!;
+    [Column("metodo_pago")]
+    public MetodoPagoEnum MetodoPago { get; set; }
     
-    [MaxLength(500)]
+    [Required]
+    [Column("origen")]
+    public OrigenPedidoEnum Origen { get; set; } = OrigenPedidoEnum.Mostrador;
+    
+    [Required]
+    [Column("total", TypeName = "decimal(10,2)")]
+    public decimal Total { get; set; } = 0;
+    
+    [Column("direccion_entrega")]
+    public string? DireccionEntrega { get; set; }
+    
+    [Column("observaciones")]
     public string? Observaciones { get; set; }
     
-    [MaxLength(20)]
-    public string? TelefonoContacto { get; set; }
-    
-    public DateTime? FechaPreparacion { get; set; }
-    
-    public DateTime? FechaEnvio { get; set; }
-    
-    public DateTime? FechaEntrega { get; set; }
-    
-    [Timestamp]
-    public byte[] RowVersion { get; set; } = null!;
-    
-    public DateTime CreadoEn { get; set; }
-    
-    public DateTime? ActualizadoEn { get; set; }
+    [Column("fecha_pedido")]
+    public DateTime FechaPedido { get; set; } = DateTime.Now;
     
     // Relaciones
-    public virtual Cliente Cliente { get; set; } = null!;
+    [ForeignKey("ClienteId")]
+    public virtual Cliente? Cliente { get; set; }
+    
+    [ForeignKey("RepartidorId")]
     public virtual Repartidor? Repartidor { get; set; }
+    
+    [JsonIgnore]
     public virtual ICollection<DetallePedido> Detalles { get; set; } = new List<DetallePedido>();
-    public virtual ICollection<HistorialEstadoPedido> HistorialEstados { get; set; } = new List<HistorialEstadoPedido>();
+    [JsonIgnore]
+    public virtual ICollection<Calificacion> Calificaciones { get; set; } = new List<Calificacion>();
+    [JsonIgnore]
+    public virtual ICollection<Venta> Ventas { get; set; } = new List<Venta>();
+}
+
+public enum TipoPedidoEnum
+{
+    Mostrador,
+    [Display(Name = "Llamada-Recoge")]
+    LlamadaRecoge,
+    [Display(Name = "Llamada-Envio")]
+    LlamadaEnvio,
+    Plataforma,
+    App
+}
+
+public enum EstadoPedidoEnum
+{
+    Pendiente,
+    [Display(Name = "En preparación")]
+    EnPreparacion,
+    [Display(Name = "En camino")]
+    EnCamino,
+    Entregado,
+    Cancelado
+}
+
+public enum MetodoPagoEnum
+{
+    Efectivo,
+    Tarjeta,
+    Plataforma,
+    Transferencia
+}
+
+public enum OrigenPedidoEnum
+{
+    App,
+    Llamada,
+    Plataforma,
+    Mostrador
 }

@@ -17,7 +17,7 @@ public class DetallePedidoDTO
 
 public class ActualizarEstadoPedidoDTO
 {
-    public EstadoPedido NuevoEstado { get; set; }
+    public EstadoPedidoEnum NuevoEstado { get; set; }
     public string? Observaciones { get; set; }
 }
 

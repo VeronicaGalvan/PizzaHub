@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaHubAPI.Data;
 using PizzaHubAPI.Models;
+using PizzaHubAPI.Models.DTOs;
 
 namespace PizzaHubAPI.Controllers;
 
@@ -11,103 +12,86 @@ namespace PizzaHubAPI.Controllers;
 public class ProductosController : ControllerBase
 {
     private readonly PizzaHubContext _context;
-    private readonly IWebHostEnvironment _environment;
 
-    public ProductosController(PizzaHubContext context, IWebHostEnvironment environment)
+    public ProductosController(PizzaHubContext context)
     {
         _context = context;
-        _environment = environment;
     }
 
+    // GET: api/Productos
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Producto>>> GetProductos()
     {
-        return await _context.Productos.Where(p => p.Activo).ToListAsync();
+        return await _context.Productos.ToListAsync();
     }
 
+    // GET: api/Productos/activos
+    [HttpGet("activos")]
+    public async Task<ActionResult<IEnumerable<Producto>>> GetProductosActivos()
+    {
+        return await _context.Productos
+            .Where(p => p.Activo)
+            .ToListAsync();
+    }
+
+    // GET: api/Productos/tipo/pizza
+    [HttpGet("tipo/{tipo}")]
+    public async Task<ActionResult<IEnumerable<Producto>>> GetProductosPorTipo(string tipo)
+    {
+        return await _context.Productos
+            .Where(p => p.Tipo == tipo && p.Activo)
+            .ToListAsync();
+    }
+
+    // GET: api/Productos/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Producto>> GetProducto(int id)
     {
         var producto = await _context.Productos.FindAsync(id);
 
-        if (producto == null || !producto.Activo)
-        {
-            return NotFound();
-        }
+        if (producto == null)
+            return NotFound(new { message = "Producto no encontrado" });
 
         return producto;
     }
 
-    [Authorize(Roles = "Administrador")]
+    // POST: api/Productos
     [HttpPost]
-    public async Task<ActionResult<Producto>> CreateProducto([FromForm] Producto producto, IFormFile? imagen)
+    [Authorize(Roles = "Administrador,Empleado")]
+    public async Task<ActionResult<Producto>> CreateProducto(CrearProductoDto dto)
     {
-        if (imagen != null)
+        var producto = new Producto
         {
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(imagen.FileName);
-            var filePath = Path.Combine(_environment.WebRootPath, "productos", fileName);
+            Nombre = dto.Nombre,
+            Descripcion = dto.Descripcion,
+            Tipo = dto.Tipo,
+            Precio = dto.Precio,
+            Almacenable = dto.Almacenable,
+            ImagenUrl = dto.ImagenUrl,
+            Activo = true
+        };
 
-            Directory.CreateDirectory(Path.Combine(_environment.WebRootPath, "productos"));
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await imagen.CopyToAsync(stream);
-            }
-
-            producto.RutaImagen = "/productos/" + fileName;
-        }
-
-        producto.CreadoEn = DateTime.UtcNow;
         _context.Productos.Add(producto);
         await _context.SaveChangesAsync();
 
         return CreatedAtAction(nameof(GetProducto), new { id = producto.Id }, producto);
     }
 
-    [Authorize(Roles = "Administrador")]
+    // PUT: api/Productos/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateProducto(int id, [FromForm] Producto producto, IFormFile? imagen)
+    [Authorize(Roles = "Administrador,Empleado")]
+    public async Task<IActionResult> UpdateProducto(int id, CrearProductoDto dto)
     {
-        if (id != producto.Id)
-        {
-            return BadRequest();
-        }
+        var producto = await _context.Productos.FindAsync(id);
+        if (producto == null)
+            return NotFound(new { message = "Producto no encontrado" });
 
-        var existingProducto = await _context.Productos.FindAsync(id);
-        if (existingProducto == null || !existingProducto.Activo)
-        {
-            return NotFound();
-        }
-
-        if (imagen != null)
-        {
-            // Eliminar imagen anterior si existe
-            if (!string.IsNullOrEmpty(existingProducto.RutaImagen))
-            {
-                var oldFilePath = Path.Combine(_environment.WebRootPath, existingProducto.RutaImagen.TrimStart('/'));
-                if (System.IO.File.Exists(oldFilePath))
-                {
-                    System.IO.File.Delete(oldFilePath);
-                }
-            }
-
-            // Guardar nueva imagen
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(imagen.FileName);
-            var filePath = Path.Combine(_environment.WebRootPath, "productos", fileName);
-
-            Directory.CreateDirectory(Path.Combine(_environment.WebRootPath, "productos"));
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await imagen.CopyToAsync(stream);
-            }
-
-            existingProducto.RutaImagen = "/productos/" + fileName;
-        }
-
-        existingProducto.Nombre = producto.Nombre;
-        existingProducto.Descripcion = producto.Descripcion;
-        existingProducto.Precio = producto.Precio;
-        existingProducto.StockMinimo = producto.StockMinimo;
-        existingProducto.ActualizadoEn = DateTime.UtcNow;
+        producto.Nombre = dto.Nombre;
+        producto.Descripcion = dto.Descripcion;
+        producto.Tipo = dto.Tipo;
+        producto.Precio = dto.Precio;
+        producto.Almacenable = dto.Almacenable;
+        producto.ImagenUrl = dto.ImagenUrl;
 
         try
         {
@@ -116,31 +100,54 @@ public class ProductosController : ControllerBase
         catch (DbUpdateConcurrencyException)
         {
             if (!ProductoExists(id))
-            {
                 return NotFound();
-            }
-            else
-            {
-                throw;
-            }
+            throw;
         }
 
         return NoContent();
     }
 
-    [Authorize(Roles = "Administrador")]
+    // PATCH: api/Productos/5/activar
+    [HttpPatch("{id}/activar")]
+    [Authorize(Roles = "Administrador,Empleado")]
+    public async Task<IActionResult> ActivarProducto(int id)
+    {
+        var producto = await _context.Productos.FindAsync(id);
+        if (producto == null)
+            return NotFound(new { message = "Producto no encontrado" });
+
+        producto.Activo = true;
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    // PATCH: api/Productos/5/desactivar
+    [HttpPatch("{id}/desactivar")]
+    [Authorize(Roles = "Administrador,Empleado")]
+    public async Task<IActionResult> DesactivarProducto(int id)
+    {
+        var producto = await _context.Productos.FindAsync(id);
+        if (producto == null)
+            return NotFound(new { message = "Producto no encontrado" });
+
+        producto.Activo = false;
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    // DELETE: api/Productos/5
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> DeleteProducto(int id)
     {
         var producto = await _context.Productos.FindAsync(id);
-        if (producto == null || !producto.Activo)
-        {
-            return NotFound();
-        }
+        if (producto == null)
+            return NotFound(new { message = "Producto no encontrado" });
 
+        // Soft delete
         producto.Activo = false;
-        producto.ActualizadoEn = DateTime.UtcNow;
-
         await _context.SaveChangesAsync();
 
         return NoContent();
@@ -148,6 +155,6 @@ public class ProductosController : ControllerBase
 
     private bool ProductoExists(int id)
     {
-        return _context.Productos.Any(e => e.Id == id);
+        return _context.Productos.Any(p => p.Id == id);
     }
 }

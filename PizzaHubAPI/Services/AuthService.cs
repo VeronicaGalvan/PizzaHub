@@ -34,9 +34,9 @@ public class AuthService : IAuthService
     public async Task<LoginResponseDTO?> LoginAsync(LoginRequestDTO request)
     {
         var usuario = await _context.Usuarios
-            .FirstOrDefaultAsync(u => u.Email == request.Email);
+            .FirstOrDefaultAsync(u => u.Correo == request.Email);
 
-        if (usuario == null || !VerifyPasswordHash(request.Password, usuario.ContraseñaHash))
+        if (usuario == null || !VerifyPasswordHash(request.Password, usuario.PasswordHash))
             return null;
 
         return await GenerateAuthResponseAsync(usuario);
@@ -75,7 +75,7 @@ public class AuthService : IAuthService
     public async Task<LoginResponseDTO?> RegisterAsync(RegisterRequestDTO request)
     {
         // Check if email already exists
-        if (await _context.Usuarios.AnyAsync(u => u.Email == request.Email))
+        if (await _context.Usuarios.AnyAsync(u => u.Correo == request.Email))
             return null;
 
         // Split full name into first and last name
@@ -83,20 +83,16 @@ public class AuthService : IAuthService
         var nombre = nombres.FirstOrDefault() ?? "";
         var apellido = nombres.Length > 1 ? nombres[1] : "";
 
-        // Create user with persona
+        // Create user
         var usuario = new Usuario
         {
-            Email = request.Email,
-            ContraseñaHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
-            FechaRegistro = DateTime.UtcNow,
+            NombreUsuario = request.Email.Split('@')[0], // Use email prefix as username
+            Telefono = request.TelefonoContacto,
+            Correo = request.Email,
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
             Rol = UsuarioRolEnum.Cliente, // default role
-            Persona = new Persona
-            {
-                Nombre = nombre,
-                Apellido = apellido,
-                Telefono = request.TelefonoContacto ?? "",
-                FechaRegistro = DateTime.UtcNow
-            }
+            Activo = true,
+            FechaCreacion = DateTime.UtcNow
         };
 
         _context.Usuarios.Add(usuario);
@@ -110,8 +106,10 @@ public class AuthService : IAuthService
             {
                 var cliente = new Cliente
                 {
-                    PersonaId = usuario.Persona.Id,
-                    Activo = true
+                    Nombre = nombre,
+                    Apellidos = apellido,
+                    Telefono = request.TelefonoContacto,
+                    UsuarioId = usuario.Id
                 };
                 _context.Clientes.Add(cliente);
                 await _context.SaveChangesAsync();
@@ -136,8 +134,8 @@ public class AuthService : IAuthService
         var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, usuario!.Id.ToString()),
-            new Claim(ClaimTypes.Email, usuario!.Email),
-            new Claim(ClaimTypes.Name, usuario!.Email),
+            new Claim(ClaimTypes.Email, usuario!.Correo),
+            new Claim(ClaimTypes.Name, usuario!.NombreUsuario ?? usuario!.Correo),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         }.Concat(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
@@ -164,7 +162,7 @@ public class AuthService : IAuthService
             Usuario = new UserInfoDTO
             {
                 Id = usuario.Id,
-                Email = usuario.Email
+                Email = usuario.Correo
             }
         });
     }

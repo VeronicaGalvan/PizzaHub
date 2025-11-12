@@ -222,6 +222,260 @@
         }
       }
     },
+    "/api/Caja": {
+      "get": {
+        "tags": [
+          "Caja"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Caja"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Caja"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Caja"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Caja/{id}": {
+      "get": {
+        "tags": [
+          "Caja"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Caja"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Caja"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Caja"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Caja/abierta": {
+      "get": {
+        "tags": [
+          "Caja"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Caja"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Caja"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Caja"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Caja/abrir": {
+      "post": {
+        "tags": [
+          "Caja"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AbrirCajaDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AbrirCajaDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AbrirCajaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Caja"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Caja"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Caja"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Caja/{id}/cerrar": {
+      "post": {
+        "tags": [
+          "Caja"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CerrarCajaDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CerrarCajaDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CerrarCajaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResumenCajaDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResumenCajaDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResumenCajaDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Caja/{id}/resumen": {
+      "get": {
+        "tags": [
+          "Caja"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResumenCajaDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResumenCajaDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResumenCajaDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Calificaciones": {
       "get": {
         "tags": [
@@ -235,7 +489,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/CalificacionPedido"
+                    "$ref": "#/components/schemas/Calificacion"
                   }
                 }
               },
@@ -243,7 +497,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/CalificacionPedido"
+                    "$ref": "#/components/schemas/Calificacion"
                   }
                 }
               },
@@ -251,54 +505,8 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/CalificacionPedido"
+                    "$ref": "#/components/schemas/Calificacion"
                   }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Calificaciones"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CalificacionPedido"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CalificacionPedido"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CalificacionPedido"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CalificacionPedido"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CalificacionPedido"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CalificacionPedido"
                 }
               }
             }
@@ -328,112 +536,26 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/CalificacionPedido"
+                  "$ref": "#/components/schemas/Calificacion"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CalificacionPedido"
+                  "$ref": "#/components/schemas/Calificacion"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CalificacionPedido"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ChatMensajes": {
-      "get": {
-        "tags": [
-          "ChatMensajes"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ChatMensaje"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ChatMensaje"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ChatMensaje"
-                  }
+                  "$ref": "#/components/schemas/Calificacion"
                 }
               }
             }
           }
         }
       },
-      "post": {
+      "delete": {
         "tags": [
-          "ChatMensajes"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChatMensaje"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChatMensaje"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChatMensaje"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChatMensaje"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChatMensaje"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChatMensaje"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ChatMensajes/{id}": {
-      "get": {
-        "tags": [
-          "ChatMensajes"
+          "Calificaciones"
         ],
         "parameters": [
           {
@@ -448,48 +570,42 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChatMensaje"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChatMensaje"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChatMensaje"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
     },
-    "/api/Clientes/registro": {
+    "/api/Calificaciones/pedido/{pedidoId}": {
       "post": {
         "tags": [
-          "Clientes"
+          "Calificaciones"
+        ],
+        "parameters": [
+          {
+            "name": "pedidoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegistroClienteDTO"
+                "$ref": "#/components/schemas/RegistrarCalificacionDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegistroClienteDTO"
+                "$ref": "#/components/schemas/RegistrarCalificacionDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RegistroClienteDTO"
+                "$ref": "#/components/schemas/RegistrarCalificacionDto"
               }
             }
           }
@@ -500,28 +616,37 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponseDTO"
+                  "$ref": "#/components/schemas/Calificacion"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponseDTO"
+                  "$ref": "#/components/schemas/Calificacion"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponseDTO"
+                  "$ref": "#/components/schemas/Calificacion"
                 }
               }
             }
           }
         }
-      }
-    },
-    "/api/Clientes/perfil": {
+      },
       "get": {
         "tags": [
-          "Clientes"
+          "Calificaciones"
+        ],
+        "parameters": [
+          {
+            "name": "pedidoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -529,20 +654,44 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ClienteDTO"
+                  "$ref": "#/components/schemas/Calificacion"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ClienteDTO"
+                  "$ref": "#/components/schemas/Calificacion"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ClienteDTO"
+                  "$ref": "#/components/schemas/Calificacion"
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/Calificaciones/promedio": {
+      "get": {
+        "tags": [
+          "Calificaciones"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Calificaciones/estadisticas": {
+      "get": {
+        "tags": [
+          "Calificaciones"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -560,7 +709,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ClienteDTO"
+                    "$ref": "#/components/schemas/Cliente"
                   }
                 }
               },
@@ -568,7 +717,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ClienteDTO"
+                    "$ref": "#/components/schemas/Cliente"
                   }
                 }
               },
@@ -576,45 +725,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ClienteDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/HistorialEstadoPedido": {
-      "get": {
-        "tags": [
-          "HistorialEstadoPedido"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/HistorialEstadoPedido"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/HistorialEstadoPedido"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/HistorialEstadoPedido"
+                    "$ref": "#/components/schemas/Cliente"
                   }
                 }
               }
@@ -624,23 +735,23 @@
       },
       "post": {
         "tags": [
-          "HistorialEstadoPedido"
+          "Clientes"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/HistorialEstadoPedido"
+                "$ref": "#/components/schemas/CrearClienteDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/HistorialEstadoPedido"
+                "$ref": "#/components/schemas/CrearClienteDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/HistorialEstadoPedido"
+                "$ref": "#/components/schemas/CrearClienteDto"
               }
             }
           }
@@ -651,17 +762,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistorialEstadoPedido"
+                  "$ref": "#/components/schemas/Cliente"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistorialEstadoPedido"
+                  "$ref": "#/components/schemas/Cliente"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistorialEstadoPedido"
+                  "$ref": "#/components/schemas/Cliente"
                 }
               }
             }
@@ -669,10 +780,10 @@
         }
       }
     },
-    "/api/HistorialEstadoPedido/{id}": {
+    "/api/Clientes/{id}": {
       "get": {
         "tags": [
-          "HistorialEstadoPedido"
+          "Clientes"
         ],
         "parameters": [
           {
@@ -691,303 +802,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistorialEstadoPedido"
+                  "$ref": "#/components/schemas/Cliente"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistorialEstadoPedido"
+                  "$ref": "#/components/schemas/Cliente"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistorialEstadoPedido"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Inventario/movimientos": {
-      "get": {
-        "tags": [
-          "Inventario"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MovimientoInventario"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MovimientoInventario"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MovimientoInventario"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Inventario"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CrearMovimientoInventarioDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CrearMovimientoInventarioDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CrearMovimientoInventarioDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/MovimientoInventario"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MovimientoInventario"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MovimientoInventario"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Inventario/movimientos/{id}": {
-      "get": {
-        "tags": [
-          "Inventario"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/MovimientoInventario"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MovimientoInventario"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MovimientoInventario"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Inventario/productos-bajo-stock": {
-      "get": {
-        "tags": [
-          "Inventario"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Producto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Producto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Producto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/MateriasPrimas": {
-      "get": {
-        "tags": [
-          "MateriasPrimas"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MateriaPrima"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MateriaPrima"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MateriaPrima"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "MateriasPrimas"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CrearMateriaPrimaDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CrearMateriaPrimaDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CrearMateriaPrimaDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/MateriaPrima"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MateriaPrima"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MateriaPrima"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/MateriasPrimas/{id}": {
-      "get": {
-        "tags": [
-          "MateriasPrimas"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/MateriaPrima"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MateriaPrima"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MateriaPrima"
+                  "$ref": "#/components/schemas/Cliente"
                 }
               }
             }
@@ -996,7 +821,7 @@
       },
       "put": {
         "tags": [
-          "MateriasPrimas"
+          "Clientes"
         ],
         "parameters": [
           {
@@ -1013,17 +838,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MateriaPrima"
+                "$ref": "#/components/schemas/CrearClienteDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/MateriaPrima"
+                "$ref": "#/components/schemas/CrearClienteDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/MateriaPrima"
+                "$ref": "#/components/schemas/CrearClienteDto"
               }
             }
           }
@@ -1036,7 +861,7 @@
       },
       "delete": {
         "tags": [
-          "MateriasPrimas"
+          "Clientes"
         ],
         "parameters": [
           {
@@ -1056,10 +881,50 @@
         }
       }
     },
-    "/api/Mermas": {
+    "/api/Clientes/usuario/{usuarioId}": {
       "get": {
         "tags": [
-          "Mermas"
+          "Clientes"
+        ],
+        "parameters": [
+          {
+            "name": "usuarioId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cliente"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cliente"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cliente"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Empleados": {
+      "get": {
+        "tags": [
+          "Empleados"
         ],
         "responses": {
           "200": {
@@ -1069,7 +934,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Merma"
+                    "$ref": "#/components/schemas/Empleado"
                   }
                 }
               },
@@ -1077,7 +942,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Merma"
+                    "$ref": "#/components/schemas/Empleado"
                   }
                 }
               },
@@ -1085,7 +950,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Merma"
+                    "$ref": "#/components/schemas/Empleado"
                   }
                 }
               }
@@ -1095,23 +960,23 @@
       },
       "post": {
         "tags": [
-          "Mermas"
+          "Empleados"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Merma"
+                "$ref": "#/components/schemas/CrearEmpleadoDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Merma"
+                "$ref": "#/components/schemas/CrearEmpleadoDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Merma"
+                "$ref": "#/components/schemas/CrearEmpleadoDto"
               }
             }
           }
@@ -1122,17 +987,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Merma"
+                  "$ref": "#/components/schemas/Empleado"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Merma"
+                  "$ref": "#/components/schemas/Empleado"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Merma"
+                  "$ref": "#/components/schemas/Empleado"
                 }
               }
             }
@@ -1140,10 +1005,10 @@
         }
       }
     },
-    "/api/Mermas/{id}": {
+    "/api/Empleados/{id}": {
       "get": {
         "tags": [
-          "Mermas"
+          "Empleados"
         ],
         "parameters": [
           {
@@ -1162,318 +1027,26 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Merma"
+                  "$ref": "#/components/schemas/Empleado"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Merma"
+                  "$ref": "#/components/schemas/Empleado"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Merma"
+                  "$ref": "#/components/schemas/Empleado"
                 }
               }
             }
           }
         }
       },
-      "delete": {
-        "tags": [
-          "Mermas"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/MovimientosCaja": {
-      "get": {
-        "tags": [
-          "MovimientosCaja"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MovimientoCaja"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MovimientoCaja"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MovimientoCaja"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "MovimientosCaja"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MovimientoCaja"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MovimientoCaja"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/MovimientoCaja"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/MovimientoCaja"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MovimientoCaja"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MovimientoCaja"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/MovimientosCaja/{id}": {
-      "get": {
-        "tags": [
-          "MovimientosCaja"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/MovimientoCaja"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MovimientoCaja"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MovimientoCaja"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "MovimientosCaja"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Pedidos": {
-      "get": {
-        "tags": [
-          "Pedidos"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PedidoResumenDTO"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PedidoResumenDTO"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PedidoResumenDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Pedidos"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CrearPedidoDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CrearPedidoDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CrearPedidoDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/PedidoResumenDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PedidoResumenDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PedidoResumenDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Pedidos/{id}": {
-      "get": {
-        "tags": [
-          "Pedidos"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/PedidoResumenDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PedidoResumenDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PedidoResumenDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Pedidos/{id}/estado": {
       "put": {
         "tags": [
-          "Pedidos"
+          "Empleados"
         ],
         "parameters": [
           {
@@ -1490,17 +1063,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ActualizarEstadoPedidoDTO"
+                "$ref": "#/components/schemas/CrearEmpleadoDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ActualizarEstadoPedidoDTO"
+                "$ref": "#/components/schemas/CrearEmpleadoDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ActualizarEstadoPedidoDTO"
+                "$ref": "#/components/schemas/CrearEmpleadoDto"
               }
             }
           }
@@ -1508,6 +1081,984 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Empleados"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Empleados/activos": {
+      "get": {
+        "tags": [
+          "Empleados"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Empleado"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Empleado"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Empleado"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Insumos": {
+      "get": {
+        "tags": [
+          "Insumos"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Insumo"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Insumo"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Insumo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Insumos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearInsumoDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearInsumoDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearInsumoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Insumo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Insumo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Insumo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Insumos/{id}": {
+      "get": {
+        "tags": [
+          "Insumos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Insumo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Insumo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Insumo"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Insumos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearInsumoDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearInsumoDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearInsumoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Insumos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Insumos/bajo-stock": {
+      "get": {
+        "tags": [
+          "Insumos"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Insumo"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Insumo"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Insumo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/InventarioLog": {
+      "get": {
+        "tags": [
+          "InventarioLog"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InventarioLog"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InventarioLog"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InventarioLog"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "InventarioLog"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrarMovimientoInventarioDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrarMovimientoInventarioDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrarMovimientoInventarioDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventarioLog"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventarioLog"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventarioLog"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/InventarioLog/{id}": {
+      "get": {
+        "tags": [
+          "InventarioLog"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventarioLog"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventarioLog"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventarioLog"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "InventarioLog"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/InventarioLog/insumo/{insumoId}": {
+      "get": {
+        "tags": [
+          "InventarioLog"
+        ],
+        "parameters": [
+          {
+            "name": "insumoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InventarioLog"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InventarioLog"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InventarioLog"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/InventarioLog/entradas": {
+      "get": {
+        "tags": [
+          "InventarioLog"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InventarioLog"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InventarioLog"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InventarioLog"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/InventarioLog/salidas": {
+      "get": {
+        "tags": [
+          "InventarioLog"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InventarioLog"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InventarioLog"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InventarioLog"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/InventarioLog/fecha/{fecha}": {
+      "get": {
+        "tags": [
+          "InventarioLog"
+        ],
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InventarioLog"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InventarioLog"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InventarioLog"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PedidosNew": {
+      "get": {
+        "tags": [
+          "PedidosNew"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PedidoCompletoDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PedidoCompletoDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PedidoCompletoDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PedidosNew/{id}": {
+      "get": {
+        "tags": [
+          "PedidosNew"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PedidoCompletoDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PedidoCompletoDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PedidoCompletoDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PedidosNew"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PedidosNew/registrar": {
+      "post": {
+        "tags": [
+          "PedidosNew"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrarPedidoDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrarPedidoDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrarPedidoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PedidoCompletoDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PedidoCompletoDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PedidoCompletoDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PedidosNew/{id}/asignar-repartidor": {
+      "put": {
+        "tags": [
+          "PedidosNew"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsignarRepartidorDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsignarRepartidorDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsignarRepartidorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PedidosNew/{id}/estado": {
+      "put": {
+        "tags": [
+          "PedidosNew"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstadoPedidoEnum"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstadoPedidoEnum"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstadoPedidoEnum"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PedidosNew/cliente/{clienteId}": {
+      "get": {
+        "tags": [
+          "PedidosNew"
+        ],
+        "parameters": [
+          {
+            "name": "clienteId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PedidoCompletoDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PedidoCompletoDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PedidoCompletoDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PedidosNew/repartidor/{repartidorId}": {
+      "get": {
+        "tags": [
+          "PedidosNew"
+        ],
+        "parameters": [
+          {
+            "name": "repartidorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PedidoCompletoDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PedidoCompletoDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PedidoCompletoDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PedidosNew/estado/{estado}": {
+      "get": {
+        "tags": [
+          "PedidosNew"
+        ],
+        "parameters": [
+          {
+            "name": "estado",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EstadoPedidoEnum"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PedidoCompletoDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PedidoCompletoDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PedidoCompletoDto"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1555,112 +2106,19 @@
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "required": [
-                  "Descripcion",
-                  "Nombre",
-                  "Precio",
-                  "StockActual",
-                  "StockMinimo"
-                ],
-                "type": "object",
-                "properties": {
-                  "Id": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "Nombre": {
-                    "maxLength": 100,
-                    "type": "string"
-                  },
-                  "Descripcion": {
-                    "maxLength": 500,
-                    "type": "string"
-                  },
-                  "Precio": {
-                    "type": "number",
-                    "format": "double"
-                  },
-                  "StockActual": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "StockMinimo": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "RutaImagen": {
-                    "maxLength": 255,
-                    "type": "string"
-                  },
-                  "Activo": {
-                    "type": "boolean"
-                  },
-                  "RowVersion": {
-                    "type": "string",
-                    "format": "byte"
-                  },
-                  "CreadoEn": {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  "ActualizadoEn": {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  "MovimientosInventario": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/MovimientoInventario"
-                    }
-                  },
-                  "imagen": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              },
-              "encoding": {
-                "Id": {
-                  "style": "form"
-                },
-                "Nombre": {
-                  "style": "form"
-                },
-                "Descripcion": {
-                  "style": "form"
-                },
-                "Precio": {
-                  "style": "form"
-                },
-                "StockActual": {
-                  "style": "form"
-                },
-                "StockMinimo": {
-                  "style": "form"
-                },
-                "RutaImagen": {
-                  "style": "form"
-                },
-                "Activo": {
-                  "style": "form"
-                },
-                "RowVersion": {
-                  "style": "form"
-                },
-                "CreadoEn": {
-                  "style": "form"
-                },
-                "ActualizadoEn": {
-                  "style": "form"
-                },
-                "MovimientosInventario": {
-                  "style": "form"
-                },
-                "imagen": {
-                  "style": "form"
-                }
+                "$ref": "#/components/schemas/CrearProductoDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearProductoDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearProductoDto"
               }
             }
           }
@@ -1682,6 +2140,92 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Producto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Productos/activos": {
+      "get": {
+        "tags": [
+          "Productos"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Producto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Producto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Producto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Productos/tipo/{tipo}": {
+      "get": {
+        "tags": [
+          "Productos"
+        ],
+        "parameters": [
+          {
+            "name": "tipo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Producto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Producto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Producto"
+                  }
                 }
               }
             }
@@ -1745,112 +2289,19 @@
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "required": [
-                  "Descripcion",
-                  "Nombre",
-                  "Precio",
-                  "StockActual",
-                  "StockMinimo"
-                ],
-                "type": "object",
-                "properties": {
-                  "Id": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "Nombre": {
-                    "maxLength": 100,
-                    "type": "string"
-                  },
-                  "Descripcion": {
-                    "maxLength": 500,
-                    "type": "string"
-                  },
-                  "Precio": {
-                    "type": "number",
-                    "format": "double"
-                  },
-                  "StockActual": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "StockMinimo": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "RutaImagen": {
-                    "maxLength": 255,
-                    "type": "string"
-                  },
-                  "Activo": {
-                    "type": "boolean"
-                  },
-                  "RowVersion": {
-                    "type": "string",
-                    "format": "byte"
-                  },
-                  "CreadoEn": {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  "ActualizadoEn": {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  "MovimientosInventario": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/MovimientoInventario"
-                    }
-                  },
-                  "imagen": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              },
-              "encoding": {
-                "Id": {
-                  "style": "form"
-                },
-                "Nombre": {
-                  "style": "form"
-                },
-                "Descripcion": {
-                  "style": "form"
-                },
-                "Precio": {
-                  "style": "form"
-                },
-                "StockActual": {
-                  "style": "form"
-                },
-                "StockMinimo": {
-                  "style": "form"
-                },
-                "RutaImagen": {
-                  "style": "form"
-                },
-                "Activo": {
-                  "style": "form"
-                },
-                "RowVersion": {
-                  "style": "form"
-                },
-                "CreadoEn": {
-                  "style": "form"
-                },
-                "ActualizadoEn": {
-                  "style": "form"
-                },
-                "MovimientosInventario": {
-                  "style": "form"
-                },
-                "imagen": {
-                  "style": "form"
-                }
+                "$ref": "#/components/schemas/CrearProductoDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearProductoDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearProductoDto"
               }
             }
           }
@@ -1883,172 +2334,10 @@
         }
       }
     },
-    "/api/Proveedores": {
-      "get": {
+    "/api/Productos/{id}/activar": {
+      "patch": {
         "tags": [
-          "Proveedores"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Proveedor"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Proveedor"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Proveedor"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Proveedores"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Proveedor"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Proveedor"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Proveedor"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Proveedor"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Proveedor"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Proveedor"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Proveedores/{id}": {
-      "get": {
-        "tags": [
-          "Proveedores"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Proveedor"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Proveedor"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Proveedor"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Proveedores"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Proveedor"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Proveedor"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Proveedor"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Proveedores"
+          "Productos"
         ],
         "parameters": [
           {
@@ -2068,79 +2357,25 @@
         }
       }
     },
-    "/api/Repartidores/registro": {
-      "post": {
+    "/api/Productos/{id}/desactivar": {
+      "patch": {
         "tags": [
-          "Repartidores"
+          "Productos"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegistroRepartidorDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegistroRepartidorDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegistroRepartidorDTO"
-              }
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoginResponseDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoginResponseDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoginResponseDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Repartidores/perfil": {
-      "get": {
-        "tags": [
-          "Repartidores"
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/RepartidorDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RepartidorDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RepartidorDTO"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -2158,7 +2393,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RepartidorDTO"
+                    "$ref": "#/components/schemas/Repartidor"
                   }
                 }
               },
@@ -2166,7 +2401,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RepartidorDTO"
+                    "$ref": "#/components/schemas/Repartidor"
                   }
                 }
               },
@@ -2174,7 +2409,192 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RepartidorDTO"
+                    "$ref": "#/components/schemas/Repartidor"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Repartidores"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearRepartidorDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearRepartidorDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearRepartidorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Repartidor"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Repartidor"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Repartidor"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Repartidores/{id}": {
+      "get": {
+        "tags": [
+          "Repartidores"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Repartidor"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Repartidor"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Repartidor"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Repartidores"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearRepartidorDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearRepartidorDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearRepartidorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Repartidores"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Repartidores/disponibles": {
+      "get": {
+        "tags": [
+          "Repartidores"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Repartidor"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Repartidor"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Repartidor"
                   }
                 }
               }
@@ -2183,7 +2603,47 @@
         }
       }
     },
-    "/api/Repartidores/{id}/disponibilidad": {
+    "/api/Repartidores/usuario/{usuarioId}": {
+      "get": {
+        "tags": [
+          "Repartidores"
+        ],
+        "parameters": [
+          {
+            "name": "usuarioId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Repartidor"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Repartidor"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Repartidor"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Repartidores/{id}/estado": {
       "patch": {
         "tags": [
           "Repartidores"
@@ -2197,15 +2657,27 @@
               "type": "integer",
               "format": "int32"
             }
-          },
-          {
-            "name": "disponible",
-            "in": "query",
-            "schema": {
-              "type": "boolean"
-            }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CambiarEstadoRepartidorDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CambiarEstadoRepartidorDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CambiarEstadoRepartidorDto"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -2213,10 +2685,10 @@
         }
       }
     },
-    "/api/SesionesCaja": {
+    "/api/Ventas": {
       "get": {
         "tags": [
-          "SesionesCaja"
+          "Ventas"
         ],
         "responses": {
           "200": {
@@ -2226,7 +2698,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/SesionCaja"
+                    "$ref": "#/components/schemas/Venta"
                   }
                 }
               },
@@ -2234,7 +2706,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/SesionCaja"
+                    "$ref": "#/components/schemas/Venta"
                   }
                 }
               },
@@ -2242,7 +2714,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/SesionCaja"
+                    "$ref": "#/components/schemas/Venta"
                   }
                 }
               }
@@ -2252,23 +2724,23 @@
       },
       "post": {
         "tags": [
-          "SesionesCaja"
+          "Ventas"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SesionCaja"
+                "$ref": "#/components/schemas/RegistrarVentaDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/SesionCaja"
+                "$ref": "#/components/schemas/RegistrarVentaDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/SesionCaja"
+                "$ref": "#/components/schemas/RegistrarVentaDto"
               }
             }
           }
@@ -2279,17 +2751,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/SesionCaja"
+                  "$ref": "#/components/schemas/Venta"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SesionCaja"
+                  "$ref": "#/components/schemas/Venta"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SesionCaja"
+                  "$ref": "#/components/schemas/Venta"
                 }
               }
             }
@@ -2297,10 +2769,10 @@
         }
       }
     },
-    "/api/SesionesCaja/{id}": {
+    "/api/Ventas/{id}": {
       "get": {
         "tags": [
-          "SesionesCaja"
+          "Ventas"
         ],
         "parameters": [
           {
@@ -2319,66 +2791,26 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/SesionCaja"
+                  "$ref": "#/components/schemas/Venta"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SesionCaja"
+                  "$ref": "#/components/schemas/Venta"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SesionCaja"
+                  "$ref": "#/components/schemas/Venta"
                 }
               }
             }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "SesionesCaja"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SesionCaja"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SesionCaja"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/SesionCaja"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       },
       "delete": {
         "tags": [
-          "SesionesCaja"
+          "Ventas"
         ],
         "parameters": [
           {
@@ -2397,67 +2829,192 @@
           }
         }
       }
+    },
+    "/api/Ventas/caja/{cajaId}": {
+      "get": {
+        "tags": [
+          "Ventas"
+        ],
+        "parameters": [
+          {
+            "name": "cajaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Venta"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Venta"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Venta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Ventas/fecha/{fecha}": {
+      "get": {
+        "tags": [
+          "Ventas"
+        ],
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Venta"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Venta"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Venta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Ventas/empleado/{empleadoId}": {
+      "get": {
+        "tags": [
+          "Ventas"
+        ],
+        "parameters": [
+          {
+            "name": "empleadoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Venta"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Venta"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Venta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "ActualizarEstadoPedidoDTO": {
-        "type": "object",
-        "properties": {
-          "nuevoEstado": {
-            "$ref": "#/components/schemas/EstadoPedido"
-          },
-          "observaciones": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CalificacionPedido": {
+      "AbrirCajaDto": {
         "required": [
-          "clienteId",
-          "pedidoId",
-          "puntuacion"
+          "saldoInicial"
         ],
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
+          "saldoInicial": {
+            "minimum": 0,
+            "type": "number",
+            "format": "double"
           },
-          "clienteId": {
+          "empleadoId": {
             "type": "integer",
-            "format": "int32"
-          },
-          "comentario": {
-            "type": "string",
+            "format": "int32",
             "nullable": true
-          },
-          "fechaRegistro": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "pedidoId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "puntuacion": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "cliente": {
-            "$ref": "#/components/schemas/Cliente"
-          },
-          "pedido": {
-            "$ref": "#/components/schemas/Pedido"
           }
         },
         "additionalProperties": false
       },
-      "ChatMensaje": {
+      "AsignarRepartidorDto": {
         "required": [
-          "clienteId",
+          "repartidorId"
+        ],
+        "type": "object",
+        "properties": {
+          "repartidorId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Caja": {
+        "required": [
+          "estado",
           "fecha"
         ],
         "type": "object",
@@ -2466,313 +3023,35 @@
             "type": "integer",
             "format": "int32"
           },
-          "clienteId": {
-            "type": "integer",
-            "format": "int32"
-          },
           "fecha": {
             "type": "string",
             "format": "date-time"
           },
-          "mensajeCliente": {
-            "type": "string",
-            "nullable": true
-          },
-          "respuestaSistema": {
-            "type": "string",
-            "nullable": true
-          },
-          "cliente": {
-            "$ref": "#/components/schemas/Cliente"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Cliente": {
-        "required": [
-          "personaId"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "personaId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "comentariosDomicilio": {
-            "type": "string",
-            "nullable": true
-          },
-          "distanciaEstimacion": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "rowVersion": {
-            "type": "string",
-            "format": "byte",
-            "nullable": true
-          },
-          "persona": {
-            "$ref": "#/components/schemas/Persona"
-          },
-          "pedidos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Pedido"
-            },
-            "nullable": true
-          },
-          "activo": {
-            "type": "boolean"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ClienteDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "numeroCelular": {
-            "type": "string",
-            "nullable": true
-          },
-          "nombre": {
-            "type": "string",
-            "nullable": true
-          },
-          "apellido": {
-            "type": "string",
-            "nullable": true
-          },
-          "colonia": {
-            "type": "string",
-            "nullable": true
-          },
-          "calle": {
-            "type": "string",
-            "nullable": true
-          },
-          "numero": {
-            "type": "string",
-            "nullable": true
-          },
-          "distanciaAproximada": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "fechaRegistro": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CrearMateriaPrimaDTO": {
-        "required": [
-          "cantidadActual",
-          "nombre",
-          "puntoReorden",
-          "unidadMedida"
-        ],
-        "type": "object",
-        "properties": {
-          "cantidadActual": {
+          "saldoInicial": {
             "type": "number",
             "format": "double"
           },
-          "nombre": {
-            "maxLength": 100,
-            "minLength": 1,
-            "type": "string"
+          "saldoFinal": {
+            "type": "number",
+            "format": "double"
           },
-          "proveedorId": {
+          "estado": {
+            "$ref": "#/components/schemas/EstadoCajaEnum"
+          },
+          "empleadoId": {
             "type": "integer",
             "format": "int32",
             "nullable": true
           },
-          "puntoReorden": {
-            "type": "number",
-            "format": "double"
-          },
-          "unidadMedida": {
-            "type": "integer",
-            "format": "int32"
+          "empleado": {
+            "$ref": "#/components/schemas/Empleado"
           }
         },
         "additionalProperties": false
       },
-      "CrearMovimientoInventarioDTO": {
+      "Calificacion": {
         "required": [
-          "cantidad",
-          "motivo",
-          "productoId",
-          "tipo"
-        ],
-        "type": "object",
-        "properties": {
-          "productoId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "tipo": {
-            "$ref": "#/components/schemas/TipoMovimiento"
-          },
-          "cantidad": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "motivo": {
-            "maxLength": 255,
-            "minLength": 1,
-            "type": "string"
-          },
-          "observaciones": {
-            "maxLength": 500,
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CrearPedidoDTO": {
-        "type": "object",
-        "properties": {
-          "direccionEntrega": {
-            "type": "string",
-            "nullable": true
-          },
-          "telefonoContacto": {
-            "type": "string",
-            "nullable": true
-          },
-          "observaciones": {
-            "type": "string",
-            "nullable": true
-          },
-          "detalles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DetallePedidoDTO"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "DetallePedido": {
-        "required": [
-          "cantidad",
-          "pedidoId",
-          "precioUnitario",
-          "productoId",
-          "subtotal"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pedidoId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "productoId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "cantidad": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "precioUnitario": {
-            "type": "number",
-            "format": "double"
-          },
-          "subtotal": {
-            "type": "number",
-            "format": "double"
-          },
-          "observaciones": {
-            "maxLength": 500,
-            "type": "string",
-            "nullable": true
-          },
-          "pedido": {
-            "$ref": "#/components/schemas/Pedido"
-          },
-          "producto": {
-            "$ref": "#/components/schemas/Producto"
-          }
-        },
-        "additionalProperties": false
-      },
-      "DetallePedidoDTO": {
-        "type": "object",
-        "properties": {
-          "productoId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "cantidad": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "observaciones": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "DetallePedidoResumenDTO": {
-        "type": "object",
-        "properties": {
-          "producto": {
-            "type": "string",
-            "nullable": true
-          },
-          "cantidad": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "precioUnitario": {
-            "type": "number",
-            "format": "double"
-          },
-          "subtotal": {
-            "type": "number",
-            "format": "double"
-          },
-          "observaciones": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "EstadoPedido": {
-        "enum": [
-          0,
-          1,
-          2,
-          3,
-          4
-        ],
-        "type": "integer",
-        "format": "int32"
-      },
-      "HistorialEstadoPedido": {
-        "required": [
-          "estado",
+          "estrellas",
           "pedidoId"
         ],
         "type": "object",
@@ -2785,28 +3064,437 @@
             "type": "integer",
             "format": "int32"
           },
+          "estrellas": {
+            "maximum": 5,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "comentario": {
+            "type": "string",
+            "nullable": true
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "pedido": {
+            "$ref": "#/components/schemas/Pedido"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CambiarEstadoRepartidorDto": {
+        "type": "object",
+        "properties": {
           "estado": {
-            "$ref": "#/components/schemas/EstadoPedido"
+            "$ref": "#/components/schemas/RepartidorEstadoEnum"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CerrarCajaDto": {
+        "required": [
+          "saldoFinal"
+        ],
+        "type": "object",
+        "properties": {
+          "saldoFinal": {
+            "minimum": 0,
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Cliente": {
+        "required": [
+          "apellidos",
+          "nombre"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "apellidos": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "telefono": {
+            "maxLength": 20,
+            "type": "string",
+            "nullable": true
+          },
+          "colonia": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "calle": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "numeroCasa": {
+            "maxLength": 20,
+            "type": "string",
+            "nullable": true
+          },
+          "observaciones": {
+            "type": "string",
+            "nullable": true
           },
           "usuarioId": {
             "type": "integer",
             "format": "int32",
             "nullable": true
           },
-          "observaciones": {
-            "maxLength": 500,
+          "usuario": {
+            "$ref": "#/components/schemas/Usuario"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CrearClienteDto": {
+        "type": "object",
+        "properties": {
+          "nombre": {
             "type": "string",
             "nullable": true
           },
-          "creadoEn": {
+          "apellidos": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefono": {
+            "type": "string",
+            "nullable": true
+          },
+          "colonia": {
+            "type": "string",
+            "nullable": true
+          },
+          "calle": {
+            "type": "string",
+            "nullable": true
+          },
+          "numeroCasa": {
+            "type": "string",
+            "nullable": true
+          },
+          "observaciones": {
+            "type": "string",
+            "nullable": true
+          },
+          "usuarioId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CrearEmpleadoDto": {
+        "required": [
+          "apellidos",
+          "nombre",
+          "usuarioId"
+        ],
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "apellidos": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "telefono": {
+            "maxLength": 20,
+            "type": "string",
+            "nullable": true
+          },
+          "usuarioId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CrearInsumoDto": {
+        "required": [
+          "nombre",
+          "unidadMedida"
+        ],
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "unidadMedida": {
+            "$ref": "#/components/schemas/UnidadMedidaEnum"
+          },
+          "stockActual": {
+            "minimum": 0,
+            "type": "number",
+            "format": "double"
+          },
+          "stockMinimo": {
+            "minimum": 0,
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CrearProductoDto": {
+        "required": [
+          "nombre",
+          "precio"
+        ],
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipo": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "precio": {
+            "maximum": 99999.99,
+            "minimum": 0.01,
+            "type": "number",
+            "format": "double"
+          },
+          "almacenable": {
+            "type": "boolean"
+          },
+          "imagenUrl": {
+            "maxLength": 255,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CrearRepartidorDto": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellidos": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefono": {
+            "type": "string",
+            "nullable": true
+          },
+          "usuarioId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DetallePedidoCompletoDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productoId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productoNombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "cantidad": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "subtotal": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DetallePedidoDto": {
+        "required": [
+          "cantidad",
+          "productoId"
+        ],
+        "type": "object",
+        "properties": {
+          "productoId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cantidad": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Empleado": {
+        "required": [
+          "apellidos",
+          "nombre",
+          "usuarioId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "apellidos": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "telefono": {
+            "maxLength": 20,
+            "type": "string",
+            "nullable": true
+          },
+          "usuarioId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fechaIngreso": {
             "type": "string",
             "format": "date-time"
           },
-          "pedido": {
-            "$ref": "#/components/schemas/Pedido"
+          "activo": {
+            "type": "boolean"
           },
           "usuario": {
             "$ref": "#/components/schemas/Usuario"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EstadoCajaEnum": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "EstadoPedidoEnum": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "Insumo": {
+        "required": [
+          "nombre"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "unidadMedida": {
+            "$ref": "#/components/schemas/UnidadMedidaEnum"
+          },
+          "stockActual": {
+            "type": "number",
+            "format": "double"
+          },
+          "stockMinimo": {
+            "type": "number",
+            "format": "double"
+          },
+          "ultimaActualizacion": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InventarioLog": {
+        "required": [
+          "cantidad",
+          "insumoId",
+          "tipoMovimiento"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "insumoId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cantidad": {
+            "type": "number",
+            "format": "double"
+          },
+          "tipoMovimiento": {
+            "$ref": "#/components/schemas/TipoMovimientoEnum"
+          },
+          "motivo": {
+            "type": "string",
+            "nullable": true
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "insumo": {
+            "$ref": "#/components/schemas/Insumo"
           }
         },
         "additionalProperties": false
@@ -2857,177 +3545,32 @@
         },
         "additionalProperties": false
       },
-      "MateriaPrima": {
-        "required": [
-          "nombre"
+      "MetodoPagoEnum": {
+        "enum": [
+          0,
+          1,
+          2,
+          3
         ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "cantidadActual": {
-            "type": "number",
-            "format": "double"
-          },
-          "fechaActualizacion": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "nombre": {
-            "maxLength": 100,
-            "minLength": 1,
-            "type": "string"
-          },
-          "proveedorId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "puntoReorden": {
-            "type": "number",
-            "format": "double"
-          },
-          "unidadMedida": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
+        "type": "integer",
+        "format": "int32"
       },
-      "Merma": {
-        "required": [
-          "materiaPrimaId"
+      "OrigenPedidoEnum": {
+        "enum": [
+          0,
+          1,
+          2,
+          3
         ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "cantidad": {
-            "type": "number",
-            "format": "double"
-          },
-          "comentarios": {
-            "maxLength": 255,
-            "type": "string",
-            "nullable": true
-          },
-          "fechaRegistro": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "materiaPrimaId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "tipo": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "materiaPrima": {
-            "$ref": "#/components/schemas/MateriaPrima"
-          }
-        },
-        "additionalProperties": false
-      },
-      "MovimientoCaja": {
-        "required": [
-          "sesionId"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "concepto": {
-            "type": "string",
-            "nullable": true
-          },
-          "fechaRegistro": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "monto": {
-            "type": "number",
-            "format": "double"
-          },
-          "sesionId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "tipoMovimiento": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "usuarioId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "sesion": {
-            "$ref": "#/components/schemas/SesionCaja"
-          }
-        },
-        "additionalProperties": false
-      },
-      "MovimientoInventario": {
-        "required": [
-          "cantidad",
-          "motivo",
-          "productoId",
-          "tipo"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "productoId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "tipo": {
-            "$ref": "#/components/schemas/TipoMovimiento"
-          },
-          "cantidad": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "motivo": {
-            "maxLength": 255,
-            "minLength": 1,
-            "type": "string"
-          },
-          "observaciones": {
-            "maxLength": 500,
-            "type": "string",
-            "nullable": true
-          },
-          "usuarioId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "rowVersion": {
-            "type": "string",
-            "format": "byte",
-            "nullable": true
-          },
-          "creadoEn": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false
+        "type": "integer",
+        "format": "int32"
       },
       "Pedido": {
         "required": [
-          "direccionEntrega",
           "estado",
+          "metodoPago",
+          "origen",
+          "tipo",
           "total"
         ],
         "type": "object",
@@ -3038,95 +3581,89 @@
           },
           "clienteId": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "repartidorId": {
             "type": "integer",
             "format": "int32",
             "nullable": true
           },
+          "tipo": {
+            "$ref": "#/components/schemas/TipoPedidoEnum"
+          },
           "estado": {
-            "$ref": "#/components/schemas/EstadoPedido"
+            "$ref": "#/components/schemas/EstadoPedidoEnum"
+          },
+          "metodoPago": {
+            "$ref": "#/components/schemas/MetodoPagoEnum"
+          },
+          "origen": {
+            "$ref": "#/components/schemas/OrigenPedidoEnum"
           },
           "total": {
             "type": "number",
             "format": "double"
           },
           "direccionEntrega": {
-            "maxLength": 200,
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "observaciones": {
-            "maxLength": 500,
             "type": "string",
             "nullable": true
           },
-          "telefonoContacto": {
-            "maxLength": 20,
-            "type": "string",
-            "nullable": true
-          },
-          "fechaPreparacion": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "fechaEnvio": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "fechaEntrega": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "rowVersion": {
-            "type": "string",
-            "format": "byte",
-            "nullable": true
-          },
-          "creadoEn": {
+          "fechaPedido": {
             "type": "string",
             "format": "date-time"
-          },
-          "actualizadoEn": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
           },
           "cliente": {
             "$ref": "#/components/schemas/Cliente"
           },
           "repartidor": {
             "$ref": "#/components/schemas/Repartidor"
-          },
-          "detalles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DetallePedido"
-            },
-            "nullable": true
-          },
-          "historialEstados": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/HistorialEstadoPedido"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "PedidoResumenDTO": {
+      "PedidoCompletoDto": {
         "type": "object",
         "properties": {
           "id": {
             "type": "integer",
             "format": "int32"
           },
+          "clienteId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "clienteNombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "repartidorId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "repartidorNombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipo": {
+            "type": "string",
+            "nullable": true
+          },
           "estado": {
+            "type": "string",
+            "nullable": true
+          },
+          "metodoPago": {
+            "type": "string",
+            "nullable": true
+          },
+          "origen": {
             "type": "string",
             "nullable": true
           },
@@ -3138,99 +3675,20 @@
             "type": "string",
             "nullable": true
           },
-          "telefonoContacto": {
+          "observaciones": {
             "type": "string",
             "nullable": true
           },
-          "creadoEn": {
+          "fechaPedido": {
             "type": "string",
             "format": "date-time"
-          },
-          "cliente": {
-            "type": "string",
-            "nullable": true
-          },
-          "repartidor": {
-            "type": "string",
-            "nullable": true
           },
           "detalles": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/DetallePedidoResumenDTO"
+              "$ref": "#/components/schemas/DetallePedidoCompletoDto"
             },
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Persona": {
-        "required": [
-          "nombre",
-          "telefono"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "apellido": {
-            "maxLength": 50,
-            "type": "string",
-            "nullable": true
-          },
-          "calle": {
-            "maxLength": 100,
-            "type": "string",
-            "nullable": true
-          },
-          "codigoPostal": {
-            "maxLength": 10,
-            "type": "string",
-            "nullable": true
-          },
-          "colonia": {
-            "maxLength": 100,
-            "type": "string",
-            "nullable": true
-          },
-          "estado": {
-            "maxLength": 100,
-            "type": "string",
-            "nullable": true
-          },
-          "fechaRegistro": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "municipio": {
-            "maxLength": 100,
-            "type": "string",
-            "nullable": true
-          },
-          "nombre": {
-            "maxLength": 50,
-            "minLength": 1,
-            "type": "string"
-          },
-          "numero": {
-            "maxLength": 10,
-            "type": "string",
-            "nullable": true
-          },
-          "telefono": {
-            "maxLength": 15,
-            "minLength": 1,
-            "type": "string"
-          },
-          "usuarioId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "usuario": {
-            "$ref": "#/components/schemas/Usuario"
           }
         },
         "additionalProperties": false
@@ -3264,11 +3722,8 @@
       },
       "Producto": {
         "required": [
-          "descripcion",
           "nombre",
-          "precio",
-          "stockActual",
-          "stockMinimo"
+          "precio"
         ],
         "type": "object",
         "properties": {
@@ -3282,85 +3737,28 @@
             "type": "string"
           },
           "descripcion": {
-            "maxLength": 500,
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
+          },
+          "tipo": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
           },
           "precio": {
             "type": "number",
             "format": "double"
           },
-          "stockActual": {
-            "type": "integer",
-            "format": "int32"
+          "almacenable": {
+            "type": "boolean"
           },
-          "stockMinimo": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "rutaImagen": {
+          "imagenUrl": {
             "maxLength": 255,
             "type": "string",
             "nullable": true
           },
           "activo": {
             "type": "boolean"
-          },
-          "rowVersion": {
-            "type": "string",
-            "format": "byte",
-            "nullable": true
-          },
-          "creadoEn": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "actualizadoEn": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "movimientosInventario": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MovimientoInventario"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Proveedor": {
-        "required": [
-          "nombre"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "direccion": {
-            "maxLength": 255,
-            "type": "string",
-            "nullable": true
-          },
-          "nombre": {
-            "maxLength": 100,
-            "minLength": 1,
-            "type": "string"
-          },
-          "telefono": {
-            "maxLength": 15,
-            "type": "string",
-            "nullable": true
-          },
-          "materiasPrimas": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MateriaPrima"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -3406,93 +3804,130 @@
         },
         "additionalProperties": false
       },
-      "RegistroClienteDTO": {
+      "RegistrarCalificacionDto": {
+        "required": [
+          "estrellas"
+        ],
         "type": "object",
         "properties": {
-          "email": {
+          "estrellas": {
+            "maximum": 5,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "comentario": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RegistrarMovimientoInventarioDto": {
+        "required": [
+          "cantidad",
+          "insumoId",
+          "tipoMovimiento"
+        ],
+        "type": "object",
+        "properties": {
+          "insumoId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cantidad": {
+            "minimum": 0.01,
+            "type": "number",
+            "format": "double"
+          },
+          "tipoMovimiento": {
+            "$ref": "#/components/schemas/TipoMovimientoEnum"
+          },
+          "motivo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RegistrarPedidoDto": {
+        "required": [
+          "detalles",
+          "metodoPago",
+          "origen",
+          "tipo"
+        ],
+        "type": "object",
+        "properties": {
+          "clienteId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tipo": {
+            "$ref": "#/components/schemas/TipoPedidoEnum"
+          },
+          "metodoPago": {
+            "$ref": "#/components/schemas/MetodoPagoEnum"
+          },
+          "origen": {
+            "$ref": "#/components/schemas/OrigenPedidoEnum"
+          },
+          "direccionEntrega": {
             "type": "string",
             "nullable": true
           },
-          "password": {
+          "observaciones": {
             "type": "string",
             "nullable": true
           },
-          "numeroCelular": {
-            "type": "string",
+          "detalles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DetallePedidoDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "RegistrarVentaDto": {
+        "required": [
+          "cajaId",
+          "metodoPago",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "cajaId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pedidoId": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
-          "nombre": {
-            "type": "string",
+          "empleadoId": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
-          "apellido": {
-            "type": "string",
-            "nullable": true
+          "metodoPago": {
+            "$ref": "#/components/schemas/MetodoPagoEnum"
           },
-          "colonia": {
-            "type": "string",
-            "nullable": true
-          },
-          "calle": {
-            "type": "string",
-            "nullable": true
-          },
-          "numero": {
-            "type": "string",
-            "nullable": true
-          },
-          "distanciaAproximada": {
+          "total": {
+            "minimum": 0.01,
             "type": "number",
             "format": "double"
           }
         },
         "additionalProperties": false
       },
-      "RegistroRepartidorDTO": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "password": {
-            "type": "string",
-            "nullable": true
-          },
-          "numeroCelular": {
-            "type": "string",
-            "nullable": true
-          },
-          "sobrenombre": {
-            "type": "string",
-            "nullable": true
-          },
-          "nombre": {
-            "type": "string",
-            "nullable": true
-          },
-          "apellido": {
-            "type": "string",
-            "nullable": true
-          },
-          "colonia": {
-            "type": "string",
-            "nullable": true
-          },
-          "calle": {
-            "type": "string",
-            "nullable": true
-          },
-          "numero": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "Repartidor": {
         "required": [
-          "personaId"
+          "apellidos",
+          "nombre",
+          "usuarioId"
         ],
         "type": "object",
         "properties": {
@@ -3500,133 +3935,35 @@
             "type": "integer",
             "format": "int32"
           },
-          "personaId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "sobrenombre": {
-            "maxLength": 50,
-            "type": "string",
-            "nullable": true
-          },
-          "vehiculoAsignado": {
-            "type": "string",
-            "nullable": true
-          },
-          "horarioTrabajo": {
-            "type": "string",
-            "nullable": true
-          },
-          "disponible": {
-            "type": "boolean"
-          },
-          "activo": {
-            "type": "boolean"
-          },
-          "rowVersion": {
-            "type": "string",
-            "format": "byte",
-            "nullable": true
-          },
-          "persona": {
-            "$ref": "#/components/schemas/Persona"
-          },
-          "pedidos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Pedido"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "RepartidorDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "numeroCelular": {
-            "type": "string",
-            "nullable": true
-          },
-          "sobrenombre": {
-            "type": "string",
-            "nullable": true
-          },
           "nombre": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "apellidos": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "telefono": {
+            "maxLength": 20,
             "type": "string",
             "nullable": true
           },
-          "apellido": {
-            "type": "string",
-            "nullable": true
+          "usuarioId": {
+            "type": "integer",
+            "format": "int32"
           },
-          "colonia": {
-            "type": "string",
-            "nullable": true
+          "estado": {
+            "$ref": "#/components/schemas/RepartidorEstadoEnum"
           },
-          "calle": {
-            "type": "string",
-            "nullable": true
-          },
-          "numero": {
-            "type": "string",
-            "nullable": true
-          },
-          "disponible": {
-            "type": "boolean"
+          "usuario": {
+            "$ref": "#/components/schemas/Usuario"
           }
         },
         "additionalProperties": false
       },
-      "SesionCaja": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "diferencia": {
-            "type": "number",
-            "format": "double"
-          },
-          "efectivoFinal": {
-            "type": "number",
-            "format": "double"
-          },
-          "fechaApertura": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "fechaCierre": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "fondoInicial": {
-            "type": "number",
-            "format": "double"
-          },
-          "idUsuarioApertura": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "idUsuarioCierre": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "ventasSistema": {
-            "type": "number",
-            "format": "double"
-          }
-        },
-        "additionalProperties": false
-      },
-      "TipoMovimiento": {
+      "RepartidorEstadoEnum": {
         "enum": [
           0,
           1,
@@ -3635,33 +3972,77 @@
         "type": "integer",
         "format": "int32"
       },
-      "TokenRevocado": {
-        "required": [
-          "token"
-        ],
+      "ResumenCajaDto": {
         "type": "object",
         "properties": {
           "id": {
             "type": "integer",
             "format": "int32"
           },
-          "token": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "fechaRevocacion": {
+          "fecha": {
             "type": "string",
             "format": "date-time"
           },
-          "usuarioId": {
+          "saldoInicial": {
+            "type": "number",
+            "format": "double"
+          },
+          "saldoFinal": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalVentas": {
+            "type": "number",
+            "format": "double"
+          },
+          "cantidadVentas": {
             "type": "integer",
             "format": "int32"
           },
-          "usuario": {
-            "$ref": "#/components/schemas/Usuario"
+          "ventasPorMetodoPago": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "format": "double"
+            },
+            "nullable": true
+          },
+          "empleadoNombre": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
+      },
+      "TipoMovimientoEnum": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "TipoPedidoEnum": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "UnidadMedidaEnum": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "type": "integer",
+        "format": "int32"
       },
       "UserInfoDTO": {
         "type": "object",
@@ -3687,9 +4068,9 @@
       },
       "Usuario": {
         "required": [
-          "contraseñaHash",
-          "email",
-          "estado",
+          "correo",
+          "nombreUsuario",
+          "passwordHash",
           "rol"
         ],
         "type": "object",
@@ -3698,12 +4079,22 @@
             "type": "integer",
             "format": "int32"
           },
-          "email": {
+          "nombreUsuario": {
             "maxLength": 100,
             "minLength": 1,
             "type": "string"
           },
-          "contraseñaHash": {
+          "telefono": {
+            "maxLength": 20,
+            "type": "string",
+            "nullable": true
+          },
+          "correo": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "passwordHash": {
             "maxLength": 255,
             "minLength": 1,
             "type": "string"
@@ -3711,44 +4102,15 @@
           "rol": {
             "$ref": "#/components/schemas/UsuarioRolEnum"
           },
-          "estado": {
-            "$ref": "#/components/schemas/UsuarioEstado"
+          "activo": {
+            "type": "boolean"
           },
-          "fechaRegistro": {
+          "fechaCreacion": {
             "type": "string",
             "format": "date-time"
-          },
-          "rowVersion": {
-            "type": "string",
-            "format": "byte",
-            "nullable": true
-          },
-          "tokensRevocados": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TokenRevocado"
-            },
-            "nullable": true
-          },
-          "persona": {
-            "$ref": "#/components/schemas/Persona"
-          },
-          "cliente": {
-            "$ref": "#/components/schemas/Cliente"
-          },
-          "repartidor": {
-            "$ref": "#/components/schemas/Repartidor"
           }
         },
         "additionalProperties": false
-      },
-      "UsuarioEstado": {
-        "enum": [
-          0,
-          1
-        ],
-        "type": "integer",
-        "format": "int32"
       },
       "UsuarioRolEnum": {
         "enum": [
@@ -3759,6 +4121,55 @@
         ],
         "type": "integer",
         "format": "int32"
+      },
+      "Venta": {
+        "required": [
+          "cajaId",
+          "metodoPago",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cajaId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pedidoId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "empleadoId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "metodoPago": {
+            "$ref": "#/components/schemas/MetodoPagoEnum"
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          },
+          "fechaVenta": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "caja": {
+            "$ref": "#/components/schemas/Caja"
+          },
+          "pedido": {
+            "$ref": "#/components/schemas/Pedido"
+          },
+          "empleado": {
+            "$ref": "#/components/schemas/Empleado"
+          }
+        },
+        "additionalProperties": false
       }
     },
     "securitySchemes": {

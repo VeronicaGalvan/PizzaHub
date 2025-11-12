@@ -1,43 +1,43 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PizzaHubAPI.Models;
 
+[Table("productos")]
 public class Producto
 {
     [Key]
+    [Column("id")]
     public int Id { get; set; }
     
     [Required]
     [MaxLength(100)]
+    [Column("nombre")]
     public string Nombre { get; set; } = null!;
     
-    [Required]
-    [MaxLength(500)]
-    public string Descripcion { get; set; } = null!;
+    [Column("descripcion")]
+    public string? Descripcion { get; set; }
+    
+    [MaxLength(50)]
+    [Column("tipo")]
+    public string? Tipo { get; set; }
     
     [Required]
-    [Column(TypeName = "decimal(18,2)")]
-    public decimal Precio { get; set; }
+    [Column("precio", TypeName = "decimal(10,2)")]
+    public decimal Precio { get; set; } = 0;
     
-    [Required]
-    public int StockActual { get; set; }
-    
-    [Required]
-    public int StockMinimo { get; set; }
+    [Column("almacenable")]
+    public bool Almacenable { get; set; } = false;
     
     [MaxLength(255)]
-    public string? RutaImagen { get; set; }
+    [Column("imagen_url")]
+    public string? ImagenUrl { get; set; }
     
+    [Column("activo")]
     public bool Activo { get; set; } = true;
     
-    [Timestamp]
-    public byte[]? RowVersion { get; set; }
-    
-    public DateTime CreadoEn { get; set; }
-    
-    public DateTime? ActualizadoEn { get; set; }
-    
     // Relaciones
-    public virtual ICollection<MovimientoInventario> MovimientosInventario { get; set; } = new List<MovimientoInventario>();
+    [JsonIgnore]
+    public virtual ICollection<DetallePedido> DetallesPedido { get; set; } = new List<DetallePedido>();
 }

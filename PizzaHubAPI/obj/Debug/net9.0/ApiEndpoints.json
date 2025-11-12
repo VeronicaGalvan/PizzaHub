@@ -1,7 +1,156 @@
 [
   {
+    "ContainingType": "PizzaHubAPI.Controllers.CajaController",
+    "Method": "GetCajas",
+    "RelativePath": "api/Caja",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Caja, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.CajaController",
+    "Method": "GetCaja",
+    "RelativePath": "api/Caja/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PizzaHubAPI.Models.Caja",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.CajaController",
+    "Method": "CerrarCaja",
+    "RelativePath": "api/Caja/{id}/cerrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.CerrarCajaDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PizzaHubAPI.Models.DTOs.ResumenCajaDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.CajaController",
+    "Method": "GetResumenCaja",
+    "RelativePath": "api/Caja/{id}/resumen",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PizzaHubAPI.Models.DTOs.ResumenCajaDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.CajaController",
+    "Method": "GetCajaAbierta",
+    "RelativePath": "api/Caja/abierta",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "PizzaHubAPI.Models.Caja",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.CajaController",
+    "Method": "AbrirCaja",
+    "RelativePath": "api/Caja/abrir",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.AbrirCajaDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PizzaHubAPI.Models.Caja",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "PizzaHubAPI.Controllers.CalificacionesController",
-    "Method": "GetAll",
+    "Method": "GetCalificaciones",
     "RelativePath": "api/Calificaciones",
     "HttpMethod": "GET",
     "IsController": true,
@@ -9,7 +158,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.CalificacionPedido, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Calificacion, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -21,33 +170,7 @@
   },
   {
     "ContainingType": "PizzaHubAPI.Controllers.CalificacionesController",
-    "Method": "Create",
-    "RelativePath": "api/Calificaciones",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "cal",
-        "Type": "PizzaHubAPI.Models.CalificacionPedido",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "PizzaHubAPI.Models.CalificacionPedido",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.CalificacionesController",
-    "Method": "Get",
+    "Method": "GetCalificacion",
     "RelativePath": "api/Calificaciones/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -61,7 +184,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "PizzaHubAPI.Models.CalificacionPedido",
+        "Type": "PizzaHubAPI.Models.Calificacion",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -72,56 +195,10 @@
     ]
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.ChatMensajesController",
-    "Method": "GetAll",
-    "RelativePath": "api/ChatMensajes",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.ChatMensaje, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.ChatMensajesController",
-    "Method": "Create",
-    "RelativePath": "api/ChatMensajes",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "mensaje",
-        "Type": "PizzaHubAPI.Models.ChatMensaje",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "PizzaHubAPI.Models.ChatMensaje",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.ChatMensajesController",
-    "Method": "Get",
-    "RelativePath": "api/ChatMensajes/{id}",
-    "HttpMethod": "GET",
+    "ContainingType": "PizzaHubAPI.Controllers.CalificacionesController",
+    "Method": "DeleteCalificacion",
+    "RelativePath": "api/Calificaciones/{id}",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -131,9 +208,40 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.CalificacionesController",
+    "Method": "GetEstadisticas",
+    "RelativePath": "api/Calificaciones/estadisticas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.CalificacionesController",
+    "Method": "RegistrarCalificacion",
+    "RelativePath": "api/Calificaciones/pedido/{pedidoId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pedidoId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.RegistrarCalificacionDto",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": [
       {
-        "Type": "PizzaHubAPI.Models.ChatMensaje",
+        "Type": "PizzaHubAPI.Models.Calificacion",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -142,6 +250,42 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.CalificacionesController",
+    "Method": "GetCalificacionPorPedido",
+    "RelativePath": "api/Calificaciones/pedido/{pedidoId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pedidoId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PizzaHubAPI.Models.Calificacion",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.CalificacionesController",
+    "Method": "GetPromedioCalificaciones",
+    "RelativePath": "api/Calificaciones/promedio",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "PizzaHubAPI.Controllers.ClientesController",
@@ -153,7 +297,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.DTOs.ClienteDTO, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Cliente, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -165,15 +309,21 @@
   },
   {
     "ContainingType": "PizzaHubAPI.Controllers.ClientesController",
-    "Method": "GetPerfil",
-    "RelativePath": "api/Clientes/perfil",
-    "HttpMethod": "GET",
+    "Method": "CreateCliente",
+    "RelativePath": "api/Clientes",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.CrearClienteDto",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": [
       {
-        "Type": "PizzaHubAPI.Models.DTOs.ClienteDTO",
+        "Type": "PizzaHubAPI.Models.Cliente",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -185,80 +335,8 @@
   },
   {
     "ContainingType": "PizzaHubAPI.Controllers.ClientesController",
-    "Method": "RegistrarCliente",
-    "RelativePath": "api/Clientes/registro",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "registro",
-        "Type": "PizzaHubAPI.Models.DTOs.RegistroClienteDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "PizzaHubAPI.Models.DTOs.LoginResponseDTO",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.HistorialEstadoPedidoController",
-    "Method": "GetAll",
-    "RelativePath": "api/HistorialEstadoPedido",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.HistorialEstadoPedido, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.HistorialEstadoPedidoController",
-    "Method": "Create",
-    "RelativePath": "api/HistorialEstadoPedido",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "historial",
-        "Type": "PizzaHubAPI.Models.HistorialEstadoPedido",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "PizzaHubAPI.Models.HistorialEstadoPedido",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.HistorialEstadoPedidoController",
-    "Method": "Get",
-    "RelativePath": "api/HistorialEstadoPedido/{id}",
+    "Method": "GetCliente",
+    "RelativePath": "api/Clientes/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -271,7 +349,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "PizzaHubAPI.Models.HistorialEstadoPedido",
+        "Type": "PizzaHubAPI.Models.Cliente",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -282,173 +360,9 @@
     ]
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.InventarioController",
-    "Method": "GetMovimientos",
-    "RelativePath": "api/Inventario/movimientos",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.MovimientoInventario, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.InventarioController",
-    "Method": "CreateMovimiento",
-    "RelativePath": "api/Inventario/movimientos",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "movimientoDto",
-        "Type": "PizzaHubAPI.Models.DTOs.CrearMovimientoInventarioDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "PizzaHubAPI.Models.MovimientoInventario",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.InventarioController",
-    "Method": "GetMovimiento",
-    "RelativePath": "api/Inventario/movimientos/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "PizzaHubAPI.Models.MovimientoInventario",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.InventarioController",
-    "Method": "GetProductosBajoStock",
-    "RelativePath": "api/Inventario/productos-bajo-stock",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Producto, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.MateriasPrimasController",
-    "Method": "GetAll",
-    "RelativePath": "api/MateriasPrimas",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.MateriaPrima, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.MateriasPrimasController",
-    "Method": "Create",
-    "RelativePath": "api/MateriasPrimas",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "materiaDto",
-        "Type": "PizzaHubAPI.Models.DTOs.CrearMateriaPrimaDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "PizzaHubAPI.Models.MateriaPrima",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.MateriasPrimasController",
-    "Method": "Get",
-    "RelativePath": "api/MateriasPrimas/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "PizzaHubAPI.Models.MateriaPrima",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.MateriasPrimasController",
-    "Method": "Update",
-    "RelativePath": "api/MateriasPrimas/{id}",
+    "ContainingType": "PizzaHubAPI.Controllers.ClientesController",
+    "Method": "UpdateCliente",
+    "RelativePath": "api/Clientes/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -459,17 +373,17 @@
         "IsRequired": true
       },
       {
-        "Name": "materia",
-        "Type": "PizzaHubAPI.Models.MateriaPrima",
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.CrearClienteDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.MateriasPrimasController",
-    "Method": "Delete",
-    "RelativePath": "api/MateriasPrimas/{id}",
+    "ContainingType": "PizzaHubAPI.Controllers.ClientesController",
+    "Method": "DeleteCliente",
+    "RelativePath": "api/Clientes/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -483,16 +397,42 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.MermasController",
-    "Method": "GetAll",
-    "RelativePath": "api/Mermas",
+    "ContainingType": "PizzaHubAPI.Controllers.ClientesController",
+    "Method": "GetClientePorUsuario",
+    "RelativePath": "api/Clientes/usuario/{usuarioId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "usuarioId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PizzaHubAPI.Models.Cliente",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.EmpleadosController",
+    "Method": "GetEmpleados",
+    "RelativePath": "api/Empleados",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Merma, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Empleado, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -503,22 +443,22 @@
     ]
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.MermasController",
-    "Method": "Create",
-    "RelativePath": "api/Mermas",
+    "ContainingType": "PizzaHubAPI.Controllers.EmpleadosController",
+    "Method": "CreateEmpleado",
+    "RelativePath": "api/Empleados",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "merma",
-        "Type": "PizzaHubAPI.Models.Merma",
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.CrearEmpleadoDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "PizzaHubAPI.Models.Merma",
+        "Type": "PizzaHubAPI.Models.Empleado",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -529,9 +469,9 @@
     ]
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.MermasController",
-    "Method": "Get",
-    "RelativePath": "api/Mermas/{id}",
+    "ContainingType": "PizzaHubAPI.Controllers.EmpleadosController",
+    "Method": "GetEmpleado",
+    "RelativePath": "api/Empleados/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -544,7 +484,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "PizzaHubAPI.Models.Merma",
+        "Type": "PizzaHubAPI.Models.Empleado",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -555,9 +495,30 @@
     ]
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.MermasController",
-    "Method": "Delete",
-    "RelativePath": "api/Mermas/{id}",
+    "ContainingType": "PizzaHubAPI.Controllers.EmpleadosController",
+    "Method": "UpdateEmpleado",
+    "RelativePath": "api/Empleados/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.CrearEmpleadoDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.EmpleadosController",
+    "Method": "DeleteEmpleado",
+    "RelativePath": "api/Empleados/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -571,16 +532,16 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.MovimientosCajaController",
-    "Method": "GetAll",
-    "RelativePath": "api/MovimientosCaja",
+    "ContainingType": "PizzaHubAPI.Controllers.EmpleadosController",
+    "Method": "GetEmpleadosActivos",
+    "RelativePath": "api/Empleados/activos",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.MovimientoCaja, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Empleado, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -591,22 +552,42 @@
     ]
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.MovimientosCajaController",
-    "Method": "Create",
-    "RelativePath": "api/MovimientosCaja",
+    "ContainingType": "PizzaHubAPI.Controllers.InsumosController",
+    "Method": "GetInsumos",
+    "RelativePath": "api/Insumos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Insumo, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.InsumosController",
+    "Method": "CreateInsumo",
+    "RelativePath": "api/Insumos",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "movimiento",
-        "Type": "PizzaHubAPI.Models.MovimientoCaja",
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.CrearInsumoDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "PizzaHubAPI.Models.MovimientoCaja",
+        "Type": "PizzaHubAPI.Models.Insumo",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -617,9 +598,9 @@
     ]
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.MovimientosCajaController",
-    "Method": "Get",
-    "RelativePath": "api/MovimientosCaja/{id}",
+    "ContainingType": "PizzaHubAPI.Controllers.InsumosController",
+    "Method": "GetInsumo",
+    "RelativePath": "api/Insumos/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -632,7 +613,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "PizzaHubAPI.Models.MovimientoCaja",
+        "Type": "PizzaHubAPI.Models.Insumo",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -643,9 +624,30 @@
     ]
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.MovimientosCajaController",
-    "Method": "Delete",
-    "RelativePath": "api/MovimientosCaja/{id}",
+    "ContainingType": "PizzaHubAPI.Controllers.InsumosController",
+    "Method": "UpdateInsumo",
+    "RelativePath": "api/Insumos/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.CrearInsumoDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.InsumosController",
+    "Method": "DeleteInsumo",
+    "RelativePath": "api/Insumos/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -659,16 +661,216 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.PedidosController",
+    "ContainingType": "PizzaHubAPI.Controllers.InsumosController",
+    "Method": "GetInsumosBajoStock",
+    "RelativePath": "api/Insumos/bajo-stock",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Insumo, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.InventarioLogController",
+    "Method": "GetInventarioLogs",
+    "RelativePath": "api/InventarioLog",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.InventarioLog, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.InventarioLogController",
+    "Method": "RegistrarMovimiento",
+    "RelativePath": "api/InventarioLog",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.RegistrarMovimientoInventarioDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PizzaHubAPI.Models.InventarioLog",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.InventarioLogController",
+    "Method": "GetInventarioLog",
+    "RelativePath": "api/InventarioLog/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PizzaHubAPI.Models.InventarioLog",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.InventarioLogController",
+    "Method": "DeleteInventarioLog",
+    "RelativePath": "api/InventarioLog/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.InventarioLogController",
+    "Method": "GetEntradas",
+    "RelativePath": "api/InventarioLog/entradas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.InventarioLog, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.InventarioLogController",
+    "Method": "GetMovimientosPorFecha",
+    "RelativePath": "api/InventarioLog/fecha/{fecha}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fecha",
+        "Type": "System.DateTime",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.InventarioLog, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.InventarioLogController",
+    "Method": "GetMovimientosPorInsumo",
+    "RelativePath": "api/InventarioLog/insumo/{insumoId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "insumoId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.InventarioLog, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.InventarioLogController",
+    "Method": "GetSalidas",
+    "RelativePath": "api/InventarioLog/salidas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.InventarioLog, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.PedidosNewController",
     "Method": "GetPedidos",
-    "RelativePath": "api/Pedidos",
+    "RelativePath": "api/PedidosNew",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.DTOs.PedidoResumenDTO, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.DTOs.PedidoCompletoDto, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -679,35 +881,9 @@
     ]
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.PedidosController",
-    "Method": "CreatePedido",
-    "RelativePath": "api/Pedidos",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "pedidoDto",
-        "Type": "PizzaHubAPI.Models.DTOs.CrearPedidoDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "PizzaHubAPI.Models.DTOs.PedidoResumenDTO",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.PedidosController",
+    "ContainingType": "PizzaHubAPI.Controllers.PedidosNewController",
     "Method": "GetPedido",
-    "RelativePath": "api/Pedidos/{id}",
+    "RelativePath": "api/PedidosNew/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -720,7 +896,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "PizzaHubAPI.Models.DTOs.PedidoResumenDTO",
+        "Type": "PizzaHubAPI.Models.DTOs.PedidoCompletoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -731,9 +907,25 @@
     ]
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.PedidosController",
-    "Method": "UpdateEstadoPedido",
-    "RelativePath": "api/Pedidos/{id}/estado",
+    "ContainingType": "PizzaHubAPI.Controllers.PedidosNewController",
+    "Method": "DeletePedido",
+    "RelativePath": "api/PedidosNew/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.PedidosNewController",
+    "Method": "AsignarRepartidor",
+    "RelativePath": "api/PedidosNew/{id}/asignar-repartidor",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -744,12 +936,137 @@
         "IsRequired": true
       },
       {
-        "Name": "actualizacionDto",
-        "Type": "PizzaHubAPI.Models.DTOs.ActualizarEstadoPedidoDTO",
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.AsignarRepartidorDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.PedidosNewController",
+    "Method": "CambiarEstado",
+    "RelativePath": "api/PedidosNew/{id}/estado",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "nuevoEstado",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.PedidosNewController",
+    "Method": "GetPedidosPorCliente",
+    "RelativePath": "api/PedidosNew/cliente/{clienteId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clienteId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.DTOs.PedidoCompletoDto, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.PedidosNewController",
+    "Method": "GetPedidosPorEstado",
+    "RelativePath": "api/PedidosNew/estado/{estado}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "estado",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.DTOs.PedidoCompletoDto, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.PedidosNewController",
+    "Method": "RegistrarPedido",
+    "RelativePath": "api/PedidosNew/registrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.RegistrarPedidoDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PizzaHubAPI.Models.DTOs.PedidoCompletoDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.PedidosNewController",
+    "Method": "GetPedidosPorRepartidor",
+    "RelativePath": "api/PedidosNew/repartidor/{repartidorId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "repartidorId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.DTOs.PedidoCompletoDto, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "PizzaHubAPI.Controllers.ProductosController",
@@ -780,69 +1097,9 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "Nombre",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Descripcion",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Precio",
-        "Type": "System.Decimal",
-        "IsRequired": false
-      },
-      {
-        "Name": "StockActual",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "StockMinimo",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "RutaImagen",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Activo",
-        "Type": "System.Boolean",
-        "IsRequired": false
-      },
-      {
-        "Name": "RowVersion",
-        "Type": "System.Byte[]",
-        "IsRequired": false
-      },
-      {
-        "Name": "CreadoEn",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "ActualizadoEn",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "MovimientosInventario",
-        "Type": "System.Collections.Generic.ICollection\u00601[[PizzaHubAPI.Models.MovimientoInventario, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "imagen",
-        "Type": "Microsoft.AspNetCore.Http.IFormFile",
-        "IsRequired": false
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.CrearProductoDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -897,69 +1154,9 @@
         "IsRequired": true
       },
       {
-        "Name": "Id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "Nombre",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Descripcion",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Precio",
-        "Type": "System.Decimal",
-        "IsRequired": false
-      },
-      {
-        "Name": "StockActual",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "StockMinimo",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "RutaImagen",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Activo",
-        "Type": "System.Boolean",
-        "IsRequired": false
-      },
-      {
-        "Name": "RowVersion",
-        "Type": "System.Byte[]",
-        "IsRequired": false
-      },
-      {
-        "Name": "CreadoEn",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "ActualizadoEn",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "MovimientosInventario",
-        "Type": "System.Collections.Generic.ICollection\u00601[[PizzaHubAPI.Models.MovimientoInventario, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "imagen",
-        "Type": "Microsoft.AspNetCore.Http.IFormFile",
-        "IsRequired": false
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.CrearProductoDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -981,16 +1178,48 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.ProveedoresController",
-    "Method": "GetAll",
-    "RelativePath": "api/Proveedores",
+    "ContainingType": "PizzaHubAPI.Controllers.ProductosController",
+    "Method": "ActivarProducto",
+    "RelativePath": "api/Productos/{id}/activar",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.ProductosController",
+    "Method": "DesactivarProducto",
+    "RelativePath": "api/Productos/{id}/desactivar",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.ProductosController",
+    "Method": "GetProductosActivos",
+    "RelativePath": "api/Productos/activos",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Proveedor, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Producto, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1001,48 +1230,22 @@
     ]
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.ProveedoresController",
-    "Method": "Create",
-    "RelativePath": "api/Proveedores",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "proveedor",
-        "Type": "PizzaHubAPI.Models.Proveedor",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "PizzaHubAPI.Models.Proveedor",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.ProveedoresController",
-    "Method": "Get",
-    "RelativePath": "api/Proveedores/{id}",
+    "ContainingType": "PizzaHubAPI.Controllers.ProductosController",
+    "Method": "GetProductosPorTipo",
+    "RelativePath": "api/Productos/tipo/{tipo}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
+        "Name": "tipo",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "PizzaHubAPI.Models.Proveedor",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Producto, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1051,43 +1254,6 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.ProveedoresController",
-    "Method": "Update",
-    "RelativePath": "api/Proveedores/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "proveedor",
-        "Type": "PizzaHubAPI.Models.Proveedor",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.ProveedoresController",
-    "Method": "Delete",
-    "RelativePath": "api/Proveedores/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "PizzaHubAPI.Controllers.RepartidoresController",
@@ -1099,7 +1265,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.DTOs.RepartidorDTO, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Repartidor, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1111,62 +1277,21 @@
   },
   {
     "ContainingType": "PizzaHubAPI.Controllers.RepartidoresController",
-    "Method": "CambiarDisponibilidad",
-    "RelativePath": "api/Repartidores/{id}/disponibilidad",
-    "HttpMethod": "PATCH",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "disponible",
-        "Type": "System.Boolean",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.RepartidoresController",
-    "Method": "GetPerfil",
-    "RelativePath": "api/Repartidores/perfil",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "PizzaHubAPI.Models.DTOs.RepartidorDTO",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.RepartidoresController",
-    "Method": "RegistrarRepartidor",
-    "RelativePath": "api/Repartidores/registro",
+    "Method": "CreateRepartidor",
+    "RelativePath": "api/Repartidores",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "registro",
-        "Type": "PizzaHubAPI.Models.DTOs.RegistroRepartidorDTO",
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.CrearRepartidorDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "PizzaHubAPI.Models.DTOs.LoginResponseDTO",
+        "Type": "PizzaHubAPI.Models.Repartidor",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1177,55 +1302,9 @@
     ]
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.SesionesCajaController",
-    "Method": "GetAll",
-    "RelativePath": "api/SesionesCaja",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.SesionCaja, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.SesionesCajaController",
-    "Method": "Create",
-    "RelativePath": "api/SesionesCaja",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "sesion",
-        "Type": "PizzaHubAPI.Models.SesionCaja",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "PizzaHubAPI.Models.SesionCaja",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PizzaHubAPI.Controllers.SesionesCajaController",
-    "Method": "Get",
-    "RelativePath": "api/SesionesCaja/{id}",
+    "ContainingType": "PizzaHubAPI.Controllers.RepartidoresController",
+    "Method": "GetRepartidor",
+    "RelativePath": "api/Repartidores/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1238,7 +1317,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "PizzaHubAPI.Models.SesionCaja",
+        "Type": "PizzaHubAPI.Models.Repartidor",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1249,9 +1328,9 @@
     ]
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.SesionesCajaController",
-    "Method": "Update",
-    "RelativePath": "api/SesionesCaja/{id}",
+    "ContainingType": "PizzaHubAPI.Controllers.RepartidoresController",
+    "Method": "UpdateRepartidor",
+    "RelativePath": "api/Repartidores/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -1262,17 +1341,17 @@
         "IsRequired": true
       },
       {
-        "Name": "sesion",
-        "Type": "PizzaHubAPI.Models.SesionCaja",
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.CrearRepartidorDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "PizzaHubAPI.Controllers.SesionesCajaController",
-    "Method": "Delete",
-    "RelativePath": "api/SesionesCaja/{id}",
+    "ContainingType": "PizzaHubAPI.Controllers.RepartidoresController",
+    "Method": "DeleteRepartidor",
+    "RelativePath": "api/Repartidores/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1284,6 +1363,73 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.RepartidoresController",
+    "Method": "CambiarEstado",
+    "RelativePath": "api/Repartidores/{id}/estado",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.CambiarEstadoRepartidorDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.RepartidoresController",
+    "Method": "GetRepartidoresDisponibles",
+    "RelativePath": "api/Repartidores/disponibles",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Repartidor, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.RepartidoresController",
+    "Method": "GetRepartidorPorUsuario",
+    "RelativePath": "api/Repartidores/usuario/{usuarioId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "usuarioId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PizzaHubAPI.Models.Repartidor",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "PizzaHubAPI.Controllers.AuthController",
@@ -1403,6 +1549,172 @@
           "text/json"
         ],
         "StatusCode": 409
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.VentasController",
+    "Method": "GetVentas",
+    "RelativePath": "api/Ventas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Venta, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.VentasController",
+    "Method": "RegistrarVenta",
+    "RelativePath": "api/Ventas",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.RegistrarVentaDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PizzaHubAPI.Models.Venta",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.VentasController",
+    "Method": "GetVenta",
+    "RelativePath": "api/Ventas/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PizzaHubAPI.Models.Venta",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.VentasController",
+    "Method": "DeleteVenta",
+    "RelativePath": "api/Ventas/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.VentasController",
+    "Method": "GetVentasPorCaja",
+    "RelativePath": "api/Ventas/caja/{cajaId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cajaId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Venta, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.VentasController",
+    "Method": "GetVentasPorEmpleado",
+    "RelativePath": "api/Ventas/empleado/{empleadoId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "empleadoId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Venta, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.VentasController",
+    "Method": "GetVentasPorFecha",
+    "RelativePath": "api/Ventas/fecha/{fecha}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fecha",
+        "Type": "System.DateTime",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Venta, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
       }
     ]
   }

@@ -17,20 +17,19 @@ public class PedidoService
     {
         // Obtener repartidores que no están en un pedido en curso
         var repartidoresOcupados = await _context.Pedidos
-            .Where(p => p.Estado == EstadoPedido.EN_CAMINO)
+            .Where(p => p.Estado == EstadoPedidoEnum.EnCamino)
             .Select(p => p.RepartidorId)
             .ToListAsync();
 
         // Buscar un repartidor disponible que no esté en un pedido en curso
         var repartidorDisponible = await _context.Repartidores
-            .Include(r => r.Persona)
-            .Where(r => r.Disponible && r.Activo && r.Persona != null && !repartidoresOcupados.Contains(r.Id))
+            .Where(r => r.Estado == RepartidorEstadoEnum.Disponible && !repartidoresOcupados.Contains(r.Id))
             .FirstOrDefaultAsync();
 
         return repartidorDisponible;
     }
 
-    public async Task<bool> ActualizarEstadoPedido(Pedido pedido, EstadoPedido nuevoEstado, int usuarioId, string? observaciones = null)
+    public async Task<bool> ActualizarEstadoPedido(Pedido pedido, EstadoPedidoEnum nuevoEstado)
     {
         // Validar transición de estado
         if (!EsTransicionValida(pedido.Estado, nuevoEstado))
@@ -40,58 +39,33 @@ public class PedidoService
 
         // Actualizar estado del pedido
         pedido.Estado = nuevoEstado;
-        pedido.ActualizadoEn = DateTime.UtcNow;
 
-        // Actualizar fechas según el estado
-        switch (nuevoEstado)
+        // Asignar repartidor si pasa a En Camino y no tiene uno
+        if (nuevoEstado == EstadoPedidoEnum.EnCamino && pedido.RepartidorId == null)
         {
-            case EstadoPedido.PREPARACION:
-                pedido.FechaPreparacion = DateTime.UtcNow;
-                break;
-            case EstadoPedido.EN_CAMINO:
-                pedido.FechaEnvio = DateTime.UtcNow;
-                // Asignar repartidor si no tiene uno
-                if (pedido.RepartidorId == null)
-                {
-                    var repartidor = await AsignarRepartidorDisponible();
-                    if (repartidor == null)
-                    {
-                        return false;
-                    }
-                    pedido.RepartidorId = repartidor.Id;
-                }
-                break;
-            case EstadoPedido.ENTREGADO:
-                pedido.FechaEntrega = DateTime.UtcNow;
-                break;
+            var repartidor = await AsignarRepartidorDisponible();
+            if (repartidor == null)
+            {
+                return false;
+            }
+            pedido.RepartidorId = repartidor.Id;
         }
 
-        // Registrar en historial
-        var historial = new HistorialEstadoPedido
-        {
-            PedidoId = pedido.Id,
-            Estado = nuevoEstado,
-            UsuarioId = usuarioId,
-            Observaciones = observaciones,
-            CreadoEn = DateTime.UtcNow
-        };
-
-        _context.HistorialEstadoPedido.Add(historial);
         await _context.SaveChangesAsync();
 
         return true;
     }
 
-    private bool EsTransicionValida(EstadoPedido estadoActual, EstadoPedido nuevoEstado)
+    private bool EsTransicionValida(EstadoPedidoEnum estadoActual, EstadoPedidoEnum nuevoEstado)
     {
         return (estadoActual, nuevoEstado) switch
         {
-            (EstadoPedido.PENDIENTE, EstadoPedido.PREPARACION) => true,
-            (EstadoPedido.PENDIENTE, EstadoPedido.CANCELADO) => true,
-            (EstadoPedido.PREPARACION, EstadoPedido.EN_CAMINO) => true,
-            (EstadoPedido.PREPARACION, EstadoPedido.CANCELADO) => true,
-            (EstadoPedido.EN_CAMINO, EstadoPedido.ENTREGADO) => true,
-            (EstadoPedido.EN_CAMINO, EstadoPedido.CANCELADO) => true,
+            (EstadoPedidoEnum.Pendiente, EstadoPedidoEnum.EnPreparacion) => true,
+            (EstadoPedidoEnum.Pendiente, EstadoPedidoEnum.Cancelado) => true,
+            (EstadoPedidoEnum.EnPreparacion, EstadoPedidoEnum.EnCamino) => true,
+            (EstadoPedidoEnum.EnPreparacion, EstadoPedidoEnum.Cancelado) => true,
+            (EstadoPedidoEnum.EnCamino, EstadoPedidoEnum.Entregado) => true,
+            (EstadoPedidoEnum.EnCamino, EstadoPedidoEnum.Cancelado) => true,
             _ => false
         };
     }

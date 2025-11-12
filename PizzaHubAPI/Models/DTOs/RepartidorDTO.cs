@@ -25,3 +25,16 @@ public class RepartidorDTO
     public string Numero { get; set; } = null!;
     public bool Disponible { get; set; }
 }
+
+public class CrearRepartidorDto
+{
+    public string Nombre { get; set; } = null!;
+    public string Apellidos { get; set; } = null!;
+    public string? Telefono { get; set; }
+    public int UsuarioId { get; set; }
+}
+
+public class CambiarEstadoRepartidorDto
+{
+    public RepartidorEstadoEnum Estado { get; set; }
+}

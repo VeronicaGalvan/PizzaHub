@@ -25,3 +25,15 @@ public class ClienteDTO
     public decimal? DistanciaAproximada { get; set; }
     public DateTime FechaRegistro { get; set; }
 }
+
+public class CrearClienteDto
+{
+    public string Nombre { get; set; } = null!;
+    public string Apellidos { get; set; } = null!;
+    public string? Telefono { get; set; }
+    public string? Colonia { get; set; }
+    public string? Calle { get; set; }
+    public string? NumeroCasa { get; set; }
+    public string? Observaciones { get; set; }
+    public int? UsuarioId { get; set; }
+}

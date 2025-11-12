@@ -1,28 +1,52 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PizzaHubAPI.Models;
 
+[Table("clientes")]
 public class Cliente
 {
     [Key]
+    [Column("id")]
     public int Id { get; set; }
     
     [Required]
-    public int PersonaId { get; set; }
-
-    public string? ComentariosDomicilio { get; set; }
-
-    [Column(TypeName = "decimal(6,2)")]
-    public decimal? DistanciaEstimacion { get; set; }
-
-    [Timestamp]
-    public byte[] RowVersion { get; set; } = null!;
+    [MaxLength(50)]
+    [Column("nombre")]
+    public string Nombre { get; set; } = null!;
+    
+    [Required]
+    [MaxLength(50)]
+    [Column("apellidos")]
+    public string Apellidos { get; set; } = null!;
+    
+    [MaxLength(20)]
+    [Column("telefono")]
+    public string? Telefono { get; set; }
+    
+    [MaxLength(50)]
+    [Column("colonia")]
+    public string? Colonia { get; set; }
+    
+    [MaxLength(50)]
+    [Column("calle")]
+    public string? Calle { get; set; }
+    
+    [MaxLength(20)]
+    [Column("numero_casa")]
+    public string? NumeroCasa { get; set; }
+    
+    [Column("observaciones")]
+    public string? Observaciones { get; set; }
+    
+    [Column("usuario_id")]
+    public int? UsuarioId { get; set; }
 
     // Relaciones
-    public virtual Persona Persona { get; set; } = null!;
+    [ForeignKey("UsuarioId")]
+    public virtual Usuario? Usuario { get; set; }
+    
+    [JsonIgnore]
     public virtual ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
-
-    // Cliente now stores contact/direction data in Persona. Legacy compatibility aliases removed.
-    public bool Activo { get; set; } = true;
 }

@@ -4,118 +4,137 @@ using Microsoft.EntityFrameworkCore;
 using PizzaHubAPI.Data;
 using PizzaHubAPI.Models;
 using PizzaHubAPI.Models.DTOs;
-using PizzaHubAPI.Services;
-using System.Security.Claims;
 
 namespace PizzaHubAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class ClientesController : ControllerBase
 {
     private readonly PizzaHubContext _context;
-    private readonly AuthService _authService;
 
-    public ClientesController(PizzaHubContext context, AuthService authService)
+    public ClientesController(PizzaHubContext context)
     {
         _context = context;
-        _authService = authService;
     }
 
-    [HttpPost("registro")]
-    public async Task<ActionResult<LoginResponseDTO>> RegistrarCliente(RegistroClienteDTO registro)
-    {
-        // Register through auth service with complete name
-        var registerRequest = new RegisterRequestDTO
-        {
-            Email = registro.Email,
-            Password = registro.Password,
-            NombreCompleto = $"{registro.Nombre} {registro.Apellido}",
-            TelefonoContacto = registro.NumeroCelular
-        };
-
-        var authResponse = await _authService.RegisterAsync(registerRequest);
-        if (authResponse == null)
-        {
-            return BadRequest("Error al registrar el usuario. El email ya podría estar en uso.");
-        }
-
-        // Update additional client-specific information
-        var usuario = await _context.Usuarios
-            .Include(u => u.Persona)
-            .FirstOrDefaultAsync(u => u.Email == registro.Email);
-
-        if (usuario?.Persona == null)
-        {
-            return BadRequest("Error al crear el usuario.");
-        }
-
-        // Update persona with additional address information
-        usuario.Persona.Colonia = registro.Colonia;
-        usuario.Persona.Calle = registro.Calle;
-        usuario.Persona.Numero = registro.Numero;
-
-        // Update cliente distance estimation
-        var cliente = await _context.Clientes
-            .FirstOrDefaultAsync(c => c.PersonaId == usuario.Persona.Id);
-        
-        if (cliente != null)
-        {
-            cliente.DistanciaEstimacion = registro.DistanciaAproximada;
-        }
-
-        await _context.SaveChangesAsync();
-        return Ok(authResponse);
-    }
-
-    [Authorize]
-    [HttpGet("perfil")]
-    public async Task<ActionResult<ClienteDTO>> GetPerfil()
-    {
-    var usuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
-        
-        var cliente = await _context.Clientes
-            .Include(c => c.Persona)
-            .FirstOrDefaultAsync(c => c.Persona.UsuarioId == usuarioId);
-
-        if (cliente == null)
-        {
-            return NotFound("Cliente no encontrado");
-        }
-
-        return new ClienteDTO
-        {
-            Id = cliente.Id,
-            NumeroCelular = cliente.Persona.Telefono ?? string.Empty,
-            Nombre = cliente.Persona.Nombre ?? string.Empty,
-            Apellido = cliente.Persona.Apellido ?? string.Empty,
-            Colonia = cliente.Persona.Colonia ?? string.Empty,
-            Calle = cliente.Persona.Calle ?? string.Empty,
-            Numero = cliente.Persona.Numero ?? string.Empty,
-            DistanciaAproximada = cliente.DistanciaEstimacion,
-            FechaRegistro = cliente.Persona.FechaRegistro
-        };
-    }
-
-    [Authorize(Roles = "Administrador")]
+    // GET: api/Clientes
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ClienteDTO>>> GetClientes()
+    public async Task<ActionResult<IEnumerable<Cliente>>> GetClientes()
     {
         return await _context.Clientes
-            .Where(c => c.Activo)
-            .Include(c => c.Persona)
-            .Select(c => new ClienteDTO
-            {
-                Id = c.Id,
-                NumeroCelular = c.Persona.Telefono ?? string.Empty,
-                Nombre = c.Persona.Nombre ?? string.Empty,
-                Apellido = c.Persona.Apellido ?? string.Empty,
-                Colonia = c.Persona.Colonia ?? string.Empty,
-                Calle = c.Persona.Calle ?? string.Empty,
-                Numero = c.Persona.Numero ?? string.Empty,
-                DistanciaAproximada = c.DistanciaEstimacion,
-                FechaRegistro = c.Persona.FechaRegistro
-            })
+            .Include(c => c.Usuario)
             .ToListAsync();
+    }
+
+    // GET: api/Clientes/5
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Cliente>> GetCliente(int id)
+    {
+        var cliente = await _context.Clientes
+            .Include(c => c.Usuario)
+            .FirstOrDefaultAsync(c => c.Id == id);
+
+        if (cliente == null)
+            return NotFound(new { message = "Cliente no encontrado" });
+
+        return cliente;
+    }
+
+    // GET: api/Clientes/usuario/5
+    [HttpGet("usuario/{usuarioId}")]
+    public async Task<ActionResult<Cliente>> GetClientePorUsuario(int usuarioId)
+    {
+        var cliente = await _context.Clientes
+            .Include(c => c.Usuario)
+            .FirstOrDefaultAsync(c => c.UsuarioId == usuarioId);
+
+        if (cliente == null)
+            return NotFound(new { message = "Cliente no encontrado para el usuario" });
+
+        return cliente;
+    }
+
+    // POST: api/Clientes
+    [HttpPost]
+    [Authorize(Roles = "Administrador,Empleado")]
+    public async Task<ActionResult<Cliente>> CreateCliente(CrearClienteDto dto)
+    {
+        if (dto.UsuarioId.HasValue)
+        {
+            var usuario = await _context.Usuarios.FindAsync(dto.UsuarioId.Value);
+            if (usuario == null)
+                return BadRequest(new { message = "Usuario no encontrado" });
+        }
+
+        var cliente = new Cliente
+        {
+            Nombre = dto.Nombre,
+            Apellidos = dto.Apellidos,
+            Telefono = dto.Telefono,
+            Colonia = dto.Colonia,
+            Calle = dto.Calle,
+            NumeroCasa = dto.NumeroCasa,
+            Observaciones = dto.Observaciones,
+            UsuarioId = dto.UsuarioId
+        };
+
+        _context.Clientes.Add(cliente);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(GetCliente), new { id = cliente.Id }, cliente);
+    }
+
+    // PUT: api/Clientes/5
+    [HttpPut("{id}")]
+    [Authorize(Roles = "Administrador,Empleado")]
+    public async Task<IActionResult> UpdateCliente(int id, CrearClienteDto dto)
+    {
+        var cliente = await _context.Clientes.FindAsync(id);
+        if (cliente == null)
+            return NotFound(new { message = "Cliente no encontrado" });
+
+        cliente.Nombre = dto.Nombre;
+        cliente.Apellidos = dto.Apellidos;
+        cliente.Telefono = dto.Telefono;
+        cliente.Colonia = dto.Colonia;
+        cliente.Calle = dto.Calle;
+        cliente.NumeroCasa = dto.NumeroCasa;
+        cliente.Observaciones = dto.Observaciones;
+        cliente.UsuarioId = dto.UsuarioId;
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!ClienteExists(id))
+                return NotFound();
+            throw;
+        }
+
+        return NoContent();
+    }
+
+    // DELETE: api/Clientes/5
+    [HttpDelete("{id}")]
+    [Authorize(Roles = "Administrador")]
+    public async Task<IActionResult> DeleteCliente(int id)
+    {
+        var cliente = await _context.Clientes.FindAsync(id);
+        if (cliente == null)
+            return NotFound(new { message = "Cliente no encontrado" });
+
+        _context.Clientes.Remove(cliente);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    private bool ClienteExists(int id)
+    {
+        return _context.Clientes.Any(c => c.Id == id);
     }
 }
