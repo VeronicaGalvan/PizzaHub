@@ -109,7 +109,7 @@ public class CrearEmpleadoDto
     public int UsuarioId { get; set; }
 }
 
-// DTO para crear insumo
+// DTO para crear insumo (con stock inicial opcional)
 public class CrearInsumoDto
 {
     [Required]
@@ -120,10 +120,40 @@ public class CrearInsumoDto
     public UnidadMedidaEnum UnidadMedida { get; set; }
     
     [Range(0, double.MaxValue)]
-    public decimal StockActual { get; set; } = 0;
+    public decimal StockInicial { get; set; } = 0;
     
     [Range(0, double.MaxValue)]
     public decimal StockMinimo { get; set; } = 0;
+}
+
+// DTO para registrar una compra de insumos (múltiples insumos)
+public class RegistrarCompraInsumosDto
+{
+    [Required]
+    [MaxLength(100)]
+    public string Proveedor { get; set; } = null!;
+    
+    [MaxLength(50)]
+    public string? NumeroFactura { get; set; }
+    
+    public string? Observaciones { get; set; }
+    
+    [Required]
+    public List<DetalleCompraInsumoDto> Detalles { get; set; } = new List<DetalleCompraInsumoDto>();
+}
+
+public class DetalleCompraInsumoDto
+{
+    [Required]
+    public int InsumoId { get; set; }
+    
+    [Required]
+    [Range(0.01, double.MaxValue)]
+    public decimal Cantidad { get; set; }
+    
+    [Required]
+    [Range(0.01, double.MaxValue)]
+    public decimal PrecioUnitario { get; set; }
 }
 
 // DTO para registrar movimiento de inventario

@@ -41,6 +41,9 @@ public class InsumosController : ControllerBase
     }
 
     // POST: api/Insumos
+    /// <summary>
+    /// Registra un nuevo insumo en el catálogo con stock inicial opcional
+    /// </summary>
     [HttpPost]
     [Authorize(Roles = "Administrador,Empleado")]
     public async Task<ActionResult<Insumo>> CreateInsumo(CrearInsumoDto dto)
@@ -49,17 +52,35 @@ public class InsumosController : ControllerBase
         {
             Nombre = dto.Nombre,
             UnidadMedida = dto.UnidadMedida,
-            StockActual = dto.StockActual,
+            StockActual = dto.StockInicial,
             StockMinimo = dto.StockMinimo
         };
 
         _context.Insumos.Add(insumo);
         await _context.SaveChangesAsync();
 
+        // Si hay stock inicial, crear registro en el log de inventario
+        if (dto.StockInicial > 0)
+        {
+            var log = new InventarioLog
+            {
+                InsumoId = insumo.Id,
+                Cantidad = dto.StockInicial,
+                TipoMovimiento = TipoMovimientoEnum.Entrada,
+                Motivo = "Stock inicial al registrar insumo",
+                Fecha = DateTime.Now
+            };
+            _context.InventarioLogs.Add(log);
+            await _context.SaveChangesAsync();
+        }
+
         return CreatedAtAction(nameof(GetInsumo), new { id = insumo.Id }, insumo);
     }
 
     // PUT: api/Insumos/5
+    /// <summary>
+    /// Actualiza la información del insumo en el catálogo (no modifica stock)
+    /// </summary>
     [HttpPut("{id}")]
     [Authorize(Roles = "Administrador,Empleado")]
     public async Task<IActionResult> UpdateInsumo(int id, CrearInsumoDto dto)
@@ -72,7 +93,7 @@ public class InsumosController : ControllerBase
 
         insumo.Nombre = dto.Nombre;
         insumo.UnidadMedida = dto.UnidadMedida;
-        insumo.StockActual = dto.StockActual;
+        // No modificamos StockActual aquí, solo mediante compras o movimientos
         insumo.StockMinimo = dto.StockMinimo;
         insumo.UltimaActualizacion = DateTime.Now;
 

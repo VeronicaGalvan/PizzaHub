@@ -23,6 +23,8 @@ public class PizzaHubContext : DbContext
     public DbSet<Calificacion> Calificaciones { get; set; } = null!;
     public DbSet<InventarioLog> InventarioLogs { get; set; } = null!;
     public DbSet<TokenRevocado> TokensRevocados { get; set; } = null!;
+    public DbSet<CompraInsumo> ComprasInsumos { get; set; } = null!;
+    public DbSet<DetalleCompraInsumo> DetallesCompraInsumos { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -131,6 +133,26 @@ public class PizzaHubContext : DbContext
             .HasOne(i => i.Insumo)
             .WithMany(ins => ins.InventarioLogs)
             .HasForeignKey(i => i.InsumoId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Configuración de CompraInsumo
+        modelBuilder.Entity<CompraInsumo>()
+            .HasOne(c => c.Empleado)
+            .WithMany(e => e.ComprasInsumos)
+            .HasForeignKey(c => c.EmpleadoId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        // Configuración de DetalleCompraInsumo
+        modelBuilder.Entity<DetalleCompraInsumo>()
+            .HasOne(d => d.Compra)
+            .WithMany(c => c.Detalles)
+            .HasForeignKey(d => d.CompraId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<DetalleCompraInsumo>()
+            .HasOne(d => d.Insumo)
+            .WithMany()
+            .HasForeignKey(d => d.InsumoId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

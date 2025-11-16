@@ -34,6 +34,47 @@
             Crea o actualiza el perfil del cliente autenticado
             </summary>
         </member>
+        <member name="M:PizzaHubAPI.Controllers.ComprasInsumosController.GetCompras">
+            <summary>
+            Obtiene todas las compras de insumos registradas
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.ComprasInsumosController.GetCompra(System.Int32)">
+            <summary>
+            Obtiene una compra específica por su ID
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.ComprasInsumosController.RegistrarCompra(PizzaHubAPI.Models.DTOs.RegistrarCompraInsumosDto)">
+            <summary>
+            Registra una nueva compra de múltiples insumos (tipo carrito)
+            Actualiza automáticamente el inventario y crea los registros en el log
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.ComprasInsumosController.GetComprasPorProveedor(System.String)">
+            <summary>
+            Obtiene todas las compras de un proveedor específico
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.ComprasInsumosController.GetComprasPorFecha(System.DateTime)">
+            <summary>
+            Obtiene todas las compras de una fecha específica
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.ComprasInsumosController.DeleteCompra(System.Int32)">
+            <summary>
+            Elimina una compra y revierte los cambios en el inventario
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.InsumosController.CreateInsumo(PizzaHubAPI.Models.DTOs.CrearInsumoDto)">
+            <summary>
+            Registra un nuevo insumo en el catálogo con stock inicial opcional
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.InsumosController.UpdateInsumo(System.Int32,PizzaHubAPI.Models.DTOs.CrearInsumoDto)">
+            <summary>
+            Actualiza la información del insumo en el catálogo (no modifica stock)
+            </summary>
+        </member>
         <member name="T:PizzaHubAPI.Migrations.BD1">
             <inheritdoc />
         </member>
@@ -56,6 +97,18 @@
             <inheritdoc />
         </member>
         <member name="M:PizzaHubAPI.Migrations.BaseDeDatos1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:PizzaHubAPI.Migrations.CambiosSobreRegistroInsumo">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.CambiosSobreRegistroInsumo.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.CambiosSobreRegistroInsumo.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.CambiosSobreRegistroInsumo.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

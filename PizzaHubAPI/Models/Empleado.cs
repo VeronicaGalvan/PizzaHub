@@ -43,4 +43,6 @@ public class Empleado
     public virtual ICollection<Venta> Ventas { get; set; } = new List<Venta>();
     [JsonIgnore]
     public virtual ICollection<Caja> Cajas { get; set; } = new List<Caja>();
+    [JsonIgnore]
+    public virtual ICollection<CompraInsumo> ComprasInsumos { get; set; } = new List<CompraInsumo>();
 }
