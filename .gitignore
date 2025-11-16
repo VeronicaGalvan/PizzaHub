@@ -1,7 +1,16 @@
+# Ignorar archivos de Visual Studio
 .vs/
-# Build folders
-[Bb]in/
+
+# Ignorar carpetas de compilación
 [Oo]bj/
+[Bb]in/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
 
 # Visual Studio files
 *.suo
@@ -18,11 +27,19 @@
 # NuGet
 packages/
 *.nupkg
+*.snupkg
+project.assets.json
+project.nuget.cache
+*.nuget.props
+*.nuget.targets
 
 # Dotnet build artifacts
 *.dll
 *.exe
 *.pdb
+project.lock.json
+project.fragment.lock.json
+artifacts/
 
 # EF Migrations snapshots / local DB
 *.db
@@ -45,10 +62,23 @@ Thumbs.db
 # Secrets and env
 .env
 secrets.json
+appsettings.Development.json
+appsettings.Local.json
 
 # Visual Studio cache and indexes
 *.VC.db
 *.VC.VC.opendb
+
+# Test results
+[Tt]est[Rr]esult*/
+TestResults/
+*.coverage
+*.coveragexml
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
 
 # Rider caches
 *.sln.iml
@@ -63,3 +93,14 @@ secrets.json
 
 # Ignore compiled/publish output recursively
 **/publish/
+
+# Node modules (si usas herramientas de frontend)
+node_modules/
+
+# Archivos de respaldo
+*.bak
+*.backup
+
+# Archivos de certificados y seguridad
+*.pfx
+*.p12
