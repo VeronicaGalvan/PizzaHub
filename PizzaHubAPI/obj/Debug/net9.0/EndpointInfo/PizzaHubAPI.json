@@ -3776,7 +3776,7 @@
       "RegisterRequestDTO": {
         "required": [
           "email",
-          "nombreCompleto",
+          "nombreUsuario",
           "password"
         ],
         "type": "object",
@@ -3790,13 +3790,13 @@
             "minLength": 8,
             "type": "string"
           },
-          "nombreCompleto": {
+          "nombreUsuario": {
             "maxLength": 100,
             "minLength": 1,
             "type": "string"
           },
           "telefonoContacto": {
-            "maxLength": 50,
+            "maxLength": 20,
             "type": "string",
             "format": "tel",
             "nullable": true
@@ -4055,7 +4055,7 @@
             "type": "string",
             "nullable": true
           },
-          "nombreCompleto": {
+          "nombreUsuario": {
             "type": "string",
             "nullable": true
           },

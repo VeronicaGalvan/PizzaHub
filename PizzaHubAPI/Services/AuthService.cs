@@ -78,15 +78,14 @@ public class AuthService : IAuthService
         if (await _context.Usuarios.AnyAsync(u => u.Correo == request.Email))
             return null;
 
-        // Split full name into first and last name
-        var nombres = request.NombreCompleto?.Split(' ', 2) ?? new string[2];
-        var nombre = nombres.FirstOrDefault() ?? "";
-        var apellido = nombres.Length > 1 ? nombres[1] : "";
+        // Check if username already exists
+        if (await _context.Usuarios.AnyAsync(u => u.NombreUsuario == request.NombreUsuario))
+            return null;
 
         // Create user
         var usuario = new Usuario
         {
-            NombreUsuario = request.Email.Split('@')[0], // Use email prefix as username
+            NombreUsuario = request.NombreUsuario,
             Telefono = request.TelefonoContacto,
             Correo = request.Email,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
@@ -106,8 +105,8 @@ public class AuthService : IAuthService
             {
                 var cliente = new Cliente
                 {
-                    Nombre = nombre,
-                    Apellidos = apellido,
+                    Nombre = request.NombreUsuario,
+                    Apellidos = "",
                     Telefono = request.TelefonoContacto,
                     UsuarioId = usuario.Id
                 };
@@ -117,7 +116,7 @@ public class AuthService : IAuthService
         }
         catch (Microsoft.EntityFrameworkCore.DbUpdateException)
         {
-            // Likely a unique constraint violation (email) created by a race condition — treat as conflict
+            // Likely a unique constraint violation (email or username) created by a race condition — treat as conflict
             return null;
         }
 
@@ -162,7 +161,9 @@ public class AuthService : IAuthService
             Usuario = new UserInfoDTO
             {
                 Id = usuario.Id,
-                Email = usuario.Correo
+                Email = usuario.Correo,
+                NombreUsuario = usuario.NombreUsuario ?? "",
+                TelefonoContacto = usuario.Telefono
             }
         });
     }

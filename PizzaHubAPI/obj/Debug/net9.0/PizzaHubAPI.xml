@@ -36,5 +36,17 @@
         <member name="M:PizzaHubAPI.Migrations.BD1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:PizzaHubAPI.Migrations.BaseDeDatos1">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.BaseDeDatos1.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.BaseDeDatos1.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.BaseDeDatos1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

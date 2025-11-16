@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Actividades_Universidad_UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI.csproj": {}
+    "C:\\UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI.csproj": {}
   },
   "projects": {
-    "C:\\Actividades_Universidad_UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI.csproj": {
+    "C:\\UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Actividades_Universidad_UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI.csproj",
+        "projectUniqueName": "C:\\UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI.csproj",
         "projectName": "PizzaHubAPI",
-        "projectPath": "C:\\Actividades_Universidad_UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI.csproj",
+        "projectPath": "C:\\UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI.csproj",
         "packagesPath": "C:\\Users\\rayre\\.nuget\\packages\\",
-        "outputPath": "C:\\Actividades_Universidad_UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI\\obj\\",
+        "outputPath": "C:\\UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -114,7 +114,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

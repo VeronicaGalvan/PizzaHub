@@ -22,7 +22,7 @@ public class UserInfoDTO
 {
     public int Id { get; set; }
     public string Email { get; set; } = null!;
-    public string NombreCompleto { get; set; } = null!;
+    public string NombreUsuario { get; set; } = null!;
     public string? TelefonoContacto { get; set; }
 }
 
@@ -38,9 +38,9 @@ public class RegisterRequestDTO
 
     [Required]
     [MaxLength(100)]
-    public string NombreCompleto { get; set; } = null!;
+    public string NombreUsuario { get; set; } = null!;
 
     [Phone]
-    [MaxLength(50)]
+    [MaxLength(20)]
     public string? TelefonoContacto { get; set; }
 }
