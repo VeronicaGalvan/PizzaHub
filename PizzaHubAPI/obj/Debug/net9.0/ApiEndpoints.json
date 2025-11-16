@@ -398,6 +398,42 @@
   },
   {
     "ContainingType": "PizzaHubAPI.Controllers.ClientesController",
+    "Method": "GetMiPerfil",
+    "RelativePath": "api/Clientes/mi-perfil",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "PizzaHubAPI.Models.Cliente",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.ClientesController",
+    "Method": "ActualizarMiPerfil",
+    "RelativePath": "api/Clientes/mi-perfil",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.ActualizarMiPerfilDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.ClientesController",
     "Method": "GetClientePorUsuario",
     "RelativePath": "api/Clientes/usuario/{usuarioId}",
     "HttpMethod": "GET",
