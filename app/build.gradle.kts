@@ -1,4 +1,4 @@
-plugins {
+﻿plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
@@ -6,7 +6,6 @@ plugins {
 
 // Apply the Google services plugin (uses classpath declared in root build.gradle.kts)
 apply(plugin = "com.google.gms.google-services")
-
 
 android {
     namespace = "com.example.pizzahub_mobile"
@@ -23,28 +22,44 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField(
+                    "String",
+                    "HERE_ACCESS_KEY_ID",
+                    "\"${project.properties["HERE_ACCESS_KEY_ID"]}\""
+            )
+            buildConfigField(
+                    "String",
+                    "HERE_ACCESS_KEY_SECRET",
+                    "\"${project.properties["HERE_ACCESS_KEY_SECRET"]}\""
+            )
+        }
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+            buildConfigField(
+                    "String",
+                    "HERE_ACCESS_KEY_ID",
+                    "\"${project.properties["HERE_ACCESS_KEY_ID"]}\""
+            )
+            buildConfigField(
+                    "String",
+                    "HERE_ACCESS_KEY_SECRET",
+                    "\"${project.properties["HERE_ACCESS_KEY_SECRET"]}\""
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+    kotlinOptions { jvmTarget = "11" }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -53,6 +68,9 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    // HERE SDK local dependency
+    implementation(files("libs/heresdk-explore-android-4.24.4.0.240388.aar"))
 
     // Navigation for Compose
     implementation("androidx.navigation:navigation-compose:2.6.0")
@@ -74,7 +92,6 @@ dependencies {
 
     // Firebase Cloud Messaging (FCM)
     implementation("com.google.firebase:firebase-messaging:23.2.0")
-
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

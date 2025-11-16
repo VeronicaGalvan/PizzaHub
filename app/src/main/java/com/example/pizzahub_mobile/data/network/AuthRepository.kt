@@ -1,6 +1,7 @@
 package com.example.pizzahub_mobile.data.network
 
 import android.content.Context
+import com.example.pizzahub_mobile.data.models.ClienteRequest
 import com.example.pizzahub_mobile.data.models.UserLoginRequest
 import com.example.pizzahub_mobile.data.models.UserRegisterRequest
 import com.example.pizzahub_mobile.data.storage.TokenDataStore
@@ -28,13 +29,19 @@ class AuthRepository(private val api: AuthApi, private val context: Context) {
             }
 
     suspend fun register(
-            name: String,
             email: String,
             password: String,
-            telefono: String?
+            nombreCompleto: String,
+            telefonoContacto: String
     ): AuthResult =
             try {
-                val req = UserRegisterRequest(name, email, password, telefono)
+                val req =
+                        UserRegisterRequest(
+                                email = email,
+                                password = password,
+                                nombreCompleto = nombreCompleto,
+                                telefonoContacto = telefonoContacto
+                        )
                 val resp = api.register(req)
                 if (resp.isSuccessful) {
                     val body = resp.body()!!
@@ -46,5 +53,38 @@ class AuthRepository(private val api: AuthApi, private val context: Context) {
                 }
             } catch (e: Exception) {
                 AuthResult.Failure(e.localizedMessage ?: "Network error")
+            }
+
+    suspend fun createCliente(
+            nombre: String,
+            apellidos: String,
+            telefono: String,
+            colonia: String,
+            calle: String,
+            numeroCasa: String,
+            observaciones: String,
+            usuarioId: Int
+    ): Result<Unit> =
+            try {
+                val req =
+                        ClienteRequest(
+                                nombre = nombre,
+                                apellidos = apellidos,
+                                telefono = telefono,
+                                colonia = colonia,
+                                calle = calle,
+                                numeroCasa = numeroCasa,
+                                observaciones = observaciones,
+                                usuarioId = usuarioId
+                        )
+                val resp = api.createCliente(req)
+                if (resp.isSuccessful) {
+                    Result.success(Unit)
+                } else {
+                    val msg = resp.errorBody()?.string() ?: "${resp.code()}: ${resp.message()}"
+                    Result.failure(Exception(msg))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
             }
 }

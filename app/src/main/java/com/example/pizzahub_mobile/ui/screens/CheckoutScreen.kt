@@ -1,9 +1,13 @@
 package com.example.pizzahub_mobile.ui.screens
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
@@ -13,29 +17,82 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pizzahub_mobile.data.sample.SampleData
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
 import com.example.pizzahub_mobile.ui.viewmodel.CartItem
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CheckoutScreen(
         itemsWithQty: List<CartItem> = SampleData.pizzas.map { CartItem(it, 1) },
         onBack: () -> Unit,
-        onShowMap: () -> Unit = {},
-        onConfirmOrder: (orderId: String) -> Unit = {},
-        onSelectAddress: () -> Unit = {}
+        onShowMap: (destLat: Double, destLon: Double) -> Unit = { _, _ -> },
+        onConfirmOrder: (orderId: String, destLat: Double?, destLon: Double?) -> Unit = { _, _, _ ->
+        },
+        onSelectAddress: () -> Unit = {},
+        authViewModel: com.example.pizzahub_mobile.ui.viewmodel.AuthViewModel? = null
 ) {
         val cream = Color(0xFFFFF8EE)
         val softBeige = Color(0xFFFFEEDD)
         val brownDark = Color(0xFF4E342E)
         val terracota = Color(0xFFD35400)
 
+        val ctx = LocalContext.current
+        val scope = rememberCoroutineScope()
+
         var tipoPedido by remember { mutableStateOf("Domicilio") }
+
+        // ViewModel de autenticación
+        val localAuthViewModel =
+                authViewModel ?: viewModel<com.example.pizzahub_mobile.ui.viewmodel.AuthViewModel>()
+        val currentUser by localAuthViewModel.currentUser.collectAsState()
+        val loading by localAuthViewModel.isLoading.collectAsState()
+        val error by localAuthViewModel.error.collectAsState()
+
+        // Formulario de dirección - prellenar con datos del usuario
+        var nombre by remember { mutableStateOf("") }
+        var apellidos by remember { mutableStateOf("") }
+        var telefono by remember { mutableStateOf("") }
+        var colonia by remember { mutableStateOf("") }
+        var calle by remember { mutableStateOf("") }
+        var numeroCasa by remember { mutableStateOf("") }
+        var observaciones by remember { mutableStateOf("") }
+
+        // Coordenadas geocodificadas del usuario
+        var userCoordinates by remember { mutableStateOf<Pair<Double, Double>?>(null) }
+        var isGeocoding by remember { mutableStateOf(false) }
+        var geocodingError by remember { mutableStateOf<String?>(null) }
+
+        // Coordenadas de la pizzería (León, Guanajuato)
+        // https://maps.app.goo.gl/iZqkmDrn7AM8DKZ27
+        // Coordenadas de la pizzería: Blvd. Antonio Madrazo #6401-Local 3, Valle de Señora, 37205
+        // León de los Aldama, Gto.
+        val pizzeriaLat = 21.15969
+        val pizzeriaLon = -101.65070
+
+        // Prellenar nombre y teléfono del usuario autenticado
+        LaunchedEffect(currentUser) {
+                currentUser?.let { user ->
+                        if (nombre.isEmpty()) {
+                                // Separar nombreCompleto en nombre y apellidos
+                                val parts = user.nombreCompleto?.split(" ", limit = 2) ?: listOf()
+                                nombre = parts.getOrNull(0) ?: ""
+                                apellidos = parts.getOrNull(1) ?: ""
+                        }
+                        if (telefono.isEmpty()) {
+                                telefono = user.telefonoContacto ?: ""
+                        }
+                }
+        }
 
         val subtotal = itemsWithQty.sumOf { it.product.price * it.quantity }
         val tax = subtotal * 0.12
@@ -46,6 +103,7 @@ fun CheckoutScreen(
                         Modifier.fillMaxSize()
                                 .background(Brush.verticalGradient(listOf(cream, Color.White)))
                                 .padding(horizontal = 16.dp, vertical = 12.dp)
+                                .verticalScroll(rememberScrollState())
         ) {
                 // 🔙 Encabezado con título centrado
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
@@ -101,28 +159,184 @@ fun CheckoutScreen(
                                         Spacer(modifier = Modifier.height(16.dp))
                                         Text(
                                                 "Dirección de entrega",
-                                                fontWeight = FontWeight.Medium,
-                                                color = brownDark
-                                        )
-                                        Spacer(modifier = Modifier.height(6.dp))
-                                        OutlinedTextField(
-                                                value = "Calle Falsa 123",
-                                                onValueChange = {},
-                                                modifier =
-                                                        Modifier.fillMaxWidth().clickable {
-                                                                onSelectAddress()
-                                                        },
-                                                readOnly = true
+                                                fontWeight = FontWeight.Bold,
+                                                color = brownDark,
+                                                fontSize = 16.sp
                                         )
                                         Spacer(modifier = Modifier.height(12.dp))
+
+                                        // Formulario completo de dirección
+                                        Row(
+                                                modifier = Modifier.fillMaxWidth(),
+                                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                        ) {
+                                                OutlinedTextField(
+                                                        value = nombre,
+                                                        onValueChange = { nombre = it },
+                                                        label = { Text("Nombre") },
+                                                        modifier = Modifier.weight(1f),
+                                                        shape = RoundedCornerShape(12.dp),
+                                                        singleLine = true
+                                                )
+                                                OutlinedTextField(
+                                                        value = apellidos,
+                                                        onValueChange = { apellidos = it },
+                                                        label = { Text("Apellidos") },
+                                                        modifier = Modifier.weight(1f),
+                                                        shape = RoundedCornerShape(12.dp),
+                                                        singleLine = true
+                                                )
+                                        }
+
+                                        Spacer(modifier = Modifier.height(10.dp))
+
+                                        OutlinedTextField(
+                                                value = telefono,
+                                                onValueChange = { telefono = it },
+                                                label = { Text("Teléfono") },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                shape = RoundedCornerShape(12.dp),
+                                                singleLine = true
+                                        )
+
+                                        Spacer(modifier = Modifier.height(10.dp))
+
+                                        OutlinedTextField(
+                                                value = colonia,
+                                                onValueChange = { colonia = it },
+                                                label = { Text("Colonia") },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                shape = RoundedCornerShape(12.dp),
+                                                singleLine = true
+                                        )
+
+                                        Spacer(modifier = Modifier.height(10.dp))
+
+                                        Row(
+                                                modifier = Modifier.fillMaxWidth(),
+                                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                        ) {
+                                                OutlinedTextField(
+                                                        value = calle,
+                                                        onValueChange = { calle = it },
+                                                        label = { Text("Calle") },
+                                                        modifier = Modifier.weight(2f),
+                                                        shape = RoundedCornerShape(12.dp),
+                                                        singleLine = true
+                                                )
+                                                OutlinedTextField(
+                                                        value = numeroCasa,
+                                                        onValueChange = { numeroCasa = it },
+                                                        label = { Text("Número") },
+                                                        modifier = Modifier.weight(1f),
+                                                        shape = RoundedCornerShape(12.dp),
+                                                        singleLine = true
+                                                )
+                                        }
+
+                                        Spacer(modifier = Modifier.height(10.dp))
+
+                                        OutlinedTextField(
+                                                value = observaciones,
+                                                onValueChange = { observaciones = it },
+                                                label = { Text("Observaciones (opcional)") },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                shape = RoundedCornerShape(12.dp),
+                                                maxLines = 2
+                                        )
+
+                                        Spacer(modifier = Modifier.height(12.dp))
+
+                                        // Mostrar error de geocodificación si existe
+                                        geocodingError?.let { errMsg ->
+                                                Text(
+                                                        text = errMsg,
+                                                        color = MaterialTheme.colorScheme.error,
+                                                        fontSize = 12.sp,
+                                                        modifier = Modifier.padding(bottom = 8.dp)
+                                                )
+                                        }
+
                                         Button(
-                                                onClick = onShowMap,
+                                                onClick = {
+                                                        // Validar que la dirección esté completa
+                                                        if (calle.isBlank() ||
+                                                                        numeroCasa.isBlank() ||
+                                                                        colonia.isBlank()
+                                                        ) {
+                                                                geocodingError =
+                                                                        "Por favor completa la dirección"
+                                                                return@Button
+                                                        }
+
+                                                        geocodingError = null
+                                                        isGeocoding = true
+
+                                                        scope.launch {
+                                                                try {
+                                                                        val hereRepo =
+                                                                                com.example
+                                                                                        .pizzahub_mobile
+                                                                                        .data
+                                                                                        .network
+                                                                                        .HereRepository(
+                                                                                                ctx
+                                                                                        )
+                                                                        val result =
+                                                                                hereRepo.geocodeAddress(
+                                                                                        calle =
+                                                                                                calle,
+                                                                                        numero =
+                                                                                                numeroCasa,
+                                                                                        colonia =
+                                                                                                colonia
+                                                                                )
+
+                                                                        result.fold(
+                                                                                onSuccess = { coords
+                                                                                        ->
+                                                                                        userCoordinates =
+                                                                                                coords
+                                                                                        // Navegar
+                                                                                        // con las
+                                                                                        // coordenadas
+                                                                                        onShowMap(
+                                                                                                coords.first,
+                                                                                                coords.second
+                                                                                        )
+                                                                                },
+                                                                                onFailure = { e ->
+                                                                                        geocodingError =
+                                                                                                "No se pudo encontrar la dirección: ${e.message}"
+                                                                                }
+                                                                        )
+                                                                } catch (e: Exception) {
+                                                                        geocodingError =
+                                                                                "Error al buscar dirección: ${e.message}"
+                                                                } finally {
+                                                                        isGeocoding = false
+                                                                }
+                                                        }
+                                                },
                                                 modifier = Modifier.fillMaxWidth(),
                                                 colors =
                                                         ButtonDefaults.buttonColors(
                                                                 containerColor = terracota
+                                                        ),
+                                                enabled = !isGeocoding
+                                        ) {
+                                                if (isGeocoding) {
+                                                        CircularProgressIndicator(
+                                                                modifier = Modifier.size(20.dp),
+                                                                color = Color.White
                                                         )
-                                        ) { Text("Ver ruta estimada", color = Color.White) }
+                                                } else {
+                                                        Text(
+                                                                "Ver ruta estimada",
+                                                                color = Color.White
+                                                        )
+                                                }
+                                        }
                                 }
                         }
                 }
@@ -144,25 +358,204 @@ fun CheckoutScreen(
 
                                 Button(
                                         onClick = {
-                                                val orderId =
-                                                        java.util
-                                                                .UUID
-                                                                .randomUUID()
-                                                                .toString()
-                                                                .take(8)
-                                                onConfirmOrder(orderId)
+                                                scope.launch {
+                                                        var coords: Pair<Double, Double>? = null
+
+                                                        // Si es domicilio, primero guardar la
+                                                        // dirección y geocodificar
+                                                        if (tipoPedido == "Domicilio") {
+                                                                if (nombre.isBlank() ||
+                                                                                apellidos
+                                                                                        .isBlank() ||
+                                                                                telefono.isBlank() ||
+                                                                                colonia.isBlank() ||
+                                                                                calle.isBlank() ||
+                                                                                numeroCasa.isBlank()
+                                                                ) {
+                                                                        // Mostrar error - falta
+                                                                        // información
+                                                                        return@launch
+                                                                }
+
+                                                                currentUser?.let { user ->
+                                                                        localAuthViewModel
+                                                                                .createCliente(
+                                                                                        nombre,
+                                                                                        apellidos,
+                                                                                        telefono,
+                                                                                        colonia,
+                                                                                        calle,
+                                                                                        numeroCasa,
+                                                                                        observaciones
+                                                                                                .ifBlank {
+                                                                                                        "Ninguna"
+                                                                                                },
+                                                                                        user.id
+                                                                                )
+                                                                }
+
+                                                                // Geocodificar si aún no se ha
+                                                                // hecho
+                                                                if (userCoordinates == null) {
+                                                                        try {
+                                                                                val hereRepo =
+                                                                                        com.example
+                                                                                                .pizzahub_mobile
+                                                                                                .data
+                                                                                                .network
+                                                                                                .HereRepository(
+                                                                                                        ctx
+                                                                                                )
+                                                                                val result =
+                                                                                        hereRepo.geocodeAddress(
+                                                                                                calle =
+                                                                                                        calle,
+                                                                                                numero =
+                                                                                                        numeroCasa,
+                                                                                                colonia =
+                                                                                                        colonia
+                                                                                        )
+                                                                                result.fold(
+                                                                                        onSuccess = {
+                                                                                                c ->
+                                                                                                coords =
+                                                                                                        c
+                                                                                        },
+                                                                                        onFailure = { /* Continuar sin coordenadas */
+                                                                                        }
+                                                                                )
+                                                                        } catch (e: Exception) {
+                                                                                // Continuar sin
+                                                                                // coordenadas
+                                                                        }
+                                                                } else {
+                                                                        coords = userCoordinates
+                                                                }
+                                                        }
+
+                                                        val orderId =
+                                                                java.util
+                                                                        .UUID
+                                                                        .randomUUID()
+                                                                        .toString()
+                                                                        .take(8)
+                                                        // Post a simulated push notification
+                                                        // locally
+                                                        val channelId = "pizzahub_orders"
+                                                        // create channel if needed
+                                                        if (android.os.Build.VERSION.SDK_INT >=
+                                                                        android.os.Build
+                                                                                .VERSION_CODES
+                                                                                .O
+                                                        ) {
+                                                                val name = "Order Notifications"
+                                                                val descr =
+                                                                        "Notifications for order updates (simulated)"
+                                                                val importance =
+                                                                        NotificationManager
+                                                                                .IMPORTANCE_DEFAULT
+                                                                val channel =
+                                                                        NotificationChannel(
+                                                                                        channelId,
+                                                                                        name,
+                                                                                        importance
+                                                                                )
+                                                                                .apply {
+                                                                                        description =
+                                                                                                descr
+                                                                                }
+                                                                val nm =
+                                                                        ctx.getSystemService(
+                                                                                Context.NOTIFICATION_SERVICE
+                                                                        ) as
+                                                                                NotificationManager
+                                                                nm.createNotificationChannel(
+                                                                        channel
+                                                                )
+                                                        }
+
+                                                        val notif =
+                                                                NotificationCompat.Builder(
+                                                                                ctx,
+                                                                                channelId
+                                                                        )
+                                                                        .setSmallIcon(
+                                                                                android.R
+                                                                                        .drawable
+                                                                                        .ic_dialog_info
+                                                                        )
+                                                                        .setContentTitle(
+                                                                                "Pedido confirmado"
+                                                                        )
+                                                                        .setContentText(
+                                                                                "Tu pedido $orderId ha sido confirmado (simulado)."
+                                                                        )
+                                                                        .setPriority(
+                                                                                NotificationCompat
+                                                                                        .PRIORITY_DEFAULT
+                                                                        )
+                                                                        .build()
+
+                                                        // Verificar permiso antes de mostrar
+                                                        // notificación
+                                                        val permissionGranted =
+                                                                android.os.Build.VERSION.SDK_INT <
+                                                                        33 ||
+                                                                        androidx.core.content
+                                                                                .ContextCompat
+                                                                                .checkSelfPermission(
+                                                                                        ctx,
+                                                                                        android.Manifest
+                                                                                                .permission
+                                                                                                .POST_NOTIFICATIONS
+                                                                                ) ==
+                                                                                android.content.pm
+                                                                                        .PackageManager
+                                                                                        .PERMISSION_GRANTED
+
+                                                        if (permissionGranted) {
+                                                                NotificationManagerCompat.from(ctx)
+                                                                        .notify(
+                                                                                orderId.hashCode(),
+                                                                                notif
+                                                                        )
+                                                        }
+
+                                                        onConfirmOrder(
+                                                                orderId,
+                                                                coords?.first,
+                                                                coords?.second
+                                                        )
+                                                }
                                         },
                                         modifier = Modifier.fillMaxWidth(),
                                         shape = RoundedCornerShape(16.dp),
                                         colors =
                                                 ButtonDefaults.buttonColors(
                                                         containerColor = terracota
-                                                )
+                                                ),
+                                        enabled = !loading
                                 ) {
-                                        Text(
-                                                "Confirmar pedido",
+                                        if (loading) {
+                                                CircularProgressIndicator(
+                                                        modifier = Modifier.size(20.dp),
+                                                        color = Color.White
+                                                )
+                                        } else {
+                                                Text(
+                                                        "Confirmar pedido",
                                                 color = Color.White,
-                                                fontWeight = FontWeight.Bold
+                                                        fontWeight = FontWeight.Bold
+                                                )
+                                        }
+                                }
+
+                                error?.let {
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        Text(
+                                                text = it,
+                                                color = MaterialTheme.colorScheme.error,
+                                                fontSize = 12.sp
                                         )
                                 }
                         }
@@ -173,5 +566,11 @@ fun CheckoutScreen(
 @Preview(showBackground = true)
 @Composable
 fun CheckoutScreenPreview() {
-        PizzaHub_MobileTheme { CheckoutScreen(onBack = {}, onShowMap = {}, onConfirmOrder = {}) }
+        PizzaHub_MobileTheme {
+                CheckoutScreen(
+                        onBack = {},
+                        onShowMap = { _, _ -> },
+                        onConfirmOrder = { _, _, _ -> }
+                )
+        }
 }

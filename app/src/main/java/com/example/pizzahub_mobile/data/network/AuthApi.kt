@@ -1,6 +1,7 @@
 package com.example.pizzahub_mobile.data.network
 
 import com.example.pizzahub_mobile.data.models.AuthResponse
+import com.example.pizzahub_mobile.data.models.ClienteRequest
 import com.example.pizzahub_mobile.data.models.UserLoginRequest
 import com.example.pizzahub_mobile.data.models.UserRegisterRequest
 import retrofit2.Response
@@ -13,4 +14,6 @@ interface AuthApi {
 
     @POST("api/v1/auth/register")
     suspend fun register(@Body request: UserRegisterRequest): Response<AuthResponse>
+
+    @POST("api/Clientes") suspend fun createCliente(@Body request: ClienteRequest): Response<Any>
 }

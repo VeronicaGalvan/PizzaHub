@@ -3,18 +3,18 @@ package com.example.pizzahub_mobile.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -22,16 +22,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.pizzahub_mobile.data.storage.TokenDataStore
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
-import com.example.pizzahub_mobile.ui.viewmodel.AuthViewModel
 
 @Composable
 fun RegisterScreen(
         onBack: (() -> Unit)? = null,
         // onRegister will receive the access token on success
         onRegister: (String) -> Unit,
-        onNavigateToLogin: () -> Unit = {}
+        onNavigateToLogin: () -> Unit = {},
+        authViewModel: com.example.pizzahub_mobile.ui.viewmodel.AuthViewModel? = null
 ) {
         val terracota = Color(0xFFC0392B)
         val cream = Color(0xFFFFF4E8)
@@ -41,24 +40,21 @@ fun RegisterScreen(
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var telefonoContacto by remember { mutableStateOf("") }
+
         val scope = rememberCoroutineScope()
-        val authViewModel: AuthViewModel = viewModel()
-        val loading by authViewModel.isLoading.collectAsState()
-        val error by authViewModel.error.collectAsState()
-        // Local UI-only error for client-side validation (do not try to reassign `error` collected
-        // from ViewModel)
+        // ViewModel and UI state (use provided or get local one)
+        val localAuthViewModel =
+                authViewModel ?: viewModel<com.example.pizzahub_mobile.ui.viewmodel.AuthViewModel>()
+        val loading by localAuthViewModel.isLoading.collectAsState()
+        val error by localAuthViewModel.error.collectAsState()
+        val isAuthenticated by localAuthViewModel.isAuthenticated.collectAsState()
         var localError by remember { mutableStateOf<String?>(null) }
-        val isAuthenticated by authViewModel.isAuthenticated.collectAsState()
-        val ctx = LocalContext.current
-
-        LaunchedEffect(Unit) { authViewModel.checkExistingToken() }
-        LaunchedEffect(isAuthenticated) {
-                if (isAuthenticated) onRegister(TokenDataStore.getAccessTokenBlocking(ctx) ?: "")
-        }
-
         Surface(modifier = Modifier.fillMaxSize().background(cream), color = cream) {
                 Column(
-                        modifier = Modifier.fillMaxSize().padding(24.dp),
+                        modifier =
+                                Modifier.fillMaxSize()
+                                        .padding(24.dp)
+                                        .verticalScroll(rememberScrollState()),
                         horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
@@ -100,8 +96,7 @@ fun RegisterScreen(
                         Spacer(modifier = Modifier.height(6.dp))
 
                         Text(
-                                text =
-                                        "Regístrate con tu nombre y número de teléfono para comenzar",
+                                text = "Crea tu cuenta para comenzar a disfrutar nuestras pizzas",
                                 color = brownDark.copy(alpha = 0.8f),
                                 fontSize = 14.sp,
                                 textAlign = TextAlign.Center,
@@ -154,7 +149,7 @@ fun RegisterScreen(
                                         OutlinedTextField(
                                                 value = telefonoContacto,
                                                 onValueChange = { telefonoContacto = it },
-                                                label = { Text("Teléfono de contacto (opcional)") },
+                                                label = { Text("Teléfono de contacto") },
                                                 modifier = Modifier.fillMaxWidth(),
                                                 shape = RoundedCornerShape(12.dp)
                                         )
@@ -163,9 +158,7 @@ fun RegisterScreen(
 
                                         Button(
                                                 onClick = {
-                                                        // Basic client-side validation matching
-                                                        // server annotations
-                                                        // clear any previous errors
+                                                        // Basic client-side validation
                                                         localError = null
                                                         if (!android.util.Patterns.EMAIL_ADDRESS
                                                                         .matcher(email)
@@ -185,11 +178,16 @@ fun RegisterScreen(
                                                                         "El nombre completo es requerido"
                                                                 return@Button
                                                         }
+                                                        if (telefonoContacto.isBlank()) {
+                                                                localError =
+                                                                        "El teléfono de contacto es requerido"
+                                                                return@Button
+                                                        }
 
-                                                        authViewModel.register(
-                                                                nombreCompleto,
+                                                        localAuthViewModel.register(
                                                                 email,
                                                                 password,
+                                                                nombreCompleto,
                                                                 telefonoContacto
                                                         )
                                                 },
@@ -212,6 +210,14 @@ fun RegisterScreen(
                                 }
                         }
 
+                        localError?.let {
+                                Text(
+                                        text = it,
+                                        color = Color.Red,
+                                        modifier = Modifier.padding(top = 8.dp)
+                                )
+                        }
+
                         error?.let {
                                 Text(
                                         text = it,
@@ -221,6 +227,16 @@ fun RegisterScreen(
                         }
 
                         Spacer(modifier = Modifier.height(20.dp))
+
+                        // Si el registro fue exitoso, notificar al caller para navegar
+                        LaunchedEffect(isAuthenticated) {
+                                if (isAuthenticated) {
+                                        // onRegister receives an access token in the NavHost
+                                        // signature,
+                                        // but the NavHost ignores it; pass empty for compatibility.
+                                        onRegister("")
+                                }
+                        }
 
                         // 🔗 Enlace de volver al inicio de sesión
                         Row(

@@ -20,7 +20,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
+import com.example.pizzahub_mobile.ui.viewmodel.ProductsViewModel
 
 @Composable
 fun ProductDetailScreen(
@@ -39,6 +42,13 @@ fun ProductDetailScreen(
                         Modifier.fillMaxSize()
                                 .background(Brush.verticalGradient(listOf(cream, Color.White)))
         ) {
+                // products from viewmodel
+                val productsViewModel: ProductsViewModel = viewModel()
+                val products by productsViewModel.products.collectAsState()
+                LaunchedEffect(Unit) { productsViewModel.loadProducts() }
+
+                val product = products.firstOrNull { it.id == productId }
+
                 Column(
                         modifier =
                                 Modifier.fillMaxSize()
@@ -84,13 +94,23 @@ fun ProductDetailScreen(
                                                 .shadow(8.dp, shape = CircleShape)
                                                 .background(Color.White, shape = CircleShape),
                                 contentAlignment = Alignment.Center
-                        ) { Text(text = "🍕", fontSize = 96.sp) }
+                        ) {
+                                if (product != null && !product.imageUrl.isNullOrBlank()) {
+                                        AsyncImage(
+                                                model = product.imageUrl,
+                                                contentDescription = product.name,
+                                                modifier = Modifier.size(200.dp)
+                                        )
+                                } else {
+                                        Text(text = "🍕", fontSize = 96.sp)
+                                }
+                        }
 
                         Spacer(modifier = Modifier.height(28.dp))
 
                         // 🧾 Información del producto
                         Text(
-                                text = "Pizza Pepperoni Suprema",
+                                text = product?.name ?: "Producto",
                                 fontSize = 26.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = brownDark
@@ -99,8 +119,7 @@ fun ProductDetailScreen(
                         Spacer(modifier = Modifier.height(8.dp))
 
                         Text(
-                                text =
-                                        "Crujiente masa artesanal con extra queso y pepperoni fresco, horneada al momento para ti.",
+                                text = product?.description ?: "Sin descripción disponible.",
                                 fontSize = 15.sp,
                                 color = brownDark.copy(alpha = 0.85f),
                                 lineHeight = 20.sp,
@@ -130,7 +149,8 @@ fun ProductDetailScreen(
                                         horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                         Text(
-                                                text = "$12.50",
+                                                text = product?.let { "${'$'}${it.price}" }
+                                                                ?: "${'$'}0.00",
                                                 fontSize = 28.sp,
                                                 fontWeight = FontWeight.Bold,
                                                 color = terracota
@@ -139,7 +159,7 @@ fun ProductDetailScreen(
                                         Spacer(modifier = Modifier.height(20.dp))
 
                                         Button(
-                                                onClick = onAddToCart,
+                                                onClick = { onAddToCart() },
                                                 colors =
                                                         ButtonDefaults.buttonColors(
                                                                 containerColor = terracota

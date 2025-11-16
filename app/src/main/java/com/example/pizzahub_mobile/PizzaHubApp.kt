@@ -1,12 +1,23 @@
 package com.example.pizzahub_mobile
 
 import android.app.Application
+import com.here.sdk.core.engine.AuthenticationMode
+import com.here.sdk.core.engine.SDKNativeEngine
+import com.here.sdk.core.engine.SDKOptions
 
-// Clase Application principal. Si vas a usar Hilt, añade la anotación @HiltAndroidApp
 class PizzaHubApp : Application() {
+
     override fun onCreate() {
         super.onCreate()
-        // Inicializaciones globales aquí (logging, crashlytics, DI, etc.)
+
+        val options = SDKOptions(
+            AuthenticationMode.withKeySecret(
+                BuildConfig.HERE_ACCESS_KEY_ID,
+                BuildConfig.HERE_ACCESS_KEY_SECRET
+            )
+        )
+
+        // Inicializar motor HERE EXPLORE
+        SDKNativeEngine.makeSharedInstance(this, options)
     }
 }
-

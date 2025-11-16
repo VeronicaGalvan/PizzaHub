@@ -8,13 +8,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.pizzahub_mobile.data.sample.SampleData
 import com.example.pizzahub_mobile.ui.screens.*
 import com.example.pizzahub_mobile.ui.viewmodel.AuthViewModel
 import com.example.pizzahub_mobile.ui.viewmodel.CartViewModel
+import com.example.pizzahub_mobile.ui.viewmodel.ProductsViewModel
 
 @Composable
 fun AppNavHost(modifier: Modifier = Modifier) {
@@ -57,12 +60,15 @@ fun AppNavHost(modifier: Modifier = Modifier) {
         // product detail
         composable("product_detail/{productId}") { backStackEntry ->
             val id = backStackEntry.arguments?.getString("productId") ?: ""
+            // get products viewmodel to find the product by id
+            val productsViewModel: ProductsViewModel = viewModel()
+            val products by productsViewModel.products.collectAsState()
+            LaunchedEffect(Unit) { productsViewModel.loadProducts() }
+
             ProductDetailScreen(
                     productId = id,
                     onAddToCart = {
-                        val product =
-                                (SampleData.pizzas + SampleData.beverages + SampleData.complements)
-                                        .firstOrNull { it.id == id }
+                        val product = products.firstOrNull { it.id == id }
                         if (product != null) cartViewModel.addProduct(product)
 
                         if (!isLoggedIn) {
@@ -117,17 +123,43 @@ fun AppNavHost(modifier: Modifier = Modifier) {
                             }
                         }
                     },
-                    onNavigateToLogin = { navController.navigate("login") }
+                    onNavigateToLogin = { navController.navigate("login") },
+                    authViewModel = authViewModel
             )
         }
 
         // order tracking
-        composable("order_tracking/{id}") { backStackEntry ->
+        composable(
+                route = "order_tracking/{id}?destLat={destLat}&destLon={destLon}",
+                arguments =
+                        listOf(
+                                navArgument("destLat") {
+                                    type = NavType.StringType
+                                    nullable = true
+                                    defaultValue = null
+                                },
+                                navArgument("destLon") {
+                                    type = NavType.StringType
+                                    nullable = true
+                                    defaultValue = null
+                                }
+                        )
+        ) { backStackEntry ->
             val orderId = backStackEntry.arguments?.getString("id") ?: ""
+            val destLat = backStackEntry.arguments?.getString("destLat")?.toDoubleOrNull()
+            val destLon = backStackEntry.arguments?.getString("destLon")?.toDoubleOrNull()
             OrderTrackingScreen(
                     onBack = { navController.popBackStack() },
                     orderId = orderId,
-                    onOpenMap = { id -> navigateTo("delivery_tracking/$id") }
+                    onOpenMap = { id ->
+                        val route =
+                                if (destLat != null && destLon != null) {
+                                    "delivery_tracking/$id?destLat=$destLat&destLon=$destLon"
+                                } else {
+                                    "delivery_tracking/$id"
+                                }
+                        navigateTo(route)
+                    }
             )
         }
 
@@ -200,10 +232,18 @@ fun AppNavHost(modifier: Modifier = Modifier) {
             CheckoutScreen(
                     itemsWithQty = cartState.items,
                     onBack = { navController.popBackStack() },
-                    onShowMap = { navController.navigate("map_preview") },
-                    onConfirmOrder = { orderId ->
+                    onShowMap = { destLat, destLon ->
+                        navController.navigate("map_preview/$destLat/$destLon")
+                    },
+                    onConfirmOrder = { orderId, destLat, destLon ->
                         cartViewModel.clearCart()
-                        navController.navigate("order_tracking/$orderId") {
+                        val route =
+                                if (destLat != null && destLon != null) {
+                                    "order_tracking/$orderId?destLat=$destLat&destLon=$destLon"
+                                } else {
+                                    "order_tracking/$orderId"
+                                }
+                        navController.navigate(route) {
                             popUpTo("cart") { inclusive = true }
                             launchSingleTop = true
                         }
@@ -212,8 +252,13 @@ fun AppNavHost(modifier: Modifier = Modifier) {
             )
         }
 
-        composable("map_preview") {
+        composable("map_preview/{destLat}/{destLon}") { backStackEntry ->
+            val destLat = backStackEntry.arguments?.getString("destLat")?.toDoubleOrNull() ?: 21.12
+            val destLon =
+                    backStackEntry.arguments?.getString("destLon")?.toDoubleOrNull() ?: -101.68
             MapPreviewScreen(
+                    destLat = destLat,
+                    destLon = destLon,
                     onBack = { navController.popBackStack() },
                     onConfirm = { navController.popBackStack() }
             )
@@ -228,9 +273,31 @@ fun AppNavHost(modifier: Modifier = Modifier) {
 
         composable("chat") { ChatScreen(onBack = { navController.popBackStack() }) }
 
-        composable("delivery_tracking/{orderId}") { backStackEntry ->
+        composable(
+                route = "delivery_tracking/{orderId}?destLat={destLat}&destLon={destLon}",
+                arguments =
+                        listOf(
+                                navArgument("destLat") {
+                                    type = NavType.StringType
+                                    nullable = true
+                                    defaultValue = null
+                                },
+                                navArgument("destLon") {
+                                    type = NavType.StringType
+                                    nullable = true
+                                    defaultValue = null
+                                }
+                        )
+        ) { backStackEntry ->
             val id = backStackEntry.arguments?.getString("orderId") ?: ""
-            DeliveryTrackingMapScreen(orderId = id, onBack = { navController.popBackStack() })
+            val destLat = backStackEntry.arguments?.getString("destLat")?.toDoubleOrNull()
+            val destLon = backStackEntry.arguments?.getString("destLon")?.toDoubleOrNull()
+            DeliveryTrackingMapScreen(
+                    orderId = id,
+                    destLat = destLat,
+                    destLon = destLon,
+                    onBack = { navController.popBackStack() }
+            )
         }
 
         composable("notifications") {

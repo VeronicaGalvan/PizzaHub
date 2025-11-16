@@ -25,6 +25,10 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val _isAuthenticated = MutableStateFlow(false)
     val isAuthenticated: StateFlow<Boolean> = _isAuthenticated
 
+    private val _currentUser =
+            MutableStateFlow<com.example.pizzahub_mobile.data.models.UserDto?>(null)
+    val currentUser: StateFlow<com.example.pizzahub_mobile.data.models.UserDto?> = _currentUser
+
     fun checkExistingToken() {
         viewModelScope.launch {
             val t = TokenDataStore.getAccessTokenBlocking(ctx)
@@ -39,6 +43,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             when (val r = repo.login(email, password)) {
                 is com.example.pizzahub_mobile.data.network.AuthResult.Success -> {
                     _isAuthenticated.value = true
+                    _currentUser.value = r.user as? com.example.pizzahub_mobile.data.models.UserDto
                 }
                 is com.example.pizzahub_mobile.data.network.AuthResult.Failure -> {
                     _error.value = r.message
@@ -48,15 +53,54 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun register(name: String, email: String, password: String, telefono: String?) {
+    fun register(
+            email: String,
+            password: String,
+            nombreCompleto: String,
+            telefonoContacto: String
+    ) {
         viewModelScope.launch {
             _isLoading.value = true
             _error.value = null
-            when (val r = repo.register(name, email, password, telefono)) {
-                is com.example.pizzahub_mobile.data.network.AuthResult.Success ->
-                        _isAuthenticated.value = true
-                is com.example.pizzahub_mobile.data.network.AuthResult.Failure ->
-                        _error.value = r.message
+            when (val r = repo.register(email, password, nombreCompleto, telefonoContacto)) {
+                is com.example.pizzahub_mobile.data.network.AuthResult.Success -> {
+                    _isAuthenticated.value = true
+                    _currentUser.value = r.user as? com.example.pizzahub_mobile.data.models.UserDto
+                }
+                is com.example.pizzahub_mobile.data.network.AuthResult.Failure -> {
+                    _error.value = r.message
+                }
+            }
+            _isLoading.value = false
+        }
+    }
+
+    fun createCliente(
+            nombre: String,
+            apellidos: String,
+            telefono: String,
+            colonia: String,
+            calle: String,
+            numeroCasa: String,
+            observaciones: String,
+            usuarioId: Int
+    ) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            _error.value = null
+            val result =
+                    repo.createCliente(
+                            nombre,
+                            apellidos,
+                            telefono,
+                            colonia,
+                            calle,
+                            numeroCasa,
+                            observaciones,
+                            usuarioId
+                    )
+            if (result.isFailure) {
+                _error.value = result.exceptionOrNull()?.message ?: "Error al guardar dirección"
             }
             _isLoading.value = false
         }
@@ -66,6 +110,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             TokenDataStore.clear(ctx)
             _isAuthenticated.value = false
+            _currentUser.value = null
         }
     }
 }
