@@ -75,6 +75,63 @@
             Actualiza la información del insumo en el catálogo (no modifica stock)
             </summary>
         </member>
+        <member name="T:PizzaHubAPI.Controllers.MisEnviosController">
+            <summary>
+            Controlador exclusivo para repartidores autenticados
+            Gestiona los pedidos asignados al repartidor actual
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.MisEnviosController.GetMiPerfil">
+            <summary>
+            Obtiene el perfil del repartidor autenticado
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.MisEnviosController.GetMisPedidos">
+            <summary>
+            Obtiene todos los pedidos asignados al repartidor actual
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.MisEnviosController.GetPedidosPendientes">
+            <summary>
+            Obtiene solo los pedidos pendientes asignados al repartidor
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.MisEnviosController.GetPedidosEnCamino">
+            <summary>
+            Obtiene los pedidos que están en camino (en ruta de entrega)
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.MisEnviosController.GetHistorial">
+            <summary>
+            Obtiene el historial de pedidos entregados por el repartidor
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.MisEnviosController.GetDetallePedido(System.Int32)">
+            <summary>
+            Ver detalles completos de un pedido específico
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.MisEnviosController.RecogerPedido(System.Int32)">
+            <summary>
+            Marcar que el repartidor está listo para recoger el pedido
+            Cambia el estado a "En camino"
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.MisEnviosController.EntregarPedido(System.Int32)">
+            <summary>
+            Marcar el pedido como entregado
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.MisEnviosController.CambiarDisponibilidad(PizzaHubAPI.Controllers.CambiarDisponibilidadDto)">
+            <summary>
+            Cambiar disponibilidad del repartidor
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.MisEnviosController.GetEstadisticas">
+            <summary>
+            Obtener estadísticas del repartidor
+            </summary>
+        </member>
         <member name="T:PizzaHubAPI.Migrations.BD1">
             <inheritdoc />
         </member>
@@ -110,6 +167,23 @@
         </member>
         <member name="M:PizzaHubAPI.Migrations.CambiosSobreRegistroInsumo.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
+        </member>
+        <member name="T:PizzaHubAPI.Migrations.CambiarTokenPorHash">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.CambiarTokenPorHash.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.CambiarTokenPorHash.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.CambiarTokenPorHash.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Models.TokenRevocado.ComputeHash(System.String)">
+            <summary>
+            Calcula el hash SHA256 de un token para almacenamiento indexado
+            </summary>
         </member>
     </members>
 </doc>

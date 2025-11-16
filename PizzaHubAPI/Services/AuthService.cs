@@ -46,7 +46,7 @@ public class AuthService : IAuthService
     {
         var tokenRevocado = new TokenRevocado
         {
-            Token = token,
+            TokenHash = TokenRevocado.ComputeHash(token),
             FechaRevocacion = DateTime.UtcNow,
             UsuarioId = userId
         };

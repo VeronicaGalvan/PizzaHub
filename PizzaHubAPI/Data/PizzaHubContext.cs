@@ -36,8 +36,15 @@ public class PizzaHubContext : DbContext
             .IsUnique();
 
         // Configuración de TokenRevocado
-        modelBuilder.Entity<TokenRevocado>()
-            .HasIndex(t => t.Token);
+        modelBuilder.Entity<TokenRevocado>(entity =>
+        {
+            entity.Property(t => t.TokenHash)
+                .HasMaxLength(64)
+                .IsRequired();
+            
+            // Índice en el hash del token para búsquedas rápidas
+            entity.HasIndex(t => t.TokenHash);
+        });
 
         // Configuración de Empleado
         modelBuilder.Entity<Empleado>()
