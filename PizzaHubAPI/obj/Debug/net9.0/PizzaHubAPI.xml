@@ -180,6 +180,18 @@
         <member name="M:PizzaHubAPI.Migrations.CambiarTokenPorHash.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:PizzaHubAPI.Migrations.BaseDeDatos3">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.BaseDeDatos3.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.BaseDeDatos3.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.BaseDeDatos3.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="M:PizzaHubAPI.Models.TokenRevocado.ComputeHash(System.String)">
             <summary>
             Calcula el hash SHA256 de un token para almacenamiento indexado
