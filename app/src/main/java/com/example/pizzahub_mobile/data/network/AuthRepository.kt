@@ -1,7 +1,9 @@
 package com.example.pizzahub_mobile.data.network
 
 import android.content.Context
+import com.example.pizzahub_mobile.data.models.ClientePerfilResponse
 import com.example.pizzahub_mobile.data.models.ClienteRequest
+import com.example.pizzahub_mobile.data.models.ClienteUpdateRequest
 import com.example.pizzahub_mobile.data.models.UserLoginRequest
 import com.example.pizzahub_mobile.data.models.UserRegisterRequest
 import com.example.pizzahub_mobile.data.storage.TokenDataStore
@@ -31,7 +33,7 @@ class AuthRepository(private val api: AuthApi, private val context: Context) {
     suspend fun register(
             email: String,
             password: String,
-            nombreCompleto: String,
+            nombreUsuario: String,
             telefonoContacto: String
     ): AuthResult =
             try {
@@ -39,7 +41,7 @@ class AuthRepository(private val api: AuthApi, private val context: Context) {
                         UserRegisterRequest(
                                 email = email,
                                 password = password,
-                                nombreCompleto = nombreCompleto,
+                                nombreUsuario = nombreUsuario,
                                 telefonoContacto = telefonoContacto
                         )
                 val resp = api.register(req)
@@ -78,6 +80,50 @@ class AuthRepository(private val api: AuthApi, private val context: Context) {
                                 usuarioId = usuarioId
                         )
                 val resp = api.createCliente(req)
+                if (resp.isSuccessful) {
+                    Result.success(Unit)
+                } else {
+                    val msg = resp.errorBody()?.string() ?: "${resp.code()}: ${resp.message()}"
+                    Result.failure(Exception(msg))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+
+    suspend fun getClientePerfil(): Result<ClientePerfilResponse> =
+            try {
+                val resp = api.getClientePerfil()
+                if (resp.isSuccessful && resp.body() != null) {
+                    Result.success(resp.body()!!)
+                } else {
+                    val msg = resp.errorBody()?.string() ?: "${resp.code()}: ${resp.message()}"
+                    Result.failure(Exception(msg))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+
+    suspend fun updateClientePerfil(
+            nombre: String,
+            apellidos: String,
+            telefono: String,
+            colonia: String,
+            calle: String,
+            numeroCasa: String,
+            observaciones: String
+    ): Result<Unit> =
+            try {
+                val req =
+                        ClienteUpdateRequest(
+                                nombre = nombre,
+                                apellidos = apellidos,
+                                telefono = telefono,
+                                colonia = colonia,
+                                calle = calle,
+                                numeroCasa = numeroCasa,
+                                observaciones = observaciones
+                        )
+                val resp = api.updateClientePerfil(req)
                 if (resp.isSuccessful) {
                     Result.success(Unit)
                 } else {

@@ -55,8 +55,12 @@ fun CheckoutScreen(
         val localAuthViewModel =
                 authViewModel ?: viewModel<com.example.pizzahub_mobile.ui.viewmodel.AuthViewModel>()
         val currentUser by localAuthViewModel.currentUser.collectAsState()
+        val clientePerfil by localAuthViewModel.clientePerfil.collectAsState()
         val loading by localAuthViewModel.isLoading.collectAsState()
         val error by localAuthViewModel.error.collectAsState()
+
+        // Cargar perfil del cliente al inicio
+        LaunchedEffect(Unit) { localAuthViewModel.getClientePerfil() }
 
         // Formulario de dirección - prellenar con datos del usuario
         var nombre by remember { mutableStateOf("") }
@@ -79,19 +83,32 @@ fun CheckoutScreen(
         val pizzeriaLat = 21.15969
         val pizzeriaLon = -101.65070
 
-        // Prellenar nombre y teléfono del usuario autenticado
-        LaunchedEffect(currentUser) {
-                currentUser?.let { user ->
-                        if (nombre.isEmpty()) {
-                                // Separar nombreCompleto en nombre y apellidos
-                                val parts = user.nombreCompleto?.split(" ", limit = 2) ?: listOf()
-                                nombre = parts.getOrNull(0) ?: ""
-                                apellidos = parts.getOrNull(1) ?: ""
-                        }
-                        if (telefono.isEmpty()) {
-                                telefono = user.telefonoContacto ?: ""
-                        }
+        // Prellenar nombre y teléfono del usuario autenticado y datos del cliente
+        LaunchedEffect(currentUser, clientePerfil) {
+                // Si ya existe un perfil de cliente, usar esos datos
+                clientePerfil?.let { perfil ->
+                        if (nombre.isEmpty()) nombre = perfil.nombre
+                        if (apellidos.isEmpty()) apellidos = perfil.apellidos
+                        if (telefono.isEmpty()) telefono = perfil.telefono
+                        if (colonia.isEmpty()) colonia = perfil.colonia ?: ""
+                        if (calle.isEmpty()) calle = perfil.calle ?: ""
+                        if (numeroCasa.isEmpty()) numeroCasa = perfil.numeroCasa ?: ""
+                        if (observaciones.isEmpty()) observaciones = perfil.observaciones ?: ""
                 }
+                        ?: currentUser?.let { user ->
+                                // Si no hay perfil de cliente, usar datos del usuario
+                                if (nombre.isEmpty()) {
+                                        // Separar nombreCompleto en nombre y apellidos
+                                        val parts =
+                                                user.nombreCompleto?.split(" ", limit = 2)
+                                                        ?: listOf()
+                                        nombre = parts.getOrNull(0) ?: ""
+                                        apellidos = parts.getOrNull(1) ?: ""
+                                }
+                                if (telefono.isEmpty()) {
+                                        telefono = user.telefonoContacto ?: ""
+                                }
+                        }
         }
 
         val subtotal = itemsWithQty.sumOf { it.product.price * it.quantity }
@@ -260,12 +277,15 @@ fun CheckoutScreen(
                                         Button(
                                                 onClick = {
                                                         // Validar que la dirección esté completa
-                                                        if (calle.isBlank() ||
+                                                        if (nombre.isBlank() ||
+                                                                        apellidos.isBlank() ||
+                                                                        telefono.isBlank() ||
+                                                                        calle.isBlank() ||
                                                                         numeroCasa.isBlank() ||
                                                                         colonia.isBlank()
                                                         ) {
                                                                 geocodingError =
-                                                                        "Por favor completa la dirección"
+                                                                        "Por favor completa todos los campos obligatorios"
                                                                 return@Button
                                                         }
 
@@ -274,6 +294,45 @@ fun CheckoutScreen(
 
                                                         scope.launch {
                                                                 try {
+                                                                        // Guardar/actualizar datos
+                                                                        // del cliente
+                                                                        if (clientePerfil == null) {
+                                                                                // Crear nuevo
+                                                                                // cliente
+                                                                                currentUser?.id
+                                                                                        ?.let {
+                                                                                                usuarioId
+                                                                                                ->
+                                                                                                localAuthViewModel
+                                                                                                        .createCliente(
+                                                                                                                nombre,
+                                                                                                                apellidos,
+                                                                                                                telefono,
+                                                                                                                colonia,
+                                                                                                                calle,
+                                                                                                                numeroCasa,
+                                                                                                                observaciones,
+                                                                                                                usuarioId
+                                                                                                        )
+                                                                                                // Recargar perfil
+                                                                                                localAuthViewModel
+                                                                                                        .getClientePerfil()
+                                                                                        }
+                                                                        } else {
+                                                                                // Actualizar
+                                                                                // cliente existente
+                                                                                localAuthViewModel
+                                                                                        .updateClientePerfil(
+                                                                                                nombre,
+                                                                                                apellidos,
+                                                                                                telefono,
+                                                                                                colonia,
+                                                                                                calle,
+                                                                                                numeroCasa,
+                                                                                                observaciones
+                                                                                        )
+                                                                        }
+
                                                                         val hereRepo =
                                                                                 com.example
                                                                                         .pizzahub_mobile
@@ -377,9 +436,32 @@ fun CheckoutScreen(
                                                                         return@launch
                                                                 }
 
-                                                                currentUser?.let { user ->
+                                                                // Guardar/actualizar cliente si es
+                                                                // domicilio
+                                                                if (clientePerfil == null) {
+                                                                        // Crear nuevo cliente
+                                                                        currentUser?.id?.let {
+                                                                                usuarioId ->
+                                                                                localAuthViewModel
+                                                                                        .createCliente(
+                                                                                                nombre,
+                                                                                                apellidos,
+                                                                                                telefono,
+                                                                                                colonia,
+                                                                                                calle,
+                                                                                                numeroCasa,
+                                                                                                observaciones
+                                                                                                        .ifBlank {
+                                                                                                                "Ninguna"
+                                                                                                        },
+                                                                                                usuarioId
+                                                                                        )
+                                                                        }
+                                                                } else {
+                                                                        // Actualizar cliente
+                                                                        // existente
                                                                         localAuthViewModel
-                                                                                .createCliente(
+                                                                                .updateClientePerfil(
                                                                                         nombre,
                                                                                         apellidos,
                                                                                         telefono,
@@ -389,8 +471,7 @@ fun CheckoutScreen(
                                                                                         observaciones
                                                                                                 .ifBlank {
                                                                                                         "Ninguna"
-                                                                                                },
-                                                                                        user.id
+                                                                                                }
                                                                                 )
                                                                 }
 
@@ -544,7 +625,7 @@ fun CheckoutScreen(
                                         } else {
                                                 Text(
                                                         "Confirmar pedido",
-                                                color = Color.White,
+                                                        color = Color.White,
                                                         fontWeight = FontWeight.Bold
                                                 )
                                         }

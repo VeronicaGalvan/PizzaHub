@@ -10,7 +10,7 @@ data class UserLoginRequest(
 data class UserRegisterRequest(
         @Json(name = "email") val email: String,
         @Json(name = "password") val password: String,
-        @Json(name = "nombreCompleto") val nombreCompleto: String,
+        @Json(name = "nombreUsuario") val nombreUsuario: String,
         @Json(name = "telefonoContacto") val telefonoContacto: String
 )
 
@@ -35,7 +35,7 @@ data class UserDto(
 )
 
 // Mirror the server's LoginResponseDTO
-// Cliente request for delivery address
+// Cliente request for delivery address (POST /api/Clientes)
 data class ClienteRequest(
         @Json(name = "nombre") val nombre: String,
         @Json(name = "apellidos") val apellidos: String,
@@ -45,6 +45,41 @@ data class ClienteRequest(
         @Json(name = "numeroCasa") val numeroCasa: String,
         @Json(name = "observaciones") val observaciones: String,
         @Json(name = "usuarioId") val usuarioId: Int
+)
+
+// Cliente update request (PUT /api/Clientes/mi-perfil)
+data class ClienteUpdateRequest(
+        @Json(name = "nombre") val nombre: String,
+        @Json(name = "apellidos") val apellidos: String,
+        @Json(name = "telefono") val telefono: String,
+        @Json(name = "colonia") val colonia: String,
+        @Json(name = "calle") val calle: String,
+        @Json(name = "numeroCasa") val numeroCasa: String,
+        @Json(name = "observaciones") val observaciones: String
+)
+
+// Cliente response (GET /api/Clientes/mi-perfil)
+data class ClientePerfilResponse(
+        @Json(name = "id") val id: Int,
+        @Json(name = "nombre") val nombre: String,
+        @Json(name = "apellidos") val apellidos: String,
+        @Json(name = "telefono") val telefono: String,
+        @Json(name = "usuarioId") val usuarioId: Int,
+        @Json(name = "colonia") val colonia: String? = null,
+        @Json(name = "calle") val calle: String? = null,
+        @Json(name = "numeroCasa") val numeroCasa: String? = null,
+        @Json(name = "observaciones") val observaciones: String? = null,
+        @Json(name = "usuario") val usuario: UsuarioInfo? = null
+)
+
+data class UsuarioInfo(
+        @Json(name = "id") val id: Int,
+        @Json(name = "nombreUsuario") val nombreUsuario: String,
+        @Json(name = "telefono") val telefono: String,
+        @Json(name = "correo") val correo: String,
+        @Json(name = "rol") val rol: Int,
+        @Json(name = "activo") val activo: Boolean,
+        @Json(name = "fechaCreacion") val fechaCreacion: String
 )
 
 data class AuthResponse(

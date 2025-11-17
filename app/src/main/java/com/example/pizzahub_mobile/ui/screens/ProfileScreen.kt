@@ -21,9 +21,10 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,9 +34,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pizzahub_mobile.ui.theme.PizzaBrown
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileScreen(
@@ -43,12 +46,47 @@ fun ProfileScreen(
         onNavigateToOrderHistory: () -> Unit = {},
         onNavigateToNotifications: () -> Unit = {},
         onNavigateToAddresses: () -> Unit = {},
-        onLogout: () -> Unit = {}
+        onLogout: () -> Unit = {},
+        authViewModel: com.example.pizzahub_mobile.ui.viewmodel.AuthViewModel? = null
 ) {
         // Palette consistent with HomeScreen
         val terracota = Color(0xFFC0392B)
         val cream = Color(0xFFFFF4E8)
         val brownDark = Color(0xFF4E342E)
+        val scope = rememberCoroutineScope()
+
+        // ViewModel
+        val localAuthViewModel =
+                authViewModel ?: viewModel<com.example.pizzahub_mobile.ui.viewmodel.AuthViewModel>()
+        val clientePerfil by localAuthViewModel.clientePerfil.collectAsState()
+        val currentUser by localAuthViewModel.currentUser.collectAsState()
+        val loading by localAuthViewModel.isLoading.collectAsState()
+
+        // Estados de edición
+        var isEditing by remember { mutableStateOf(false) }
+        var nombre by remember { mutableStateOf("") }
+        var apellidos by remember { mutableStateOf("") }
+        var telefono by remember { mutableStateOf("") }
+        var colonia by remember { mutableStateOf("") }
+        var calle by remember { mutableStateOf("") }
+        var numeroCasa by remember { mutableStateOf("") }
+        var observaciones by remember { mutableStateOf("") }
+
+        // Cargar perfil al inicio
+        LaunchedEffect(Unit) { localAuthViewModel.getClientePerfil() }
+
+        // Actualizar campos cuando se cargue el perfil
+        LaunchedEffect(clientePerfil) {
+                clientePerfil?.let { perfil ->
+                        nombre = perfil.nombre
+                        apellidos = perfil.apellidos
+                        telefono = perfil.telefono
+                        colonia = perfil.colonia ?: ""
+                        calle = perfil.calle ?: ""
+                        numeroCasa = perfil.numeroCasa ?: ""
+                        observaciones = perfil.observaciones ?: ""
+                }
+        }
 
         Column(modifier = Modifier.fillMaxSize().background(cream).padding(20.dp)) {
                 // Header
@@ -110,7 +148,8 @@ fun ProfileScreen(
                                                 modifier = Modifier.fillMaxSize()
                                         ) {
                                                 Text(
-                                                        text = "U",
+                                                        text =
+                                                                "${nombre.firstOrNull()?.uppercaseChar() ?: "U"}",
                                                         fontSize = 28.sp,
                                                         color = brownDark,
                                                         fontWeight = FontWeight.Bold
@@ -122,31 +161,183 @@ fun ProfileScreen(
 
                                 Column(modifier = Modifier.weight(1f)) {
                                         Text(
-                                                text = "Ulises González",
+                                                text = "$nombre $apellidos",
                                                 style = MaterialTheme.typography.titleMedium,
                                                 color = brownDark,
                                                 fontWeight = FontWeight.SemiBold
                                         )
                                         Spacer(modifier = Modifier.height(6.dp))
                                         Text(
-                                                text = "ulises@example.com",
+                                                text = currentUser?.email
+                                                                ?: clientePerfil?.usuario?.correo
+                                                                        ?: "",
                                                 style = MaterialTheme.typography.bodyMedium,
                                                 color = brownDark.copy(alpha = 0.7f)
                                         )
+                                        if (telefono.isNotEmpty()) {
+                                                Spacer(modifier = Modifier.height(4.dp))
+                                                Text(
+                                                        text = telefono,
+                                                        style = MaterialTheme.typography.bodySmall,
+                                                        color = brownDark.copy(alpha = 0.6f)
+                                                )
+                                        }
                                 }
 
                                 Button(
-                                        onClick = { /* edit */},
+                                        onClick = { isEditing = !isEditing },
                                         shape = RoundedCornerShape(12.dp),
                                         colors =
                                                 ButtonDefaults.buttonColors(
                                                         containerColor = terracota
                                                 )
-                                ) { Text(text = "Editar", color = Color.White) }
+                                ) {
+                                        Text(
+                                                text = if (isEditing) "Cancelar" else "Editar",
+                                                color = Color.White
+                                        )
+                                }
                         }
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
+
+                // Formulario de edición
+                if (isEditing) {
+                        Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(18.dp),
+                                colors = CardDefaults.cardColors(containerColor = Color.White)
+                        ) {
+                                Column(modifier = Modifier.padding(16.dp)) {
+                                        Text(
+                                                text = "Editar información personal",
+                                                style = MaterialTheme.typography.titleMedium,
+                                                color = brownDark,
+                                                fontWeight = FontWeight.Bold
+                                        )
+
+                                        Spacer(modifier = Modifier.height(12.dp))
+
+                                        OutlinedTextField(
+                                                value = nombre,
+                                                onValueChange = { nombre = it },
+                                                label = { Text("Nombre") },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                shape = RoundedCornerShape(12.dp)
+                                        )
+
+                                        Spacer(modifier = Modifier.height(8.dp))
+
+                                        OutlinedTextField(
+                                                value = apellidos,
+                                                onValueChange = { apellidos = it },
+                                                label = { Text("Apellidos") },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                shape = RoundedCornerShape(12.dp)
+                                        )
+
+                                        Spacer(modifier = Modifier.height(8.dp))
+
+                                        OutlinedTextField(
+                                                value = telefono,
+                                                onValueChange = { telefono = it },
+                                                label = { Text("Teléfono") },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                shape = RoundedCornerShape(12.dp)
+                                        )
+
+                                        Spacer(modifier = Modifier.height(12.dp))
+
+                                        Text(
+                                                text = "Dirección de entrega",
+                                                style = MaterialTheme.typography.titleSmall,
+                                                color = brownDark,
+                                                fontWeight = FontWeight.Bold
+                                        )
+
+                                        Spacer(modifier = Modifier.height(8.dp))
+
+                                        OutlinedTextField(
+                                                value = calle,
+                                                onValueChange = { calle = it },
+                                                label = { Text("Calle") },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                shape = RoundedCornerShape(12.dp)
+                                        )
+
+                                        Spacer(modifier = Modifier.height(8.dp))
+
+                                        OutlinedTextField(
+                                                value = numeroCasa,
+                                                onValueChange = { numeroCasa = it },
+                                                label = { Text("Número") },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                shape = RoundedCornerShape(12.dp)
+                                        )
+
+                                        Spacer(modifier = Modifier.height(8.dp))
+
+                                        OutlinedTextField(
+                                                value = colonia,
+                                                onValueChange = { colonia = it },
+                                                label = { Text("Colonia") },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                shape = RoundedCornerShape(12.dp)
+                                        )
+
+                                        Spacer(modifier = Modifier.height(8.dp))
+
+                                        OutlinedTextField(
+                                                value = observaciones,
+                                                onValueChange = { observaciones = it },
+                                                label = { Text("Observaciones (opcional)") },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                shape = RoundedCornerShape(12.dp),
+                                                maxLines = 2
+                                        )
+
+                                        Spacer(modifier = Modifier.height(16.dp))
+
+                                        Button(
+                                                onClick = {
+                                                        scope.launch {
+                                                                localAuthViewModel
+                                                                        .updateClientePerfil(
+                                                                                nombre,
+                                                                                apellidos,
+                                                                                telefono,
+                                                                                colonia,
+                                                                                calle,
+                                                                                numeroCasa,
+                                                                                observaciones
+                                                                        ) { isEditing = false }
+                                                        }
+                                                },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                shape = RoundedCornerShape(12.dp),
+                                                colors =
+                                                        ButtonDefaults.buttonColors(
+                                                                containerColor = terracota
+                                                        ),
+                                                enabled =
+                                                        !loading &&
+                                                                nombre.isNotBlank() &&
+                                                                apellidos.isNotBlank() &&
+                                                                telefono.isNotBlank()
+                                        ) {
+                                                Text(
+                                                        text =
+                                                                if (loading) "Guardando..."
+                                                                else "Guardar cambios",
+                                                        color = Color.White
+                                                )
+                                        }
+                                }
+                        }
+
+                        Spacer(modifier = Modifier.height(16.dp))
+                }
 
                 // Quick stats
                 Row(

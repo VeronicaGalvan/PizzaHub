@@ -3,6 +3,7 @@ package com.example.pizzahub_mobile.ui.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pizzahub_mobile.data.models.ClientePerfilResponse
 import com.example.pizzahub_mobile.data.network.AuthApi
 import com.example.pizzahub_mobile.data.network.AuthRepository
 import com.example.pizzahub_mobile.data.network.RetrofitInstance
@@ -29,6 +30,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             MutableStateFlow<com.example.pizzahub_mobile.data.models.UserDto?>(null)
     val currentUser: StateFlow<com.example.pizzahub_mobile.data.models.UserDto?> = _currentUser
 
+    private val _clientePerfil = MutableStateFlow<ClientePerfilResponse?>(null)
+    val clientePerfil: StateFlow<ClientePerfilResponse?> = _clientePerfil
+
     fun checkExistingToken() {
         viewModelScope.launch {
             val t = TokenDataStore.getAccessTokenBlocking(ctx)
@@ -53,16 +57,11 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun register(
-            email: String,
-            password: String,
-            nombreCompleto: String,
-            telefonoContacto: String
-    ) {
+    fun register(email: String, password: String, nombreUsuario: String, telefonoContacto: String) {
         viewModelScope.launch {
             _isLoading.value = true
             _error.value = null
-            when (val r = repo.register(email, password, nombreCompleto, telefonoContacto)) {
+            when (val r = repo.register(email, password, nombreUsuario, telefonoContacto)) {
                 is com.example.pizzahub_mobile.data.network.AuthResult.Success -> {
                     _isAuthenticated.value = true
                     _currentUser.value = r.user as? com.example.pizzahub_mobile.data.models.UserDto
@@ -106,11 +105,60 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun getClientePerfil() {
+        viewModelScope.launch {
+            _isLoading.value = true
+            _error.value = null
+            val result = repo.getClientePerfil()
+            result.fold(
+                    onSuccess = { perfil -> _clientePerfil.value = perfil },
+                    onFailure = { e -> _error.value = e.message ?: "Error al cargar perfil" }
+            )
+            _isLoading.value = false
+        }
+    }
+
+    fun updateClientePerfil(
+            nombre: String,
+            apellidos: String,
+            telefono: String,
+            colonia: String,
+            calle: String,
+            numeroCasa: String,
+            observaciones: String,
+            onSuccess: () -> Unit = {}
+    ) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            _error.value = null
+            val result =
+                    repo.updateClientePerfil(
+                            nombre,
+                            apellidos,
+                            telefono,
+                            colonia,
+                            calle,
+                            numeroCasa,
+                            observaciones
+                    )
+            result.fold(
+                    onSuccess = {
+                        // Recargar perfil después de actualizar
+                        getClientePerfil()
+                        onSuccess()
+                    },
+                    onFailure = { e -> _error.value = e.message ?: "Error al actualizar perfil" }
+            )
+            _isLoading.value = false
+        }
+    }
+
     fun logout() {
         viewModelScope.launch {
             TokenDataStore.clear(ctx)
             _isAuthenticated.value = false
             _currentUser.value = null
+            _clientePerfil.value = null
         }
     }
 }
