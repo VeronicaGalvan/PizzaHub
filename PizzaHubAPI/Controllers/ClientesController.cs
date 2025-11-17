@@ -134,12 +134,54 @@ public class ClientesController : ControllerBase
         return cliente;
     }
 
+    // GET: api/Clientes/buscar?telefono=4771234567&nombre=Juan
+    /// <summary>
+    /// Busca clientes por teléfono o nombre (útil para pedidos por llamada)
+    /// </summary>
+    [HttpGet("buscar")]
+    [Authorize(Roles = "Administrador,Empleado")]
+    public async Task<ActionResult<IEnumerable<Cliente>>> BuscarCliente(
+        [FromQuery] string? telefono = null,
+        [FromQuery] string? nombre = null)
+    {
+        if (string.IsNullOrWhiteSpace(telefono) && string.IsNullOrWhiteSpace(nombre))
+        {
+            return BadRequest(new { message = "Debe proporcionar al menos un criterio de búsqueda (telefono o nombre)" });
+        }
+
+        var query = _context.Clientes.Include(c => c.Usuario).AsQueryable();
+        
+        if (!string.IsNullOrWhiteSpace(telefono))
+        {
+            query = query.Where(c => c.Telefono != null && c.Telefono.Contains(telefono));
+        }
+        
+        if (!string.IsNullOrWhiteSpace(nombre))
+        {
+            query = query.Where(c => c.Nombre.Contains(nombre) || c.Apellidos.Contains(nombre));
+        }
+        
+        var clientes = await query
+            .OrderByDescending(c => c.Id)
+            .Take(20)
+            .ToListAsync();
+        
+        if (!clientes.Any())
+        {
+            return NotFound(new { message = "No se encontraron clientes con los criterios especificados" });
+        }
+        
+        return clientes;
+    }
+
     // POST: api/Clientes
     [HttpPost]
     [Authorize(Roles = "Administrador,Empleado")]
     public async Task<ActionResult<Cliente>> CreateCliente(CrearClienteDto dto)
     {
-        if (dto.UsuarioId.HasValue)
+        // Si se envía UsuarioId, consideramos válido sólo si es mayor a 0.
+        // Tratamos 0 o valores negativos como ausencia de usuario (creación sin cuenta ligada).
+        if (dto.UsuarioId.HasValue && dto.UsuarioId.Value > 0)
         {
             var usuario = await _context.Usuarios.FindAsync(dto.UsuarioId.Value);
             if (usuario == null)
@@ -155,7 +197,7 @@ public class ClientesController : ControllerBase
             Calle = dto.Calle,
             NumeroCasa = dto.NumeroCasa,
             Observaciones = dto.Observaciones,
-            UsuarioId = dto.UsuarioId
+            UsuarioId = (dto.UsuarioId.HasValue && dto.UsuarioId.Value > 0) ? dto.UsuarioId : null
         };
 
         _context.Clientes.Add(cliente);
@@ -180,7 +222,7 @@ public class ClientesController : ControllerBase
         cliente.Calle = dto.Calle;
         cliente.NumeroCasa = dto.NumeroCasa;
         cliente.Observaciones = dto.Observaciones;
-        cliente.UsuarioId = dto.UsuarioId;
+        cliente.UsuarioId = (dto.UsuarioId.HasValue && dto.UsuarioId.Value > 0) ? dto.UsuarioId : null;
 
         try
         {

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "BfnWJl6uu4s=",
+  "dgSpecHash": "8ziPBNjjRUQ=",
   "success": true,
-  "projectFilePath": "C:\\UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI.csproj",
+  "projectFilePath": "C:\\Actividades_Universidad_UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\PizzaHubAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\rayre\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\rayre\\.nuget\\packages\\automapper.collection\\9.0.0\\automapper.collection.9.0.0.nupkg.sha512",

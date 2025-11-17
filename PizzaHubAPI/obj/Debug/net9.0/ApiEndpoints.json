@@ -398,6 +398,37 @@
   },
   {
     "ContainingType": "PizzaHubAPI.Controllers.ClientesController",
+    "Method": "BuscarCliente",
+    "RelativePath": "api/Clientes/buscar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "telefono",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "nombre",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PizzaHubAPI.Models.Cliente, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.ClientesController",
     "Method": "GetMiPerfil",
     "RelativePath": "api/Clientes/mi-perfil",
     "HttpMethod": "GET",

@@ -1,24 +1,7 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\UTL\\PizzaHub\\PizzaHubAPI\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251116054647_BaseDeDatos3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:PizzaHubAPI\\Migrations\\20251116054647_BaseDeDatos3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251116052613_BaseDeDatos2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:PizzaHubAPI\\Migrations\\20251116052613_BaseDeDatos2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|c:\\utl\\pizzahub\\pizzahubapi\\pizzahubapi\\migrations\\20251116045034_cambiartokenporhash.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|solutionrelative:pizzahubapi\\migrations\\20251116045034_cambiartokenporhash.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251116044813_CambiosEnAuth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:PizzaHubAPI\\Migrations\\20251116044813_CambiosEnAuth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "WorkspaceRootPath": "C:\\Actividades_Universidad_UTL\\PizzaHub\\PizzaHubAPI\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -26,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -43,57 +26,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "20251116054647_BaseDeDatos3.cs",
-              "DocumentMoniker": "C:\\UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251116054647_BaseDeDatos3.cs",
-              "RelativeDocumentMoniker": "PizzaHubAPI\\Migrations\\20251116054647_BaseDeDatos3.cs",
-              "ToolTip": "C:\\UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251116054647_BaseDeDatos3.cs",
-              "RelativeToolTip": "PizzaHubAPI\\Migrations\\20251116054647_BaseDeDatos3.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-16T05:46:47.109Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "20251116052613_BaseDeDatos2.cs",
-              "DocumentMoniker": "C:\\UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251116052613_BaseDeDatos2.cs",
-              "RelativeDocumentMoniker": "PizzaHubAPI\\Migrations\\20251116052613_BaseDeDatos2.cs",
-              "ToolTip": "C:\\UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251116052613_BaseDeDatos2.cs",
-              "RelativeToolTip": "PizzaHubAPI\\Migrations\\20251116052613_BaseDeDatos2.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-16T05:26:13.673Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "20251116045034_CambiarTokenPorHash.cs",
-              "DocumentMoniker": "C:\\UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251116045034_CambiarTokenPorHash.cs",
-              "RelativeDocumentMoniker": "PizzaHubAPI\\Migrations\\20251116045034_CambiarTokenPorHash.cs",
-              "ToolTip": "C:\\UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251116045034_CambiarTokenPorHash.cs",
-              "RelativeToolTip": "PizzaHubAPI\\Migrations\\20251116045034_CambiarTokenPorHash.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-16T04:50:34.642Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "20251116044813_CambiosEnAuth.cs",
-              "DocumentMoniker": "C:\\UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251116044813_CambiosEnAuth.cs",
-              "RelativeDocumentMoniker": "PizzaHubAPI\\Migrations\\20251116044813_CambiosEnAuth.cs",
-              "ToolTip": "C:\\UTL\\PizzaHub\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251116044813_CambiosEnAuth.cs",
-              "RelativeToolTip": "PizzaHubAPI\\Migrations\\20251116044813_CambiosEnAuth.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-16T04:48:13.482Z"
             }
           ]
         }

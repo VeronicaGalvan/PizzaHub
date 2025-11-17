@@ -34,6 +34,11 @@
             Crea o actualiza el perfil del cliente autenticado
             </summary>
         </member>
+        <member name="M:PizzaHubAPI.Controllers.ClientesController.BuscarCliente(System.String,System.String)">
+            <summary>
+            Busca clientes por teléfono o nombre (útil para pedidos por llamada)
+            </summary>
+        </member>
         <member name="M:PizzaHubAPI.Controllers.ComprasInsumosController.GetCompras">
             <summary>
             Obtiene todas las compras de insumos registradas
@@ -190,6 +195,18 @@
             <inheritdoc />
         </member>
         <member name="M:PizzaHubAPI.Migrations.BaseDeDatos3.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:PizzaHubAPI.Migrations.BaseDeDatos4">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.BaseDeDatos4.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.BaseDeDatos4.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.BaseDeDatos4.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
         <member name="M:PizzaHubAPI.Models.TokenRevocado.ComputeHash(System.String)">
