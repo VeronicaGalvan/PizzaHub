@@ -27,7 +27,21 @@ fun AppNavHost(modifier: Modifier = Modifier) {
     val authViewModel: AuthViewModel = viewModel()
     val isLoggedIn by authViewModel.isAuthenticated.collectAsState()
     val pendingRedirect = remember { mutableStateOf<String?>(null) }
+    val previousAuthState = remember { mutableStateOf(isLoggedIn) }
+
     LaunchedEffect(Unit) { authViewModel.checkExistingToken() }
+
+    // Detectar cuando la sesión expira (el TokenAuthenticator limpió los tokens)
+    LaunchedEffect(isLoggedIn) {
+        // Si el usuario estaba autenticado y ahora no lo está, redirigir a login
+        if (previousAuthState.value && !isLoggedIn) {
+            navController.navigate("login") {
+                popUpTo(0) { inclusive = true } // Limpiar todo el backstack
+                launchSingleTop = true
+            }
+        }
+        previousAuthState.value = isLoggedIn
+    }
 
     // Navigation helper that enforces auth for protected routes.
     val protectedRoutes = setOf("home", "catalog", "cart", "checkout", "profile", "order_tracking")

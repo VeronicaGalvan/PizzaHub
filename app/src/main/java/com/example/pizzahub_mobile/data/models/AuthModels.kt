@@ -85,5 +85,10 @@ data class UsuarioInfo(
 data class AuthResponse(
         @Json(name = "accessToken") val accessToken: String,
         @Json(name = "refreshToken") val refreshToken: String?,
+        @Json(name = "tokenType") val tokenType: String? = "Bearer",
+        @Json(name = "expiresIn") val expiresIn: Int? = null,
+        @Json(name = "roles") val roles: List<String>? = null,
         @Json(name = "usuario") val usuario: UserDto
 )
+
+data class RefreshTokenRequest(@Json(name = "refreshToken") val refreshToken: String)

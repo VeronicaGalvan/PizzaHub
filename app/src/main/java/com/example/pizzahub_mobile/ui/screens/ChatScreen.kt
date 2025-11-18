@@ -4,9 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -17,37 +19,36 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-
-data class ChatMessage(val id: String, val text: String, val isUser: Boolean)
+import com.example.pizzahub_mobile.ui.viewmodel.ChatViewModel
 
 @Composable
-fun ChatScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
+fun ChatScreen(
+        onBack: () -> Unit,
+        modifier: Modifier = Modifier,
+        chatViewModel: ChatViewModel = viewModel()
+) {
     val cream = Color(0xFFFFF8EE)
     val terracota = Color(0xFFD35400)
     val brownDark = Color(0xFF4E342E)
     val softBeige = Color(0xFFFFEEDD)
+
     var input by remember { mutableStateOf("") }
-    val messages = remember { mutableStateListOf<ChatMessage>() }
+    val messages by chatViewModel.messages.collectAsState()
+    val isLoading by chatViewModel.isLoading.collectAsState()
+    val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
 
-    // mensaje inicial
-    LaunchedEffect(Unit) {
-        if (messages.isEmpty()) {
-            messages.add(
-                    ChatMessage(
-                            "m1",
-                            "👋 ¡Hola! Soy tu asistente PizzaHub. ¿Deseas repetir un pedido o ver nuestras recomendaciones?",
-                            false
-                    )
-            )
+    // Auto-scroll al último mensaje
+    LaunchedEffect(messages.size) {
+        if (messages.isNotEmpty()) {
+            listState.animateScrollToItem(messages.size - 1)
         }
     }
 
     Column(modifier = modifier.fillMaxSize().background(cream)) {
-        // encabezado con título centrado
+        // Encabezado con título centrado
         Box(
                 modifier = Modifier.fillMaxWidth().padding(12.dp),
                 contentAlignment = Alignment.Center
@@ -55,41 +56,82 @@ fun ChatScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
             IconButton(onClick = onBack, modifier = Modifier.align(Alignment.CenterStart)) {
                 Icon(Icons.Filled.ArrowBack, contentDescription = "Volver", tint = brownDark)
             }
-            Text("Asistente", color = brownDark, fontWeight = FontWeight.Bold)
+            Text("🍕 PizzaBot", color = brownDark, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+
+            IconButton(
+                    onClick = { chatViewModel.clearChat() },
+                    modifier = Modifier.align(Alignment.CenterEnd)
+            ) {
+                Icon(Icons.Filled.Refresh, contentDescription = "Reiniciar chat", tint = brownDark)
+            }
         }
 
-        // mensajes
+        // Mensajes
         LazyColumn(
+                state = listState,
                 modifier = Modifier.weight(1f).padding(horizontal = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(messages, key = { it.id }) { msg ->
+            items(messages, key = { it.timestamp }) { msg ->
                 Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement =
-                                if (msg.isUser) Arrangement.End else Arrangement.Start
+                                if (msg.isFromUser) Arrangement.End else Arrangement.Start
                 ) {
                     Card(
                             shape = RoundedCornerShape(14.dp),
                             colors =
                                     CardDefaults.cardColors(
                                             containerColor =
-                                                    if (msg.isUser) terracota else softBeige
+                                                    if (msg.isFromUser) terracota else softBeige
                                     ),
                             modifier = Modifier.widthIn(max = 280.dp)
                     ) {
                         Text(
                                 msg.text,
                                 modifier = Modifier.padding(12.dp),
-                                color = if (msg.isUser) Color.White else brownDark,
+                                color = if (msg.isFromUser) Color.White else brownDark,
                                 fontSize = 14.sp
                         )
                     }
                 }
             }
+
+            // Indicador de escritura
+            if (isLoading) {
+                item {
+                    Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Start
+                    ) {
+                        Card(
+                                shape = RoundedCornerShape(14.dp),
+                                colors = CardDefaults.cardColors(containerColor = softBeige)
+                        ) {
+                            Row(
+                                    modifier = Modifier.padding(12.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                CircularProgressIndicator(
+                                        modifier = Modifier.size(16.dp),
+                                        strokeWidth = 2.dp,
+                                        color = terracota
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(
+                                        "PizzaBot está escribiendo...",
+                                        color = brownDark.copy(alpha = 0.7f),
+                                        fontSize = 12.sp,
+                                        fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
+                                )
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        // input
+        // Input
         Surface(tonalElevation = 2.dp, color = cream) {
             Row(
                     modifier = Modifier.fillMaxWidth().padding(10.dp),
@@ -100,7 +142,8 @@ fun ChatScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
                         onValueChange = { input = it },
                         modifier = Modifier.weight(1f),
                         placeholder = { Text("Escribe un mensaje...") },
-                        singleLine = true
+                        singleLine = true,
+                        enabled = !isLoading
                 )
 
                 Spacer(modifier = Modifier.width(8.dp))
@@ -108,36 +151,23 @@ fun ChatScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
                 IconButton(
                         onClick = {
                             val text = input.trim()
-                            if (text.isNotEmpty()) {
-                                messages.add(ChatMessage("u${messages.size}", text, true))
+                            if (text.isNotEmpty() && !isLoading) {
+                                chatViewModel.sendMessage(text)
                                 input = ""
-                                scope.launch {
-                                    delay(700)
-                                    messages.add(
-                                            ChatMessage(
-                                                    "b${messages.size}",
-                                                    generateBotReply(text),
-                                                    false
-                                            )
-                                    )
-                                }
                             }
-                        }
-                ) { Icon(Icons.Filled.Send, contentDescription = "Enviar", tint = terracota) }
+                        },
+                        enabled = input.trim().isNotEmpty() && !isLoading
+                ) {
+                    Icon(
+                            Icons.Filled.Send,
+                            contentDescription = "Enviar",
+                            tint =
+                                    if (input.trim().isNotEmpty() && !isLoading) terracota
+                                    else Color.Gray
+                    )
+                }
             }
         }
-    }
-}
-
-private fun generateBotReply(text: String): String {
-    val t = text.lowercase()
-    return when {
-        "pizza" in t ->
-                "🍕 Te recomiendo nuestra Pizza Pepperoni Especial. ¿La agrego a tu carrito?"
-        "pedido" in t -> "Puedo ayudarte a repetir tu último pedido. ¿Deseas hacerlo?"
-        "bebida" in t -> "Tenemos Coca-Cola, Agua Mineral y Naranjada. ¿Cuál prefieres?"
-        else ->
-                "Puedo recomendarte nuestras pizzas más populares o ayudarte a buscar por categoría. ¿Qué prefieres?"
     }
 }
 

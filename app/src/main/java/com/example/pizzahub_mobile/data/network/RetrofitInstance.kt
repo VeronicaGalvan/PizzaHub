@@ -30,7 +30,14 @@ object RetrofitInstance {
     // Toggle to true to allow insecure TLS (trust-all). This will only be enabled in debug builds.
     private const val ENABLE_INSECURE_DEBUG_TLS = true
 
+    // Cache del cliente para reutilizar la instancia del AuthApi en el authenticator
+    private var cachedRetrofit: Retrofit? = null
+
     fun create(context: Context): Retrofit {
+        if (cachedRetrofit != null) {
+            return cachedRetrofit!!
+        }
+
         val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
 
         val authInterceptor = Interceptor { chain ->
@@ -84,15 +91,33 @@ object RetrofitInstance {
             }
         }
 
-        val client = clientBuilder.build()
-
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
-        return Retrofit.Builder()
-                .baseUrl(BASE)
-                .client(client)
-                .addConverterFactory(MoshiConverterFactory.create(moshi))
-                .build()
+        // Crear una instancia temporal de Retrofit para obtener AuthApi para el authenticator
+        val tempRetrofit =
+                Retrofit.Builder()
+                        .baseUrl(BASE)
+                        .client(clientBuilder.build())
+                        .addConverterFactory(MoshiConverterFactory.create(moshi))
+                        .build()
+
+        val authApi = tempRetrofit.create(AuthApi::class.java)
+
+        // Ahora agregar el authenticator con la instancia de AuthApi
+        val tokenAuthenticator = TokenAuthenticator(context, authApi)
+        clientBuilder.authenticator(tokenAuthenticator)
+
+        val client = clientBuilder.build()
+
+        val retrofit =
+                Retrofit.Builder()
+                        .baseUrl(BASE)
+                        .client(client)
+                        .addConverterFactory(MoshiConverterFactory.create(moshi))
+                        .build()
+
+        cachedRetrofit = retrofit
+        return retrofit
     }
 
     private fun isDebuggable(context: Context): Boolean {

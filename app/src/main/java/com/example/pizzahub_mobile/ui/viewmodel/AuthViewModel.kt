@@ -33,6 +33,24 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val _clientePerfil = MutableStateFlow<ClientePerfilResponse?>(null)
     val clientePerfil: StateFlow<ClientePerfilResponse?> = _clientePerfil
 
+    init {
+        // Observar cambios en el token para detectar cuando se limpia (por token expirado)
+        viewModelScope.launch {
+            TokenDataStore.getAccessTokenFlow(ctx).collect { token ->
+                val wasAuthenticated = _isAuthenticated.value
+                val isNowAuthenticated = !token.isNullOrBlank()
+
+                _isAuthenticated.value = isNowAuthenticated
+
+                // Si el usuario estaba autenticado y el token se limpió, limpiar estado
+                if (wasAuthenticated && !isNowAuthenticated) {
+                    _currentUser.value = null
+                    _clientePerfil.value = null
+                }
+            }
+        }
+    }
+
     fun checkExistingToken() {
         viewModelScope.launch {
             val t = TokenDataStore.getAccessTokenBlocking(ctx)
@@ -155,10 +173,14 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
 
     fun logout() {
         viewModelScope.launch {
-            TokenDataStore.clear(ctx)
+            _isLoading.value = true
+            // Intentar cerrar sesión en el backend
+            repo.logout()
+            // Limpiar estado local
             _isAuthenticated.value = false
             _currentUser.value = null
             _clientePerfil.value = null
+            _isLoading.value = false
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿plugins {
+﻿import java.util.Properties
+import java.io.FileInputStream
+
+plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
@@ -6,6 +9,13 @@
 
 // Apply the Google services plugin (uses classpath declared in root build.gradle.kts)
 apply(plugin = "com.google.gms.google-services")
+
+// Load local.properties
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(FileInputStream(localPropertiesFile))
+}
 
 android {
     namespace = "com.example.pizzahub_mobile"
@@ -26,24 +36,34 @@ android {
             buildConfigField(
                     "String",
                     "HERE_ACCESS_KEY_ID",
-                    "\"${project.properties["HERE_ACCESS_KEY_ID"]}\""
+                    "\"${localProperties.getProperty("HERE_ACCESS_KEY_ID")}\""
             )
             buildConfigField(
                     "String",
                     "HERE_ACCESS_KEY_SECRET",
-                    "\"${project.properties["HERE_ACCESS_KEY_SECRET"]}\""
+                    "\"${localProperties.getProperty("HERE_ACCESS_KEY_SECRET")}\""
+            )
+            buildConfigField(
+                    "String",
+                    "GEMINI_API_KEY",
+                    "\"${localProperties.getProperty("GEMINI_API_KEY")}\""
             )
         }
         release {
             buildConfigField(
                     "String",
                     "HERE_ACCESS_KEY_ID",
-                    "\"${project.properties["HERE_ACCESS_KEY_ID"]}\""
+                    "\"${localProperties.getProperty("HERE_ACCESS_KEY_ID")}\""
             )
             buildConfigField(
                     "String",
                     "HERE_ACCESS_KEY_SECRET",
-                    "\"${project.properties["HERE_ACCESS_KEY_SECRET"]}\""
+                    "\"${localProperties.getProperty("HERE_ACCESS_KEY_SECRET")}\""
+            )
+            buildConfigField(
+                    "String",
+                    "GEMINI_API_KEY",
+                    "\"${localProperties.getProperty("GEMINI_API_KEY")}\""
             )
         }
     }

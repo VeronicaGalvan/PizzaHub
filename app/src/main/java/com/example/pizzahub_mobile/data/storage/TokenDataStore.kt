@@ -17,6 +17,9 @@ object TokenDataStore {
     fun getAccessTokenFlow(context: Context): Flow<String?> =
             context.dataStore.data.map { prefs -> prefs[ACCESS_TOKEN] }
 
+    fun getRefreshTokenFlow(context: Context): Flow<String?> =
+            context.dataStore.data.map { prefs -> prefs[REFRESH_TOKEN] }
+
     suspend fun saveTokens(context: Context, access: String, refresh: String?) {
         context.dataStore.edit { prefs ->
             prefs[ACCESS_TOKEN] = access
@@ -35,6 +38,14 @@ object TokenDataStore {
     fun getAccessTokenBlocking(context: Context): String? {
         return try {
             kotlinx.coroutines.runBlocking { getAccessTokenFlow(context).first() }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun getRefreshTokenBlocking(context: Context): String? {
+        return try {
+            kotlinx.coroutines.runBlocking { getRefreshTokenFlow(context).first() }
         } catch (e: Exception) {
             null
         }
