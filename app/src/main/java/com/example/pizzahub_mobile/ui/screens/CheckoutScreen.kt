@@ -1,8 +1,5 @@
 package com.example.pizzahub_mobile.ui.screens
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -22,8 +19,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pizzahub_mobile.data.sample.SampleData
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
@@ -59,6 +54,13 @@ fun CheckoutScreen(
         val loading by localAuthViewModel.isLoading.collectAsState()
         val error by localAuthViewModel.error.collectAsState()
 
+        // ViewModel de checkout
+        val checkoutViewModel: com.example.pizzahub_mobile.ui.viewmodel.CheckoutViewModel =
+                viewModel()
+        val pedidoCreated by checkoutViewModel.pedidoCreated.collectAsState()
+        val checkoutLoading by checkoutViewModel.isLoading.collectAsState()
+        val checkoutError by checkoutViewModel.error.collectAsState()
+
         // Cargar perfil del cliente al inicio
         LaunchedEffect(Unit) { localAuthViewModel.getClientePerfil() }
 
@@ -75,6 +77,9 @@ fun CheckoutScreen(
         var userCoordinates by remember { mutableStateOf<Pair<Double, Double>?>(null) }
         var isGeocoding by remember { mutableStateOf(false) }
         var geocodingError by remember { mutableStateOf<String?>(null) }
+
+        // Método de pago
+        var metodoPago by remember { mutableStateOf(1) } // 1=Efectivo por defecto
 
         // Coordenadas de la pizzería (León, Guanajuato)
         // https://maps.app.goo.gl/iZqkmDrn7AM8DKZ27
@@ -415,6 +420,19 @@ fun CheckoutScreen(
                                 SummaryRow("Total", total, brownDark, bold = true)
                                 Spacer(modifier = Modifier.height(16.dp))
 
+                                // Navegar al tracking cuando se crea el pedido
+                                LaunchedEffect(pedidoCreated) {
+                                        pedidoCreated?.let { pedido ->
+                                                // Navegar al tracking
+                                                onConfirmOrder(
+                                                        pedido.id.toString(),
+                                                        userCoordinates?.first,
+                                                        userCoordinates?.second
+                                                )
+                                                checkoutViewModel.clearPedidoCreated()
+                                        }
+                                }
+
                                 Button(
                                         onClick = {
                                                 scope.launch {
@@ -514,98 +532,26 @@ fun CheckoutScreen(
                                                                 }
                                                         }
 
-                                                        val orderId =
-                                                                java.util
-                                                                        .UUID
-                                                                        .randomUUID()
-                                                                        .toString()
-                                                                        .take(8)
-                                                        // Post a simulated push notification
-                                                        // locally
-                                                        val channelId = "pizzahub_orders"
-                                                        // create channel if needed
-                                                        if (android.os.Build.VERSION.SDK_INT >=
-                                                                        android.os.Build
-                                                                                .VERSION_CODES
-                                                                                .O
-                                                        ) {
-                                                                val name = "Order Notifications"
-                                                                val descr =
-                                                                        "Notifications for order updates (simulated)"
-                                                                val importance =
-                                                                        NotificationManager
-                                                                                .IMPORTANCE_DEFAULT
-                                                                val channel =
-                                                                        NotificationChannel(
-                                                                                        channelId,
-                                                                                        name,
-                                                                                        importance
-                                                                                )
-                                                                                .apply {
-                                                                                        description =
-                                                                                                descr
-                                                                                }
-                                                                val nm =
-                                                                        ctx.getSystemService(
-                                                                                Context.NOTIFICATION_SERVICE
-                                                                        ) as
-                                                                                NotificationManager
-                                                                nm.createNotificationChannel(
-                                                                        channel
-                                                                )
-                                                        }
+                                                        // Crear pedido real con el backend
+                                                        val clienteId = clientePerfil?.id ?: 0
+                                                        val tipo =
+                                                                if (tipoPedido == "Domicilio") 4
+                                                                else 2 // 4=Domicilio, 2=ParaLlevar
+                                                        val direccion =
+                                                                if (tipoPedido == "Domicilio") {
+                                                                        "$calle $numeroCasa, $colonia"
+                                                                } else null
 
-                                                        val notif =
-                                                                NotificationCompat.Builder(
-                                                                                ctx,
-                                                                                channelId
-                                                                        )
-                                                                        .setSmallIcon(
-                                                                                android.R
-                                                                                        .drawable
-                                                                                        .ic_dialog_info
-                                                                        )
-                                                                        .setContentTitle(
-                                                                                "Pedido confirmado"
-                                                                        )
-                                                                        .setContentText(
-                                                                                "Tu pedido $orderId ha sido confirmado (simulado)."
-                                                                        )
-                                                                        .setPriority(
-                                                                                NotificationCompat
-                                                                                        .PRIORITY_DEFAULT
-                                                                        )
-                                                                        .build()
-
-                                                        // Verificar permiso antes de mostrar
-                                                        // notificación
-                                                        val permissionGranted =
-                                                                android.os.Build.VERSION.SDK_INT <
-                                                                        33 ||
-                                                                        androidx.core.content
-                                                                                .ContextCompat
-                                                                                .checkSelfPermission(
-                                                                                        ctx,
-                                                                                        android.Manifest
-                                                                                                .permission
-                                                                                                .POST_NOTIFICATIONS
-                                                                                ) ==
-                                                                                android.content.pm
-                                                                                        .PackageManager
-                                                                                        .PERMISSION_GRANTED
-
-                                                        if (permissionGranted) {
-                                                                NotificationManagerCompat.from(ctx)
-                                                                        .notify(
-                                                                                orderId.hashCode(),
-                                                                                notif
-                                                                        )
-                                                        }
-
-                                                        onConfirmOrder(
-                                                                orderId,
-                                                                coords?.first,
-                                                                coords?.second
+                                                        checkoutViewModel.createPedido(
+                                                                clienteId = clienteId,
+                                                                tipo = tipo,
+                                                                metodoPago = metodoPago,
+                                                                direccionEntrega = direccion,
+                                                                observaciones =
+                                                                        observaciones.ifBlank {
+                                                                                null
+                                                                        },
+                                                                cartItems = itemsWithQty
                                                         )
                                                 }
                                         },
@@ -615,9 +561,9 @@ fun CheckoutScreen(
                                                 ButtonDefaults.buttonColors(
                                                         containerColor = terracota
                                                 ),
-                                        enabled = !loading
+                                        enabled = !loading && !checkoutLoading
                                 ) {
-                                        if (loading) {
+                                        if (loading || checkoutLoading) {
                                                 CircularProgressIndicator(
                                                         modifier = Modifier.size(20.dp),
                                                         color = Color.White
@@ -629,6 +575,16 @@ fun CheckoutScreen(
                                                         fontWeight = FontWeight.Bold
                                                 )
                                         }
+                                }
+
+                                // Mostrar errores
+                                checkoutError?.let {
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        Text(
+                                                text = it,
+                                                color = MaterialTheme.colorScheme.error,
+                                                fontSize = 12.sp
+                                        )
                                 }
 
                                 error?.let {

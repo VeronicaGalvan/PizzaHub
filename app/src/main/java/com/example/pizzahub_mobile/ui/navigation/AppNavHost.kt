@@ -173,13 +173,17 @@ fun AppNavHost(modifier: Modifier = Modifier) {
                                     "delivery_tracking/$id"
                                 }
                         navigateTo(route)
-                    }
+                    },
+                    onViewDetails = { id -> navController.navigate("order_detail/$id") }
             )
         }
 
         composable("profile") {
             ProfileScreen(
                     onBack = { navController.popBackStack() },
+                    onNavigateToOrderTracking = { id ->
+                        navController.navigate("order_tracking/$id")
+                    },
                     onNavigateToOrderHistory = { navigateTo("order_history") },
                     onNavigateToNotifications = { navigateTo("notifications") },
                     onNavigateToAddresses = { navigateTo("addresses") },
@@ -198,9 +202,12 @@ fun AppNavHost(modifier: Modifier = Modifier) {
             OrderHistoryScreen(
                     onBack = { navController.popBackStack() },
                     onOpenDetail = { id -> navController.navigate("order_detail/$id") },
-                    onRepeatOrder = { id ->
-                        (SampleData.pizzas + SampleData.beverages + SampleData.complements)
-                                .forEach { cartViewModel.addProduct(it) }
+                    onRepeatOrder = { pedidoId ->
+                        // TODO: Implementar carga de productos del pedido desde API
+                        // Por ahora agregamos productos de ejemplo
+                        (SampleData.pizzas + SampleData.beverages).take(2).forEach {
+                            cartViewModel.addProduct(it)
+                        }
                         navigateTo("cart")
                     }
             )
@@ -212,8 +219,11 @@ fun AppNavHost(modifier: Modifier = Modifier) {
                     orderId = id,
                     onBack = { navController.popBackStack() },
                     onRepeat = { orderId ->
-                        (SampleData.pizzas + SampleData.beverages + SampleData.complements)
-                                .forEach { cartViewModel.addProduct(it) }
+                        // TODO: Implementar carga de productos del pedido desde API
+                        // Por ahora agregamos productos de ejemplo
+                        (SampleData.pizzas + SampleData.beverages).take(2).forEach {
+                            cartViewModel.addProduct(it)
+                        }
                         navigateTo("cart")
                     },
                     onRate = { orderId -> navController.navigate("rating/$orderId") }

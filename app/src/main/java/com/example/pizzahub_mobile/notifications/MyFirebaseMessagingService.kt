@@ -1,12 +1,7 @@
 package com.example.pizzahub_mobile.notifications
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
-import android.os.Build
 import android.util.Log
-import androidx.core.app.NotificationCompat
-import com.example.pizzahub_mobile.R
+import com.example.pizzahub_mobile.data.models.EstadoPedido
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.CoroutineScope
@@ -14,25 +9,25 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
- * Simple FirebaseMessagingService that logs token, persists it if desired, and shows a simple
- * notification for incoming messages. Ready for manual tests from Firebase Console.
+ * FirebaseMessagingService que maneja notificaciones push de seguimiento de pedidos. El backend
+ * enviará notificaciones con datos de estado de pedido.
  */
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     private val TAG = "MyFirebaseMsgService"
-    private val CHANNEL_ID = "pizzahub_notifications"
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d(TAG, "FCM new token: $token")
-        // Optionally persist the FCM token somewhere, or upload to your backend.
-        // Example: save to DataStore (non-blocking)
-        val ctx = applicationContext
+
+        // TODO: Enviar el token al backend para asociarlo con el usuario
+        // Esto permitirá que el backend envíe notificaciones push específicas
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                // You can save this token using your TokenDataStore or a separate store
-                // TokenDataStore.saveFcmToken(ctx, token) // not implemented
+                // Aquí podrías llamar un endpoint como:
+                // authRepository.registerFcmToken(token)
+                Log.d(TAG, "FCM token ready to be registered with backend")
             } catch (e: Exception) {
-                Log.e(TAG, "Failed to persist FCM token: ${e.localizedMessage}")
+                Log.e(TAG, "Failed to register FCM token: ${e.localizedMessage}")
             }
         }
     }
@@ -40,35 +35,68 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         Log.d(TAG, "Message received from: ${remoteMessage.from}")
+        Log.d(TAG, "Message data: ${remoteMessage.data}")
 
-        val title = remoteMessage.notification?.title ?: remoteMessage.data["title"] ?: "PizzaHub"
-        val body =
-                remoteMessage.notification?.body
-                        ?: remoteMessage.data["body"] ?: "Tienes una actualización sobre tu pedido"
+        // El backend puede enviar datos en el campo 'data' de la notificación
+        val data = remoteMessage.data
 
-        showNotification(this, title, body)
+        // Verificar si es una notificación de pedido
+        val tipo = data["tipo"] ?: data["type"]
+
+        when (tipo) {
+            "pedido_estado", "order_status" -> {
+                handleOrderStatusNotification(data)
+            }
+            else -> {
+                // Notificación genérica
+                val title = remoteMessage.notification?.title ?: data["title"] ?: "PizzaHub"
+                val body =
+                        remoteMessage.notification?.body
+                                ?: data["body"] ?: "Tienes una actualización"
+
+                NotificationHelper.showGenericNotification(this, title, body)
+            }
+        }
     }
 
-    private fun showNotification(context: Context, title: String, body: String) {
-        val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel =
-                    NotificationChannel(
-                            CHANNEL_ID,
-                            "PizzaHub notifications",
-                            NotificationManager.IMPORTANCE_DEFAULT
-                    )
-            nm.createNotificationChannel(channel)
+    /**
+     * Maneja notificaciones de cambio de estado de pedido
+     *
+     * Datos esperados del backend:
+     * - tipo: "pedido_estado" o "order_status"
+     * - pedidoId: ID del pedido
+     * - numeroPedido: Número de pedido (opcional)
+     * - estado: Estado del pedido (puede ser int: 1,2,3... o string: "Pendiente", "En preparación",
+     * etc.)
+     * - mensaje: Mensaje personalizado (opcional)
+     */
+    private fun handleOrderStatusNotification(data: Map<String, String>) {
+        try {
+            val pedidoId = data["pedidoId"] ?: data["orderId"] ?: return
+            val numeroPedido = data["numeroPedido"] ?: data["orderNumber"]
+            val estadoRaw = data["estado"] ?: data["status"] ?: return
+            val mensaje = data["mensaje"] ?: data["message"]
+
+            // Intentar parsear el estado (puede ser int o string)
+            val estadoPedido =
+                    estadoRaw.toIntOrNull()?.let { EstadoPedido.fromValue(it) }
+                            ?: EstadoPedido.fromString(estadoRaw)
+
+            if (estadoPedido != null) {
+                Log.d(TAG, "Order notification: pedido=$pedidoId, estado=$estadoPedido")
+
+                NotificationHelper.showOrderNotification(
+                        context = this,
+                        pedidoId = pedidoId,
+                        numeroPedido = numeroPedido,
+                        estadoPedido = estadoPedido,
+                        mensaje = mensaje
+                )
+            } else {
+                Log.w(TAG, "Unknown order status value: $estadoRaw")
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error handling order notification: ${e.localizedMessage}", e)
         }
-
-        val notification =
-                NotificationCompat.Builder(context, CHANNEL_ID)
-                        .setContentTitle(title)
-                        .setContentText(body)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setAutoCancel(true)
-                        .build()
-
-        nm.notify(System.currentTimeMillis().toInt(), notification)
     }
 }

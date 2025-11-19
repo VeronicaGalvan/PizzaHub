@@ -10,6 +10,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.pizzahub_mobile.notifications.NotificationHelper
 import com.example.pizzahub_mobile.ui.navigation.AppNavHost
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
 
@@ -17,6 +18,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        // Crear canal de notificaciones
+        NotificationHelper.createNotificationChannel(this)
+
         setContent {
             PizzaHub_MobileTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -30,7 +35,5 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun MainActivityPreview() {
-    PizzaHub_MobileTheme {
-        AppNavHost()
-    }
+    PizzaHub_MobileTheme { AppNavHost() }
 }

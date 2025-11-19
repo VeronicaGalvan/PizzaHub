@@ -32,6 +32,17 @@ object RetrofitInstance {
 
     // Cache del cliente para reutilizar la instancia del AuthApi en el authenticator
     private var cachedRetrofit: Retrofit? = null
+    private var cachedAuthApi: AuthApi? = null
+
+    val authApi: AuthApi
+        get() {
+            if (cachedAuthApi == null) {
+                throw IllegalStateException(
+                        "RetrofitInstance not initialized. Call create(context) first."
+                )
+            }
+            return cachedAuthApi!!
+        }
 
     fun create(context: Context): Retrofit {
         if (cachedRetrofit != null) {
@@ -102,6 +113,7 @@ object RetrofitInstance {
                         .build()
 
         val authApi = tempRetrofit.create(AuthApi::class.java)
+        cachedAuthApi = authApi
 
         // Ahora agregar el authenticator con la instancia de AuthApi
         val tokenAuthenticator = TokenAuthenticator(context, authApi)

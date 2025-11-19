@@ -4,10 +4,14 @@ import android.content.Context
 import com.example.pizzahub_mobile.data.models.ClientePerfilResponse
 import com.example.pizzahub_mobile.data.models.ClienteRequest
 import com.example.pizzahub_mobile.data.models.ClienteUpdateRequest
+import com.example.pizzahub_mobile.data.models.PedidoDetalle
+import com.example.pizzahub_mobile.data.models.PedidoRequest
+import com.example.pizzahub_mobile.data.models.PedidoResponse
 import com.example.pizzahub_mobile.data.models.RefreshTokenRequest
 import com.example.pizzahub_mobile.data.models.UserLoginRequest
 import com.example.pizzahub_mobile.data.models.UserRegisterRequest
 import com.example.pizzahub_mobile.data.storage.TokenDataStore
+import com.example.pizzahub_mobile.ui.viewmodel.CartItem
 
 sealed class AuthResult {
     data class Success(val accessToken: String, val refreshToken: String?, val user: Any?) :
@@ -166,6 +170,73 @@ class AuthRepository(private val api: AuthApi, private val context: Context) {
                 val resp = api.updateClientePerfil(req)
                 if (resp.isSuccessful) {
                     Result.success(Unit)
+                } else {
+                    val msg = resp.errorBody()?.string() ?: "${resp.code()}: ${resp.message()}"
+                    Result.failure(Exception(msg))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+
+    /** Crea un pedido a partir de los items del carrito */
+    suspend fun createPedido(
+            clienteId: Int,
+            tipo: Int,
+            metodoPago: Int,
+            direccionEntrega: String?,
+            observaciones: String?,
+            cartItems: List<CartItem>
+    ): Result<PedidoResponse> =
+            try {
+                // Convertir items del carrito a detalles de pedido
+                val detalles =
+                        cartItems.map { item ->
+                            PedidoDetalle(
+                                    productoId = item.product.id.toIntOrNull() ?: 0,
+                                    cantidad = item.quantity
+                            )
+                        }
+
+                val request =
+                        PedidoRequest(
+                                clienteId = clienteId,
+                                tipo = tipo,
+                                metodoPago = metodoPago,
+                                origen = 0, // 0 = App móvil
+                                direccionEntrega = direccionEntrega,
+                                observaciones = observaciones,
+                                detalles = detalles
+                        )
+
+                val resp = api.createPedido(request)
+                if (resp.isSuccessful && resp.body() != null) {
+                    Result.success(resp.body()!!)
+                } else {
+                    val msg = resp.errorBody()?.string() ?: "${resp.code()}: ${resp.message()}"
+                    Result.failure(Exception(msg))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+
+    suspend fun getPedidoById(pedidoId: Int): Result<PedidoResponse> =
+            try {
+                val resp = api.getPedidoById(pedidoId)
+                if (resp.isSuccessful && resp.body() != null) {
+                    Result.success(resp.body()!!)
+                } else {
+                    val msg = resp.errorBody()?.string() ?: "${resp.code()}: ${resp.message()}"
+                    Result.failure(Exception(msg))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+
+    suspend fun getPedidosByCliente(clienteId: Int): Result<List<PedidoResponse>> =
+            try {
+                val resp = api.getPedidosByCliente(clienteId)
+                if (resp.isSuccessful && resp.body() != null) {
+                    Result.success(resp.body()!!)
                 } else {
                     val msg = resp.errorBody()?.string() ?: "${resp.code()}: ${resp.message()}"
                     Result.failure(Exception(msg))

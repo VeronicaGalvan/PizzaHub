@@ -4,6 +4,8 @@ import com.example.pizzahub_mobile.data.models.AuthResponse
 import com.example.pizzahub_mobile.data.models.ClientePerfilResponse
 import com.example.pizzahub_mobile.data.models.ClienteRequest
 import com.example.pizzahub_mobile.data.models.ClienteUpdateRequest
+import com.example.pizzahub_mobile.data.models.PedidoRequest
+import com.example.pizzahub_mobile.data.models.PedidoResponse
 import com.example.pizzahub_mobile.data.models.RefreshTokenRequest
 import com.example.pizzahub_mobile.data.models.UserLoginRequest
 import com.example.pizzahub_mobile.data.models.UserRegisterRequest
@@ -13,6 +15,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Path
 
 interface AuthApi {
     @POST("api/v1/auth/login")
@@ -33,4 +36,15 @@ interface AuthApi {
 
     @PUT("api/Clientes/mi-perfil")
     suspend fun updateClientePerfil(@Body request: ClienteUpdateRequest): Response<Any>
+
+    @POST("api/PedidosNew/registrar")
+    suspend fun createPedido(@Body request: PedidoRequest): Response<PedidoResponse>
+
+    @GET("api/PedidosNew/{id}")
+    suspend fun getPedidoById(@Path("id") pedidoId: Int): Response<PedidoResponse>
+
+    @GET("api/PedidosNew/cliente/{clienteId}")
+    suspend fun getPedidosByCliente(
+            @Path("clienteId") clienteId: Int
+    ): Response<List<PedidoResponse>>
 }

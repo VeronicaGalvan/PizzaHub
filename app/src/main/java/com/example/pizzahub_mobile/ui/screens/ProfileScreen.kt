@@ -43,6 +43,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ProfileScreen(
         onBack: () -> Unit,
+        onNavigateToOrderTracking: (String) -> Unit = {},
         onNavigateToOrderHistory: () -> Unit = {},
         onNavigateToNotifications: () -> Unit = {},
         onNavigateToAddresses: () -> Unit = {},
@@ -55,12 +56,16 @@ fun ProfileScreen(
         val brownDark = Color(0xFF4E342E)
         val scope = rememberCoroutineScope()
 
-        // ViewModel
+        // ViewModels
         val localAuthViewModel =
                 authViewModel ?: viewModel<com.example.pizzahub_mobile.ui.viewmodel.AuthViewModel>()
         val clientePerfil by localAuthViewModel.clientePerfil.collectAsState()
         val currentUser by localAuthViewModel.currentUser.collectAsState()
         val loading by localAuthViewModel.isLoading.collectAsState()
+
+        val orderHistoryViewModel: com.example.pizzahub_mobile.ui.viewmodel.OrderHistoryViewModel =
+                viewModel()
+        val pedidos by orderHistoryViewModel.pedidos.collectAsState()
 
         // Estados de edición
         var isEditing by remember { mutableStateOf(false) }
@@ -72,8 +77,12 @@ fun ProfileScreen(
         var numeroCasa by remember { mutableStateOf("") }
         var observaciones by remember { mutableStateOf("") }
 
-        // Cargar perfil al inicio
+        // Cargar perfil y pedidos al inicio
         LaunchedEffect(Unit) { localAuthViewModel.getClientePerfil() }
+
+        LaunchedEffect(clientePerfil) {
+                clientePerfil?.id?.let { clienteId -> orderHistoryViewModel.loadPedidos(clienteId) }
+        }
 
         // Actualizar campos cuando se cargue el perfil
         LaunchedEffect(clientePerfil) {
@@ -368,6 +377,78 @@ fun ProfileScreen(
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
+
+                // Pedido activo (si existe)
+                val activePedido =
+                        pedidos.firstOrNull { pedido ->
+                                val estado =
+                                        com.example.pizzahub_mobile.data.models.EstadoPedido
+                                                .fromString(pedido.estado)
+                                estado !=
+                                        com.example.pizzahub_mobile.data.models.EstadoPedido
+                                                .ENTREGADO &&
+                                        estado !=
+                                                com.example.pizzahub_mobile.data.models.EstadoPedido
+                                                        .CANCELADO
+                        }
+
+                if (activePedido != null) {
+                        Card(
+                                modifier =
+                                        Modifier.fillMaxWidth().clickable {
+                                                onNavigateToOrderTracking(
+                                                        activePedido.id.toString()
+                                                )
+                                        },
+                                shape = RoundedCornerShape(18.dp),
+                                colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF4E8))
+                        ) {
+                                Row(
+                                        modifier = Modifier.padding(16.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                        Surface(
+                                                modifier = Modifier.size(50.dp),
+                                                shape = CircleShape,
+                                                color = terracota.copy(alpha = 0.2f)
+                                        ) {
+                                                Box(
+                                                        contentAlignment = Alignment.Center,
+                                                        modifier = Modifier.fillMaxSize()
+                                                ) { Text(text = "🍕", fontSize = 24.sp) }
+                                        }
+
+                                        Spacer(modifier = Modifier.width(12.dp))
+
+                                        Column(modifier = Modifier.weight(1f)) {
+                                                Text(
+                                                        text = "Pedido en curso",
+                                                        fontWeight = FontWeight.Bold,
+                                                        color = brownDark,
+                                                        fontSize = 16.sp
+                                                )
+                                                Spacer(modifier = Modifier.height(4.dp))
+                                                Text(
+                                                        text =
+                                                                "Pedido #${activePedido.id} - ${activePedido.estado}",
+                                                        color = brownDark.copy(alpha = 0.7f),
+                                                        fontSize = 14.sp
+                                                )
+                                        }
+
+                                        Icon(
+                                                imageVector =
+                                                        androidx.compose.material.icons.Icons.Filled
+                                                                .ArrowBack,
+                                                contentDescription = "Ver pedido",
+                                                tint = terracota,
+                                                modifier = Modifier.size(24.dp)
+                                        )
+                                }
+                        }
+
+                        Spacer(modifier = Modifier.height(16.dp))
+                }
 
                 // Settings / actions list
                 val items =
