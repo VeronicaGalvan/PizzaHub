@@ -137,6 +137,49 @@
             Obtener estadísticas del repartidor
             </summary>
         </member>
+        <member name="M:PizzaHubAPI.Controllers.NotificacionesController.ObtenerClienteIdDelTokenAsync">
+            <summary>
+            Obtiene el ID del cliente desde el token JWT
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.NotificacionesController.RegistrarTokenFCM(PizzaHubAPI.Models.DTOs.RegistrarTokenFCMDto)">
+            <summary>
+            Registra o actualiza el token FCM del cliente
+            </summary>
+            <param name="dto">Objeto con el token FCM</param>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.NotificacionesController.EliminarTokenFCM">
+            <summary>
+            Elimina el token FCM del cliente (logout o desinstalación)
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.NotificacionesController.ObtenerNotificaciones(System.Boolean)">
+            <summary>
+            Obtiene todas las notificaciones del cliente autenticado
+            </summary>
+            <param name="soloNoLeidas">Si es true, solo retorna las no leídas</param>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.NotificacionesController.ObtenerConteoNoLeidas">
+            <summary>
+            Obtiene el conteo de notificaciones no leídas
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.NotificacionesController.MarcarComoLeida(System.Int32)">
+            <summary>
+            Marca una notificación específica como leída
+            </summary>
+            <param name="id">ID de la notificación</param>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.NotificacionesController.MarcarTodasComoLeidas">
+            <summary>
+            Marca todas las notificaciones del cliente como leídas
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Controllers.NotificacionesController.EnviarNotificacionPrueba">
+            <summary>
+            Envía una notificación de prueba al cliente (solo para testing)
+            </summary>
+        </member>
         <member name="T:PizzaHubAPI.Migrations.BD1">
             <inheritdoc />
         </member>
@@ -209,9 +252,66 @@
         <member name="M:PizzaHubAPI.Migrations.BaseDeDatos4.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:PizzaHubAPI.Migrations.BD2">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.BD2.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.BD2.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.BD2.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="M:PizzaHubAPI.Models.TokenRevocado.ComputeHash(System.String)">
             <summary>
             Calcula el hash SHA256 de un token para almacenamiento indexado
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Services.NotificacionService.EnviarNotificacionPushAsync(System.Int32,System.String,System.String,System.String,System.Nullable{System.Int32})">
+            <summary>
+            Envía una notificación push a un cliente específico
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Services.NotificacionService.EnviarPushFCMAsync(System.String,System.String,System.String,System.Nullable{System.Int32})">
+            <summary>
+            Envía una notificación push mediante FCM
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Services.NotificacionService.RegistrarTokenFCMAsync(System.Int32,System.String)">
+            <summary>
+            Registra o actualiza el token FCM de un cliente
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Services.NotificacionService.EliminarTokenFCMAsync(System.Int32)">
+            <summary>
+            Elimina el token FCM de un cliente (cuando cierra sesión o desinstala la app)
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Services.NotificacionService.InvalidarTokenFCMAsync(System.String)">
+            <summary>
+            Invalida un token FCM que ya no es válido
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Services.NotificacionService.ObtenerNotificacionesClienteAsync(System.Int32,System.Boolean)">
+            <summary>
+            Obtiene las notificaciones de un cliente
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Services.NotificacionService.MarcarComoLeidaAsync(System.Int32,System.Int32)">
+            <summary>
+            Marca una notificación como leída
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Services.NotificacionService.MarcarTodasComoLeidasAsync(System.Int32)">
+            <summary>
+            Marca todas las notificaciones de un cliente como leídas
+            </summary>
+        </member>
+        <member name="M:PizzaHubAPI.Services.NotificacionService.NotificarCambioEstadoPedidoAsync(System.Int32,PizzaHubAPI.Models.EstadoPedidoEnum)">
+            <summary>
+            Envía notificación cuando cambia el estado de un pedido
             </summary>
         </member>
     </members>

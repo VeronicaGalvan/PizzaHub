@@ -209,3 +209,24 @@ public class DetallePedidoCompletoDto
     public int Cantidad { get; set; }
     public decimal Subtotal { get; set; }
 }
+
+// DTOs para notificaciones
+public class NotificacionDto
+{
+    public int Id { get; set; }
+    public string Titulo { get; set; } = null!;
+    public string Mensaje { get; set; } = null!;
+    public string Tipo { get; set; } = null!;
+    public int? PedidoId { get; set; }
+    public bool Leida { get; set; }
+    public bool Enviada { get; set; }
+    public DateTime FechaCreacion { get; set; }
+    public DateTime? FechaLectura { get; set; }
+}
+
+public class RegistrarTokenFCMDto
+{
+    [Required]
+    [MaxLength(255)]
+    public string FcmToken { get; set; } = null!;
+}

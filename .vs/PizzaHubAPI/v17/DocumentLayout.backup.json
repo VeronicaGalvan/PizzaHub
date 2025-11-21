@@ -1,7 +1,44 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Actividades_Universidad_UTL\\PizzaHub\\PizzaHubAPI\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|c:\\pizzahub\\pizzahub_backend\\pizzahubapi\\pizzahubapi\\controllers\\pedidosnewcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|solutionrelative:pizzahubapi\\controllers\\pedidosnewcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|c:\\pizzahub\\pizzahub_backend\\pizzahubapi\\pizzahubapi\\services\\notificacionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|solutionrelative:pizzahubapi\\services\\notificacionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|c:\\pizzahub\\pizzahub_backend\\pizzahubapi\\pizzahubapi\\controllers\\misenvioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|solutionrelative:pizzahubapi\\controllers\\misenvioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|c:\\pizzahub\\pizzahub_backend\\pizzahubapi\\pizzahubapi\\guia_pruebas_cronologica.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|solutionrelative:pizzahubapi\\guia_pruebas_cronologica.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|c:\\pizzahub\\pizzahub_backend\\pizzahubapi\\pizzahubapi\\controllers\\notificacionescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|solutionrelative:pizzahubapi\\controllers\\notificacionescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|c:\\pizzahub\\pizzahub_backend\\pizzahubapi\\pizzahubapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|solutionrelative:pizzahubapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|c:\\pizzahub\\pizzahub_backend\\pizzahubapi\\pizzahubapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|solutionrelative:pizzahubapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|c:\\pizzahub\\pizzahub_backend\\pizzahubapi\\pizzahubapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|solutionrelative:pizzahubapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|c:\\pizzahub\\pizzahub_backend\\pizzahubapi\\pizzahubapi\\migrations\\20251120183808_bd2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90C21B7E-68DE-43FE-8301-047EAD563028}|PizzaHubAPI\\PizzaHubAPI.csproj|solutionrelative:pizzahubapi\\migrations\\20251120183808_bd2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +46,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 9,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
@@ -21,11 +62,129 @@
             },
             {
               "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
             },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MisEnviosController.cs",
+              "DocumentMoniker": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\PizzaHubAPI\\Controllers\\MisEnviosController.cs",
+              "RelativeDocumentMoniker": "PizzaHubAPI\\Controllers\\MisEnviosController.cs",
+              "ToolTip": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\PizzaHubAPI\\Controllers\\MisEnviosController.cs",
+              "RelativeToolTip": "PizzaHubAPI\\Controllers\\MisEnviosController.cs",
+              "ViewState": "AgIAAFwBAAAAAAAAAAAkwG8BAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T05:07:48.861Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\PizzaHubAPI\\Program.cs",
+              "RelativeDocumentMoniker": "PizzaHubAPI\\Program.cs",
+              "ToolTip": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\PizzaHubAPI\\Program.cs",
+              "RelativeToolTip": "PizzaHubAPI\\Program.cs",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAcwJMAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T21:42:45.123Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "NotificacionService.cs",
+              "DocumentMoniker": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\PizzaHubAPI\\Services\\NotificacionService.cs",
+              "RelativeDocumentMoniker": "PizzaHubAPI\\Services\\NotificacionService.cs",
+              "ToolTip": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\PizzaHubAPI\\Services\\NotificacionService.cs",
+              "RelativeToolTip": "PizzaHubAPI\\Services\\NotificacionService.cs",
+              "ViewState": "AgIAAFABAAAAAAAAAAAlwGwBAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T19:30:52.058Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PedidosNewController.cs",
+              "DocumentMoniker": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\PizzaHubAPI\\Controllers\\PedidosNewController.cs",
+              "RelativeDocumentMoniker": "PizzaHubAPI\\Controllers\\PedidosNewController.cs",
+              "ToolTip": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\PizzaHubAPI\\Controllers\\PedidosNewController.cs",
+              "RelativeToolTip": "PizzaHubAPI\\Controllers\\PedidosNewController.cs",
+              "ViewState": "AgIAAHYAAAAAAAAAAAAkwIUAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T19:25:08.114Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "NotificacionesController.cs",
+              "DocumentMoniker": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\PizzaHubAPI\\Controllers\\NotificacionesController.cs",
+              "RelativeDocumentMoniker": "PizzaHubAPI\\Controllers\\NotificacionesController.cs",
+              "ToolTip": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\PizzaHubAPI\\Controllers\\NotificacionesController.cs",
+              "RelativeToolTip": "PizzaHubAPI\\Controllers\\NotificacionesController.cs",
+              "ViewState": "AgIAAMUAAAAAAAAAAAAqwBIBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T18:49:08.664Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GUIA_PRUEBAS_CRONOLOGICA.md",
+              "DocumentMoniker": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\PizzaHubAPI\\GUIA_PRUEBAS_CRONOLOGICA.md",
+              "RelativeDocumentMoniker": "PizzaHubAPI\\GUIA_PRUEBAS_CRONOLOGICA.md",
+              "ToolTip": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\PizzaHubAPI\\GUIA_PRUEBAS_CRONOLOGICA.md",
+              "RelativeToolTip": "PizzaHubAPI\\GUIA_PRUEBAS_CRONOLOGICA.md",
+              "ViewState": "AgIAAIQAAAAAAAAAAAAAAJ0AAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2025-11-20T18:39:54.613Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\PizzaHubAPI\\appsettings.json",
+              "RelativeDocumentMoniker": "PizzaHubAPI\\appsettings.json",
+              "ToolTip": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\PizzaHubAPI\\appsettings.json",
+              "RelativeToolTip": "PizzaHubAPI\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-19T23:51:49.04Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\PizzaHubAPI\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "PizzaHubAPI\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\PizzaHubAPI\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "PizzaHubAPI\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAADgAAAAAAAAAAAAswEYAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T18:49:06.625Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "20251120183808_BD2.cs",
+              "DocumentMoniker": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251120183808_BD2.cs",
+              "RelativeDocumentMoniker": "PizzaHubAPI\\Migrations\\20251120183808_BD2.cs",
+              "ToolTip": "C:\\PizzaHub\\PizzaHub_Backend\\PizzaHubAPI\\PizzaHubAPI\\Migrations\\20251120183808_BD2.cs",
+              "RelativeToolTip": "PizzaHubAPI\\Migrations\\20251120183808_BD2.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T18:38:08.495Z"
             }
           ]
         }

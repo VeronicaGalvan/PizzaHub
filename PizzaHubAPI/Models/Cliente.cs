@@ -42,6 +42,10 @@ public class Cliente
     
     [Column("usuario_id")]
     public int? UsuarioId { get; set; }
+    
+    [MaxLength(255)]
+    [Column("fcm_token")]
+    public string? FcmToken { get; set; }
 
     // Relaciones
     [ForeignKey("UsuarioId")]
@@ -49,4 +53,7 @@ public class Cliente
     
     [JsonIgnore]
     public virtual ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
+    
+    [JsonIgnore]
+    public virtual ICollection<Notificacion> Notificaciones { get; set; } = new List<Notificacion>();
 }

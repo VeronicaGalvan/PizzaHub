@@ -1232,6 +1232,114 @@
     ]
   },
   {
+    "ContainingType": "PizzaHubAPI.Controllers.NotificacionesController",
+    "Method": "ObtenerNotificaciones",
+    "RelativePath": "api/Notificaciones",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "soloNoLeidas",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[PizzaHubAPI.Models.DTOs.NotificacionDto, PizzaHubAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.NotificacionesController",
+    "Method": "MarcarComoLeida",
+    "RelativePath": "api/Notificaciones/{id}/marcar-leida",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.NotificacionesController",
+    "Method": "EliminarTokenFCM",
+    "RelativePath": "api/Notificaciones/eliminar-token",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.NotificacionesController",
+    "Method": "MarcarTodasComoLeidas",
+    "RelativePath": "api/Notificaciones/marcar-todas-leidas",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.NotificacionesController",
+    "Method": "ObtenerConteoNoLeidas",
+    "RelativePath": "api/Notificaciones/no-leidas/conteo",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Int32",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.NotificacionesController",
+    "Method": "EnviarNotificacionPrueba",
+    "RelativePath": "api/Notificaciones/prueba",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.NotificacionesController",
+    "Method": "RegistrarTokenFCM",
+    "RelativePath": "api/Notificaciones/registrar-token",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "PizzaHubAPI.Models.DTOs.RegistrarTokenFCMDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "PizzaHubAPI.Controllers.PedidosNewController",
     "Method": "GetPedidos",
     "RelativePath": "api/PedidosNew",

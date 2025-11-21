@@ -124,19 +124,33 @@ public class AuthService : IAuthService
         return await GenerateAuthResponseAsync(usuario);
     }
 
-    private Task<LoginResponseDTO> GenerateAuthResponseAsync(Usuario usuario)
+    private async Task<LoginResponseDTO> GenerateAuthResponseAsync(Usuario usuario)
     {
         if (usuario == null) throw new ArgumentNullException(nameof(usuario));
         // Roles come solely from the Usuario enum
         var roles = new[] { usuario.Rol.ToString() };
 
-        var claims = new[]
+        var claimsList = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, usuario!.Id.ToString()),
             new Claim(ClaimTypes.Email, usuario!.Correo),
             new Claim(ClaimTypes.Name, usuario!.NombreUsuario ?? usuario!.Correo),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        }.Concat(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+        };
+
+        // Si es cliente, agregar el ClienteId al token
+        if (usuario.Rol == UsuarioRolEnum.Cliente)
+        {
+            var cliente = await _context.Clientes
+                .FirstOrDefaultAsync(c => c.UsuarioId == usuario.Id);
+            
+            if (cliente != null)
+            {
+                claimsList.Add(new Claim("ClienteId", cliente.Id.ToString()));
+            }
+        }
+
+        var claims = claimsList.Concat(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -152,7 +166,7 @@ public class AuthService : IAuthService
 
         var refreshToken = GenerateRefreshToken();
 
-        return Task.FromResult(new LoginResponseDTO
+        return new LoginResponseDTO
         {
             AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
             RefreshToken = refreshToken,
@@ -165,7 +179,7 @@ public class AuthService : IAuthService
                 NombreUsuario = usuario.NombreUsuario ?? "",
                 TelefonoContacto = usuario.Telefono
             }
-        });
+        };
     }
 
     private string GenerateRefreshToken()

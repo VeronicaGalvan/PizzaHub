@@ -6,6 +6,8 @@ using Microsoft.OpenApi.Models;
 using PizzaHubAPI.Configurations;
 using PizzaHubAPI.Data;
 using PizzaHubAPI.Services;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,6 +80,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 // Registrar servicios
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<PedidoService>();
+builder.Services.AddScoped<NotificacionService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -132,6 +135,20 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+// Inicializar Firebase si no existe
+var credentialsPath = builder.Configuration["Firebase:CredentialsPath"];
+if (credentialsPath != null && File.Exists(credentialsPath))
+{
+    if (FirebaseApp.DefaultInstance == null)
+    {
+        FirebaseApp.Create(new AppOptions
+        {
+            Credential = GoogleCredential.FromFile(credentialsPath)
+        });
+    }
+}
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

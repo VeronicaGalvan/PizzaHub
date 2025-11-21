@@ -1,10 +1,11 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaHubAPI.Data;
 using PizzaHubAPI.Models;
 using PizzaHubAPI.Models.DTOs;
+using PizzaHubAPI.Services;
+using System.Security.Claims;
 
 namespace PizzaHubAPI.Controllers;
 
@@ -18,10 +19,14 @@ namespace PizzaHubAPI.Controllers;
 public class MisEnviosController : ControllerBase
 {
     private readonly PizzaHubContext _context;
+    private readonly NotificacionService _notificacionService;
 
-    public MisEnviosController(PizzaHubContext context)
+
+
+    public MisEnviosController(PizzaHubContext context, NotificacionService notificacionService)
     {
         _context = context;
+        _notificacionService = notificacionService;
     }
 
     /// <summary>
@@ -292,10 +297,11 @@ public class MisEnviosController : ControllerBase
     /// Cambia el estado a "En camino"
     /// </summary>
     [HttpPut("pedido/{id}/recoger")]
+    [Authorize(Roles = "Repartidor")]
     public async Task<IActionResult> RecogerPedido(int id)
     {
         var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
-        
+
         var repartidor = await _context.Repartidores
             .FirstOrDefaultAsync(r => r.UsuarioId == userId);
 
@@ -313,8 +319,14 @@ public class MisEnviosController : ControllerBase
 
         pedido.Estado = EstadoPedidoEnum.EnCamino;
         repartidor.Estado = RepartidorEstadoEnum.Ocupado;
-        
+
         await _context.SaveChangesAsync();
+
+        // 📌 NUEVO: Notificar al cliente que el pedido está en camino
+        await _notificacionService.NotificarCambioEstadoPedidoAsync(
+            pedido.Id,
+            EstadoPedidoEnum.EnCamino
+        );
 
         return Ok(new { message = "Pedido recogido, en camino al cliente" });
     }
@@ -355,6 +367,12 @@ public class MisEnviosController : ControllerBase
         }
         
         await _context.SaveChangesAsync();
+
+        // 📌 NUEVO: Notificar al cliente que fue entregado
+        await _notificacionService.NotificarCambioEstadoPedidoAsync(
+            pedido.Id,
+            EstadoPedidoEnum.Entregado
+        );
 
         return Ok(new { message = "Pedido entregado exitosamente" });
     }

@@ -25,6 +25,7 @@ public class PizzaHubContext : DbContext
     public DbSet<TokenRevocado> TokensRevocados { get; set; } = null!;
     public DbSet<CompraInsumo> ComprasInsumos { get; set; } = null!;
     public DbSet<DetalleCompraInsumo> DetallesCompraInsumos { get; set; } = null!;
+    public DbSet<Notificacion> Notificaciones { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -161,5 +162,18 @@ public class PizzaHubContext : DbContext
             .WithMany()
             .HasForeignKey(d => d.InsumoId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Configuración de Notificacion
+        modelBuilder.Entity<Notificacion>()
+            .HasOne(n => n.Cliente)
+            .WithMany(c => c.Notificaciones)
+            .HasForeignKey(n => n.ClienteId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Notificacion>()
+            .HasOne(n => n.Pedido)
+            .WithMany()
+            .HasForeignKey(n => n.PedidoId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

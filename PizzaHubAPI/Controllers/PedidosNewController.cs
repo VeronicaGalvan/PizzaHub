@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using PizzaHubAPI.Data;
 using PizzaHubAPI.Models;
 using PizzaHubAPI.Models.DTOs;
+using PizzaHubAPI.Services;
 
 namespace PizzaHubAPI.Controllers;
 
@@ -13,10 +14,14 @@ namespace PizzaHubAPI.Controllers;
 public class PedidosNewController : ControllerBase
 {
     private readonly PizzaHubContext _context;
+    private readonly NotificacionService _notificacionService;
 
-    public PedidosNewController(PizzaHubContext context)
+    public PedidosNewController(
+        PizzaHubContext context,
+        NotificacionService notificacionService)
     {
         _context = context;
+        _notificacionService = notificacionService;
     }
 
     // GET: api/PedidosNew
@@ -128,6 +133,15 @@ public class PedidosNewController : ControllerBase
 
         await _context.Entry(pedido).Reference(p => p.Cliente).LoadAsync();
 
+        // 🔔 Notificar al cliente que el pedido fue registrado
+        if (pedido.ClienteId.HasValue)
+        {
+            await _notificacionService.NotificarCambioEstadoPedidoAsync(
+                pedido.Id,
+                EstadoPedidoEnum.Pendiente
+            );
+        }
+
         return CreatedAtAction(nameof(GetPedido), new { id = pedido.Id }, MapToPedidoCompletoDto(pedido));
     }
 
@@ -188,7 +202,7 @@ public class PedidosNewController : ControllerBase
         pedido.Estado = nuevoEstado;
 
         // Si el pedido se entrega o cancela, liberar al repartidor
-        if ((nuevoEstado == EstadoPedidoEnum.Entregado || nuevoEstado == EstadoPedidoEnum.Cancelado) 
+        if ((nuevoEstado == EstadoPedidoEnum.Entregado || nuevoEstado == EstadoPedidoEnum.Cancelado)
             && pedido.Repartidor != null)
         {
             pedido.Repartidor.Estado = RepartidorEstadoEnum.Disponible;
@@ -196,8 +210,15 @@ public class PedidosNewController : ControllerBase
 
         await _context.SaveChangesAsync();
 
+        // Enviar notificación al cliente sobre el cambio de estado
+        if (pedido.ClienteId.HasValue)
+        {
+            await _notificacionService.NotificarCambioEstadoPedidoAsync(id, nuevoEstado);
+        }
+
         return NoContent();
     }
+
 
     // GET: api/PedidosNew/cliente/5
     [HttpGet("cliente/{clienteId}")]
