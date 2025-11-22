@@ -182,11 +182,32 @@ app.MapGet("/health", () => Results.Ok(new {
     environment = app.Environment.EnvironmentName 
 })).AllowAnonymous();
 
+// Endpoint de diagnóstico para verificar configuración
+app.MapGet("/config-check", (IConfiguration config) =>
+{
+    var connString = config.GetConnectionString("DefaultConnection");
+    return Results.Ok(new { 
+        hasConnectionString = !string.IsNullOrEmpty(connString),
+        connectionStringLength = connString?.Length ?? 0,
+        connectionStringStart = connString?.Substring(0, Math.Min(20, connString?.Length ?? 0)) ?? "VACÍO",
+        allEnvVars = new {
+            aspnetEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),
+            hasConnString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection") != null
+        }
+    });
+}).AllowAnonymous();
+
 // Endpoint temporal para aplicar migraciones automáticamente
-app.MapGet("/migrate", async (PizzaHubContext db) =>
+app.MapGet("/migrate", async (PizzaHubContext db, IConfiguration config) =>
 {
     try
     {
+        var connString = config.GetConnectionString("DefaultConnection");
+        if (string.IsNullOrEmpty(connString))
+        {
+            return Results.Problem("❌ Connection String no configurado. Verifica las variables de entorno en Render.");
+        }
+        
         await db.Database.MigrateAsync();
         return Results.Ok(new { 
             message = "✅ Migraciones aplicadas exitosamente",
@@ -195,7 +216,7 @@ app.MapGet("/migrate", async (PizzaHubContext db) =>
     }
     catch (Exception ex)
     {
-        return Results.Problem($"❌ Error al aplicar migraciones: {ex.Message}");
+        return Results.Problem($"❌ Error al aplicar migraciones: {ex.Message}\n\nStack: {ex.StackTrace}");
     }
 }).AllowAnonymous();
 
