@@ -1445,6 +1445,32 @@
   },
   {
     "ContainingType": "PizzaHubAPI.Controllers.PedidosNewController",
+    "Method": "RepetirPedido",
+    "RelativePath": "api/PedidosNew/{id}/repetir",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PizzaHubAPI.Models.DTOs.PedidoCompletoDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PizzaHubAPI.Controllers.PedidosNewController",
     "Method": "GetPedidosPorCliente",
     "RelativePath": "api/PedidosNew/cliente/{clienteId}",
     "HttpMethod": "GET",

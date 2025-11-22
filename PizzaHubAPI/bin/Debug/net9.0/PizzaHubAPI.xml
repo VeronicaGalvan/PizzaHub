@@ -252,16 +252,16 @@
         <member name="M:PizzaHubAPI.Migrations.BaseDeDatos4.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
-        <member name="T:PizzaHubAPI.Migrations.BD2">
+        <member name="T:PizzaHubAPI.Migrations.BD5">
             <inheritdoc />
         </member>
-        <member name="M:PizzaHubAPI.Migrations.BD2.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:PizzaHubAPI.Migrations.BD5.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:PizzaHubAPI.Migrations.BD2.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:PizzaHubAPI.Migrations.BD5.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:PizzaHubAPI.Migrations.BD2.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:PizzaHubAPI.Migrations.BD5.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
         <member name="M:PizzaHubAPI.Models.TokenRevocado.ComputeHash(System.String)">

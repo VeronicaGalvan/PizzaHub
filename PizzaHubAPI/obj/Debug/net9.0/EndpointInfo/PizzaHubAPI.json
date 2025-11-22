@@ -2561,6 +2561,46 @@
         }
       }
     },
+    "/api/PedidosNew/{id}/repetir": {
+      "post": {
+        "tags": [
+          "PedidosNew"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PedidoCompletoDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PedidoCompletoDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PedidoCompletoDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/PedidosNew/registrar": {
       "post": {
         "tags": [

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PizzaHubAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class BD2 : Migration
+    public partial class BD5 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

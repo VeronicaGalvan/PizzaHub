@@ -12,8 +12,8 @@ using PizzaHubAPI.Data;
 namespace PizzaHubAPI.Migrations
 {
     [DbContext(typeof(PizzaHubContext))]
-    [Migration("20251120183808_BD2")]
-    partial class BD2
+    [Migration("20251121233857_BD5")]
+    partial class BD5
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

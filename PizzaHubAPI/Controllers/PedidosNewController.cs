@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -55,7 +56,112 @@ public class PedidosNewController : ControllerBase
             return NotFound(new { message = "Pedido no encontrado" });
         }
 
+        // Obtener id del usuario actual (si está presente)
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        int userId = 0;
+        if (!string.IsNullOrEmpty(userIdClaim) && int.TryParse(userIdClaim, out var parsed))
+        {
+            userId = parsed;
+        }
+
+        // Si es un cliente, solo puede ver sus propios pedidos
+        if (User.IsInRole("Cliente"))
+        {
+            if (!pedido.ClienteId.HasValue || pedido.ClienteId.Value != userId)
+            {
+                return Forbid();
+            }
+        }
+
+        // Si es un repartidor, solo puede ver pedidos asignados a él
+        if (User.IsInRole("Repartidor"))
+        {
+            if (!pedido.RepartidorId.HasValue || pedido.RepartidorId.Value != userId)
+            {
+                return Forbid();
+            }
+        }
+
+        // Administradores y empleados pueden ver cualquier pedido
         return MapToPedidoCompletoDto(pedido);
+    }
+
+    // POST: api/PedidosNew/5/repetir
+    [HttpPost("{id}/repetir")]
+    [Authorize(Roles = "Cliente")]
+    public async Task<ActionResult<PedidoCompletoDto>> RepetirPedido(int id)
+    {
+        var pedidoOriginal = await _context.Pedidos
+            .Include(p => p.Detalles)
+                .ThenInclude(d => d.Producto)
+            .FirstOrDefaultAsync(p => p.Id == id);
+
+        if (pedidoOriginal == null)
+            return NotFound(new { message = "Pedido original no encontrado" });
+
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
+            return Unauthorized(new { message = "Usuario no identificado" });
+
+        // Solo el cliente propietario puede repetir su pedido
+        if (!pedidoOriginal.ClienteId.HasValue || pedidoOriginal.ClienteId.Value != userId)
+            return Forbid();
+
+        // Validar productos y calcular totales
+        decimal total = 0;
+        var detalles = new List<DetallePedido>();
+
+        foreach (var d in pedidoOriginal.Detalles)
+        {
+            var producto = await _context.Productos.FindAsync(d.ProductoId);
+            if (producto == null || !producto.Activo)
+            {
+                return BadRequest(new { message = $"Producto {d.ProductoId} no disponible para repetir pedido" });
+            }
+
+            var subtotal = producto.Precio * d.Cantidad;
+            total += subtotal;
+
+            detalles.Add(new DetallePedido
+            {
+                ProductoId = d.ProductoId,
+                Cantidad = d.Cantidad,
+                Subtotal = subtotal
+            });
+        }
+
+        var nuevoPedido = new Pedido
+        {
+            ClienteId = userId,
+            Tipo = pedidoOriginal.Tipo,
+            Estado = EstadoPedidoEnum.Pendiente,
+            MetodoPago = pedidoOriginal.MetodoPago,
+            Origen = pedidoOriginal.Origen,
+            Total = total,
+            DireccionEntrega = pedidoOriginal.DireccionEntrega,
+            Observaciones = pedidoOriginal.Observaciones,
+            FechaPedido = DateTime.Now,
+            Detalles = detalles
+        };
+
+        _context.Pedidos.Add(nuevoPedido);
+        await _context.SaveChangesAsync();
+
+        await _context.Entry(nuevoPedido)
+            .Collection(p => p.Detalles)
+            .Query()
+            .Include(d => d.Producto)
+            .LoadAsync();
+
+        await _context.Entry(nuevoPedido).Reference(p => p.Cliente).LoadAsync();
+
+        // Notificar al cliente que el pedido fue registrado
+        if (nuevoPedido.ClienteId.HasValue)
+        {
+            await _notificacionService.NotificarCambioEstadoPedidoAsync(nuevoPedido.Id, EstadoPedidoEnum.Pendiente);
+        }
+
+        return CreatedAtAction(nameof(GetPedido), new { id = nuevoPedido.Id }, MapToPedidoCompletoDto(nuevoPedido));
     }
 
     // POST: api/PedidosNew/registrar
