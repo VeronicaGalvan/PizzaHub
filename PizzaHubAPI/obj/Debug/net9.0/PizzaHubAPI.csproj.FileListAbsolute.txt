@@ -571,7 +571,6 @@ C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\staticwebassets.development.json
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\PizzaHub.5F9ACB34.Up2Date
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\PizzaHubAPI.dll
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\refint\PizzaHubAPI.dll
@@ -746,3 +745,4 @@ C:\PizzaHub\PizzaHub_Backend\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\PizzaHubAP
 C:\PizzaHub\PizzaHub_Backend\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\PizzaHubAPI.genruntimeconfig.cache
 C:\PizzaHub\PizzaHub_Backend\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\ref\PizzaHubAPI.dll
 C:\PizzaHub\PizzaHub_Backend\PizzaHubAPI\PizzaHubAPI\bin\Debug\net9.0\pizzahub-41db9-firebase-adminsdk-fbsvc-10883050c1.json
+C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

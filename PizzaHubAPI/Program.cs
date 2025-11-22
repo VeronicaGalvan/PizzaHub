@@ -136,19 +136,50 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Inicializar Firebase si no existe
-var credentialsPath = builder.Configuration["Firebase:CredentialsPath"];
-if (credentialsPath != null && File.Exists(credentialsPath))
+// Inicializar Firebase
+try
 {
     if (FirebaseApp.DefaultInstance == null)
     {
-        FirebaseApp.Create(new AppOptions
+        var credentialsPath = builder.Configuration["Firebase:CredentialsPath"];
+        
+        // Opción 1: Desde archivo (desarrollo local)
+        if (!string.IsNullOrEmpty(credentialsPath) && File.Exists(credentialsPath))
         {
-            Credential = GoogleCredential.FromFile(credentialsPath)
-        });
+            FirebaseApp.Create(new AppOptions
+            {
+                Credential = GoogleCredential.FromFile(credentialsPath)
+            });
+        }
+        // Opción 2: Desde variables de entorno (producción en Render)
+        else if (!string.IsNullOrEmpty(builder.Configuration["Firebase:ProjectId"]))
+        {
+            var projectId = builder.Configuration["Firebase:ProjectId"];
+            var privateKey = builder.Configuration["Firebase:PrivateKey"];
+            var clientEmail = builder.Configuration["Firebase:ClientEmail"];
+            
+            if (!string.IsNullOrEmpty(projectId) && !string.IsNullOrEmpty(privateKey) && !string.IsNullOrEmpty(clientEmail))
+            {
+                var credential = GoogleCredential.FromJson($@"{{
+                    ""type"": ""service_account"",
+                    ""project_id"": ""{projectId}"",
+                    ""private_key"": ""{privateKey}"",
+                    ""client_email"": ""{clientEmail}"",
+                    ""token_uri"": ""https://oauth2.googleapis.com/token""
+                }}");
+                
+                FirebaseApp.Create(new AppOptions
+                {
+                    Credential = credential
+                });
+            }
+        }
     }
 }
-
+catch (Exception ex)
+{
+    Console.WriteLine($"Firebase no pudo inicializarse: {ex.Message}");
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -157,12 +188,29 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Configurar para HTTPS solo en producción (Render maneja SSL)
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
 app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Health check endpoint para Render
+app.MapGet("/health", () => Results.Ok(new { 
+    status = "healthy", 
+    timestamp = DateTime.UtcNow,
+    environment = app.Environment.EnvironmentName 
+})).AllowAnonymous();
+
 app.MapControllers();
+
+// Configurar puerto dinámico para Render.com
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+app.Urls.Clear();
+app.Urls.Add($"http://0.0.0.0:{port}");
 
 app.Run();
