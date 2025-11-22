@@ -1,9 +1,13 @@
 services:
   - type: web
     name: pizzahub-api
-    runtime: dotnet
-    buildCommand: dotnet restore && dotnet publish -c Release -o out
-    startCommand: dotnet out/PizzaHubAPI.dll
+    runtime: docker
+    dockerfilePath: ./PizzaHubAPI/Dockerfile
+    dockerContext: ./PizzaHubAPI
+    region: oregon
+    plan: free
+    branch: back-end-structure
+    healthCheckPath: /health
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
@@ -27,4 +31,3 @@ services:
         sync: false
       - key: Firebase__ClientEmail
         sync: false
-    healthCheckPath: /health

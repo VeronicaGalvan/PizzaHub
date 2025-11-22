@@ -1,0 +1,11 @@
+# Ignorar archivos innecesarios para Docker
+bin/
+obj/
+.vs/
+.vscode/
+*.user
+*.suo
+.git/
+.gitignore
+*.md
+appsettings.Development.json
