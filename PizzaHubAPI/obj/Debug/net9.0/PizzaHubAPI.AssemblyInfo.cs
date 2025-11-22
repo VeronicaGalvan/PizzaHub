@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PizzaHubAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4c204eb8aa9b0aee1e2a627ae7bff1c0a2cc4ce7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2aba80a41b1c832ff1ae2e5a648c469db0f77016")]
 [assembly: System.Reflection.AssemblyProductAttribute("PizzaHubAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PizzaHubAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
