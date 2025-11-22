@@ -156,14 +156,16 @@ else
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Swagger habilitado en todos los ambientes para facilitar pruebas
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "PizzaHub API v1");
+    c.RoutePrefix = "swagger";
+});
 
-// Configurar para HTTPS solo en producción (Render maneja SSL)
-if (!app.Environment.IsDevelopment())
+// Configurar para HTTPS solo en desarrollo (Render maneja SSL en producción)
+if (app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
 }
@@ -179,6 +181,23 @@ app.MapGet("/health", () => Results.Ok(new {
     timestamp = DateTime.UtcNow,
     environment = app.Environment.EnvironmentName 
 })).AllowAnonymous();
+
+// Endpoint temporal para aplicar migraciones automáticamente
+app.MapGet("/migrate", async (PizzaHubContext db) =>
+{
+    try
+    {
+        await db.Database.MigrateAsync();
+        return Results.Ok(new { 
+            message = "✅ Migraciones aplicadas exitosamente",
+            timestamp = DateTime.UtcNow 
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"❌ Error al aplicar migraciones: {ex.Message}");
+    }
+}).AllowAnonymous();
 
 app.MapControllers();
 
