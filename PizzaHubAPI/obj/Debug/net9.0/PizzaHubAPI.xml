@@ -24,6 +24,12 @@
             Cierra la sesión del usuario revocando sus tokens
             </summary>
         </member>
+        <member name="M:PizzaHubAPI.Controllers.AuthController.CambiarRol(PizzaHubAPI.Models.DTOs.CambiarRolRequestDTO)">
+            <summary>
+            Cambia el rol de un usuario (TEMPORAL - Para desarrollo en Render sin acceso a BD)
+            Roles disponibles: Administrador, Empleado, Repartidor, Cliente
+            </summary>
+        </member>
         <member name="M:PizzaHubAPI.Controllers.ClientesController.GetMiPerfil">
             <summary>
             Obtiene el perfil del cliente autenticado
@@ -179,6 +185,18 @@
             <summary>
             Envía una notificación de prueba al cliente (solo para testing)
             </summary>
+        </member>
+        <member name="T:PizzaHubAPI.Migrations.InitialPostgreSQL">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.InitialPostgreSQL.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.InitialPostgreSQL.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PizzaHubAPI.Migrations.InitialPostgreSQL.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
         </member>
         <member name="M:PizzaHubAPI.Models.TokenRevocado.ComputeHash(System.String)">
             <summary>

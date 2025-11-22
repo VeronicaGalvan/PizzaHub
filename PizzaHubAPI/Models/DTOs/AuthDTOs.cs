@@ -44,3 +44,12 @@ public class RegisterRequestDTO
     [MaxLength(20)]
     public string? TelefonoContacto { get; set; }
 }
+
+public class CambiarRolRequestDTO
+{
+    [Required]
+    public int UsuarioId { get; set; }
+
+    [Required]
+    public string NuevoRol { get; set; } = null!;
+}

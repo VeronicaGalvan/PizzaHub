@@ -18,6 +18,7 @@ public interface IAuthService
     Task<bool> RevocarTokenAsync(string token, int userId);
     Task<LoginResponseDTO?> RefreshTokenAsync(string refreshToken);
     Task<LoginResponseDTO?> RegisterAsync(RegisterRequestDTO request);
+    Task<bool> CambiarRolAsync(int usuarioId, UsuarioRolEnum nuevoRol);
 }
 
 public class AuthService : IAuthService
@@ -217,5 +218,18 @@ public class AuthService : IAuthService
     {
         // TODO: Implement proper password hashing and verification
         return BCrypt.Net.BCrypt.Verify(password, storedHash);
+    }
+
+    public async Task<bool> CambiarRolAsync(int usuarioId, UsuarioRolEnum nuevoRol)
+    {
+        var usuario = await _context.Usuarios.FindAsync(usuarioId);
+        
+        if (usuario == null)
+            return false;
+
+        usuario.Rol = nuevoRol;
+        await _context.SaveChangesAsync();
+        
+        return true;
     }
 }

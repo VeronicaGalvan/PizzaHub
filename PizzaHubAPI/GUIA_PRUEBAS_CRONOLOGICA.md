@@ -78,11 +78,22 @@ ADMIN
 
 ---
 
-### ✅ TEST 2: Cambiar Rol a Administrador (MySQL)
+### ✅ TEST 2: Cambiar Rol a Administrador
 
-> ⚠️ No existe endpoint para cambiar roles. Hazlo en la base de datos:
+> ✅ **NUEVO:** Ahora puedes cambiar roles usando el endpoint (ideal para Render.com)
 
-**MySQL Workbench / phpMyAdmin:**
+**Opción 1: Usando el endpoint (Recomendado para Render):**
+```http
+PUT /api/v1/auth/cambiar-rol
+Authorization: Bearer {token_del_test_1}
+
+{
+  "usuarioId": 1,
+  "nuevoRol": "Administrador"
+}
+```
+
+**Opción 2: Usando MySQL Workbench / phpMyAdmin:**
 ```sql
 UPDATE usuarios SET Rol = 'Administrador' WHERE Correo = 'admin@pizzahub.com';
 ```
@@ -128,9 +139,15 @@ EMPLEADO
 - Usuario ID: (ej: 2)
 ```
 
-**Cambiar rol en BD:**
-```sql
-UPDATE usuarios SET Rol = 'Empleado' WHERE Correo = 'empleado1@pizzahub.com';
+**Cambiar rol usando el endpoint (usa el token del admin):**
+```http
+PUT /api/v1/auth/cambiar-rol
+Authorization: Bearer {token_administrador}
+
+{
+  "usuarioId": 2,
+  "nuevoRol": "Empleado"
+}
 ```
 
 **Login y guardar token:**
@@ -167,9 +184,15 @@ REPARTIDOR
 - Usuario ID: (ej: 3)
 ```
 
-**Cambiar rol en BD:**
-```sql
-UPDATE usuarios SET Rol = 'Repartidor' WHERE Correo = 'repartidor1@pizzahub.com';
+**Cambiar rol usando el endpoint (usa el token del admin):**
+```http
+PUT /api/v1/auth/cambiar-rol
+Authorization: Bearer {token_administrador}
+
+{
+  "usuarioId": 3,
+  "nuevoRol": "Repartidor"
+}
 ```
 
 **Login y guardar token:**

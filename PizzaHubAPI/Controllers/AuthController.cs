@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PizzaHubAPI.Models;
 using PizzaHubAPI.Models.DTOs;
 using PizzaHubAPI.Services;
 
@@ -76,5 +77,36 @@ public class AuthController : ControllerBase
         
         await _authService.RevocarTokenAsync(token, userId);
         return Ok(new { message = "Sesión cerrada correctamente" });
+    }
+
+    /// <summary>
+    /// Cambia el rol de un usuario (TEMPORAL - Para desarrollo en Render sin acceso a BD)
+    /// Roles disponibles: Administrador, Empleado, Repartidor, Cliente
+    /// </summary>
+    [Authorize]
+    [HttpPut("cambiar-rol")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> CambiarRol([FromBody] CambiarRolRequestDTO request)
+    {
+        // Validar que el rol sea válido
+        if (!Enum.TryParse<UsuarioRolEnum>(request.NuevoRol, true, out var nuevoRol))
+        {
+            return BadRequest(new { 
+                message = "Rol inválido. Roles válidos: Administrador, Empleado, Repartidor, Cliente" 
+            });
+        }
+
+        var exito = await _authService.CambiarRolAsync(request.UsuarioId, nuevoRol);
+        
+        if (!exito)
+            return NotFound(new { message = "Usuario no encontrado" });
+
+        return Ok(new { 
+            message = $"Rol cambiado exitosamente a {nuevoRol}",
+            usuarioId = request.UsuarioId,
+            nuevoRol = nuevoRol.ToString()
+        });
     }
 }
