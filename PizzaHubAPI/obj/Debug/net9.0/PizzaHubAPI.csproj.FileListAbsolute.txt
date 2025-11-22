@@ -480,8 +480,6 @@ C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\bin\Debug\net9.0
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\bin\Debug\net9.0\Microsoft.OpenApi.dll
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\bin\Debug\net9.0\Mono.TextTemplating.dll
-C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\bin\Debug\net9.0\MySqlConnector.dll
-C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\bin\Debug\net9.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -745,4 +743,5 @@ C:\PizzaHub\PizzaHub_Backend\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\PizzaHubAP
 C:\PizzaHub\PizzaHub_Backend\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\PizzaHubAPI.genruntimeconfig.cache
 C:\PizzaHub\PizzaHub_Backend\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\ref\PizzaHubAPI.dll
 C:\PizzaHub\PizzaHub_Backend\PizzaHubAPI\PizzaHubAPI\bin\Debug\net9.0\pizzahub-41db9-firebase-adminsdk-fbsvc-10883050c1.json
-C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\bin\Debug\net9.0\Npgsql.dll
+C:\Actividades_Universidad_UTL\PizzaHub\PizzaHubAPI\PizzaHubAPI\bin\Debug\net9.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll

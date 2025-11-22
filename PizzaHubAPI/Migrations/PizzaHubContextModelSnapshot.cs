@@ -2,8 +2,8 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PizzaHubAPI.Data;
 
 #nullable disable
@@ -18,29 +18,29 @@ namespace PizzaHubAPI.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.10")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("PizzaHubAPI.Models.Caja", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("EmpleadoId")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("empleado_id");
 
                     b.Property<int>("Estado")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("estado");
 
                     b.Property<DateTime>("Fecha")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("fecha");
 
                     b.Property<decimal>("SaldoFinal")
@@ -65,25 +65,25 @@ namespace PizzaHubAPI.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Comentario")
-                        .HasColumnType("longtext")
+                        .HasColumnType("text")
                         .HasColumnName("comentario");
 
                     b.Property<int>("Estrellas")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("estrellas");
 
                     b.Property<DateTime>("Fecha")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("fecha");
 
                     b.Property<int>("PedidoId")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("pedido_id");
 
                     b.HasKey("Id");
@@ -97,54 +97,54 @@ namespace PizzaHubAPI.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Apellidos")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("apellidos");
 
                     b.Property<string>("Calle")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("calle");
 
                     b.Property<string>("Colonia")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("colonia");
 
                     b.Property<string>("FcmToken")
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("fcm_token");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("nombre");
 
                     b.Property<string>("NumeroCasa")
                         .HasMaxLength(20)
-                        .HasColumnType("varchar(20)")
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("numero_casa");
 
                     b.Property<string>("Observaciones")
-                        .HasColumnType("longtext")
+                        .HasColumnType("text")
                         .HasColumnName("observaciones");
 
                     b.Property<string>("Telefono")
                         .HasMaxLength(20)
-                        .HasColumnType("varchar(20)")
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("telefono");
 
                     b.Property<int?>("UsuarioId")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("usuario_id");
 
                     b.HasKey("Id");
@@ -158,32 +158,32 @@ namespace PizzaHubAPI.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("EmpleadoId")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("empleado_id");
 
                     b.Property<DateTime>("FechaCompra")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("fecha_compra");
 
                     b.Property<string>("NumeroFactura")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("numero_factura");
 
                     b.Property<string>("Observaciones")
-                        .HasColumnType("longtext")
+                        .HasColumnType("text")
                         .HasColumnName("observaciones");
 
                     b.Property<string>("Proveedor")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("proveedor");
 
                     b.Property<decimal>("Total")
@@ -201,21 +201,21 @@ namespace PizzaHubAPI.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Cantidad")
                         .HasColumnType("decimal(10,2)")
                         .HasColumnName("cantidad");
 
                     b.Property<int>("CompraId")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("compra_id");
 
                     b.Property<int>("InsumoId")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("insumo_id");
 
                     b.Property<decimal>("PrecioUnitario")
@@ -239,21 +239,21 @@ namespace PizzaHubAPI.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Cantidad")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("cantidad");
 
                     b.Property<int>("PedidoId")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("pedido_id");
 
                     b.Property<int>("ProductoId")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("producto_id");
 
                     b.Property<decimal>("Subtotal")
@@ -273,38 +273,38 @@ namespace PizzaHubAPI.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("Activo")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("boolean")
                         .HasColumnName("activo");
 
                     b.Property<string>("Apellidos")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("apellidos");
 
                     b.Property<DateTime>("FechaIngreso")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("fecha_ingreso");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("nombre");
 
                     b.Property<string>("Telefono")
                         .HasMaxLength(20)
-                        .HasColumnType("varchar(20)")
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("telefono");
 
                     b.Property<int>("UsuarioId")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("usuario_id");
 
                     b.HasKey("Id");
@@ -318,15 +318,15 @@ namespace PizzaHubAPI.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("nombre");
 
                     b.Property<decimal>("StockActual")
@@ -339,13 +339,11 @@ namespace PizzaHubAPI.Migrations
 
                     b.Property<DateTime>("UltimaActualizacion")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("ultima_actualizacion");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlComputedColumn(b.Property<DateTime>("UltimaActualizacion"));
-
                     b.Property<int>("UnidadMedida")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("unidad_medida");
 
                     b.HasKey("Id");
@@ -357,29 +355,29 @@ namespace PizzaHubAPI.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Cantidad")
                         .HasColumnType("decimal(10,2)")
                         .HasColumnName("cantidad");
 
                     b.Property<DateTime>("Fecha")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("fecha");
 
                     b.Property<int>("InsumoId")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("insumo_id");
 
                     b.Property<string>("Motivo")
-                        .HasColumnType("longtext")
+                        .HasColumnType("text")
                         .HasColumnName("motivo");
 
                     b.Property<int>("TipoMovimiento")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("tipo_movimiento");
 
                     b.HasKey("Id");
@@ -393,50 +391,50 @@ namespace PizzaHubAPI.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ClienteId")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("cliente_id");
 
                     b.Property<bool>("Enviada")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("boolean")
                         .HasColumnName("enviada");
 
                     b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("fecha_creacion");
 
                     b.Property<DateTime?>("FechaLectura")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("fecha_lectura");
 
                     b.Property<bool>("Leida")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("boolean")
                         .HasColumnName("leida");
 
                     b.Property<string>("Mensaje")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasColumnType("text")
                         .HasColumnName("mensaje");
 
                     b.Property<int?>("PedidoId")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("pedido_id");
 
                     b.Property<string>("Tipo")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("tipo");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("titulo");
 
                     b.HasKey("Id");
@@ -452,45 +450,45 @@ namespace PizzaHubAPI.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("ClienteId")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("cliente_id");
 
                     b.Property<string>("DireccionEntrega")
-                        .HasColumnType("longtext")
+                        .HasColumnType("text")
                         .HasColumnName("direccion_entrega");
 
                     b.Property<int>("Estado")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("estado");
 
                     b.Property<DateTime>("FechaPedido")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("fecha_pedido");
 
                     b.Property<int>("MetodoPago")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("metodo_pago");
 
                     b.Property<string>("Observaciones")
-                        .HasColumnType("longtext")
+                        .HasColumnType("text")
                         .HasColumnName("observaciones");
 
                     b.Property<int>("Origen")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("origen");
 
                     b.Property<int?>("RepartidorId")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("repartidor_id");
 
                     b.Property<int>("Tipo")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("tipo");
 
                     b.Property<decimal>("Total")
@@ -510,32 +508,32 @@ namespace PizzaHubAPI.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("Activo")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("boolean")
                         .HasColumnName("activo");
 
                     b.Property<bool>("Almacenable")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("boolean")
                         .HasColumnName("almacenable");
 
                     b.Property<string>("Descripcion")
-                        .HasColumnType("longtext")
+                        .HasColumnType("text")
                         .HasColumnName("descripcion");
 
                     b.Property<string>("ImagenUrl")
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("imagen_url");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("nombre");
 
                     b.Property<decimal>("Precio")
@@ -544,7 +542,7 @@ namespace PizzaHubAPI.Migrations
 
                     b.Property<string>("Tipo")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("tipo");
 
                     b.HasKey("Id");
@@ -556,34 +554,34 @@ namespace PizzaHubAPI.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Apellidos")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("apellidos");
 
                     b.Property<int>("Estado")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("estado");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("nombre");
 
                     b.Property<string>("Telefono")
                         .HasMaxLength(20)
-                        .HasColumnType("varchar(20)")
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("telefono");
 
                     b.Property<int>("UsuarioId")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("usuario_id");
 
                     b.HasKey("Id");
@@ -597,20 +595,20 @@ namespace PizzaHubAPI.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("FechaRevocacion")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("TokenHash")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("character varying(64)");
 
                     b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -625,44 +623,44 @@ namespace PizzaHubAPI.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("Activo")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("boolean")
                         .HasColumnName("activo");
 
                     b.Property<string>("Correo")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("correo");
 
                     b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("fecha_creacion");
 
                     b.Property<string>("NombreUsuario")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("nombre_usuario");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("password_hash");
 
                     b.Property<int>("Rol")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("rol");
 
                     b.Property<string>("Telefono")
                         .HasMaxLength(20)
-                        .HasColumnType("varchar(20)")
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("telefono");
 
                     b.HasKey("Id");
@@ -677,29 +675,29 @@ namespace PizzaHubAPI.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CajaId")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("caja_id");
 
                     b.Property<int?>("EmpleadoId")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("empleado_id");
 
                     b.Property<DateTime>("FechaVenta")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("fecha_venta");
 
                     b.Property<int>("MetodoPago")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("metodo_pago");
 
                     b.Property<int?>("PedidoId")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("pedido_id");
 
                     b.Property<decimal>("Total")

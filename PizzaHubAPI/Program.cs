@@ -63,10 +63,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddDbContext<PizzaHubContext>(options =>
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
-    )
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
 builder.Services.AddControllers()
@@ -136,49 +133,26 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Inicializar Firebase
-try
+var firebaseConfig = builder.Configuration.GetSection("Firebase");
+var credentialsEnv = firebaseConfig["CredentialJsonEnv"];
+
+var credentialJson = Environment.GetEnvironmentVariable(credentialsEnv);
+
+if (!string.IsNullOrWhiteSpace(credentialJson))
 {
-    if (FirebaseApp.DefaultInstance == null)
+    var credential = Google.Apis.Auth.OAuth2.ServiceAccountCredential
+        .FromServiceAccountData(new MemoryStream(Encoding.UTF8.GetBytes(credentialJson)));
+
+    FirebaseApp.Create(new AppOptions()
     {
-        var credentialsPath = builder.Configuration["Firebase:CredentialsPath"];
-        
-        // Opción 1: Desde archivo (desarrollo local)
-        if (!string.IsNullOrEmpty(credentialsPath) && File.Exists(credentialsPath))
-        {
-            FirebaseApp.Create(new AppOptions
-            {
-                Credential = GoogleCredential.FromFile(credentialsPath)
-            });
-        }
-        // Opción 2: Desde variables de entorno (producción en Render)
-        else if (!string.IsNullOrEmpty(builder.Configuration["Firebase:ProjectId"]))
-        {
-            var projectId = builder.Configuration["Firebase:ProjectId"];
-            var privateKey = builder.Configuration["Firebase:PrivateKey"];
-            var clientEmail = builder.Configuration["Firebase:ClientEmail"];
-            
-            if (!string.IsNullOrEmpty(projectId) && !string.IsNullOrEmpty(privateKey) && !string.IsNullOrEmpty(clientEmail))
-            {
-                var credential = GoogleCredential.FromJson($@"{{
-                    ""type"": ""service_account"",
-                    ""project_id"": ""{projectId}"",
-                    ""private_key"": ""{privateKey}"",
-                    ""client_email"": ""{clientEmail}"",
-                    ""token_uri"": ""https://oauth2.googleapis.com/token""
-                }}");
-                
-                FirebaseApp.Create(new AppOptions
-                {
-                    Credential = credential
-                });
-            }
-        }
-    }
+        Credential = GoogleCredential.FromServiceAccountCredential(credential)
+    });
+
+    Console.WriteLine("Firebase inicializado con variable de entorno.");
 }
-catch (Exception ex)
+else
 {
-    Console.WriteLine($"Firebase no pudo inicializarse: {ex.Message}");
+    Console.WriteLine("Advertencia: Firebase NO inicializado. No se encontró la variable de entorno.");
 }
 
 // Configure the HTTP request pipeline.
