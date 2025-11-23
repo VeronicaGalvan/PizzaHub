@@ -20,7 +20,7 @@ import com.example.pizzahub_mobile.ui.viewmodel.CartViewModel
 import com.example.pizzahub_mobile.ui.viewmodel.ProductsViewModel
 
 @Composable
-fun AppNavHost(modifier: Modifier = Modifier) {
+fun AppNavHost(modifier: Modifier = Modifier, initialPedidoId: String? = null) {
     val navController = rememberNavController()
 
     // Auth state from ViewModel
@@ -30,6 +30,15 @@ fun AppNavHost(modifier: Modifier = Modifier) {
     val previousAuthState = remember { mutableStateOf(isLoggedIn) }
 
     LaunchedEffect(Unit) { authViewModel.checkExistingToken() }
+
+    // Navegar a OrderTracking si se abrió desde notificación
+    LaunchedEffect(initialPedidoId, isLoggedIn) {
+        if (initialPedidoId != null && isLoggedIn) {
+            navController.navigate("order_tracking/$initialPedidoId") {
+                popUpTo("home") { inclusive = false }
+            }
+        }
+    }
 
     // Detectar cuando la sesión expira (el TokenAuthenticator limpió los tokens)
     LaunchedEffect(isLoggedIn) {
@@ -165,12 +174,12 @@ fun AppNavHost(modifier: Modifier = Modifier) {
             OrderTrackingScreen(
                     onBack = { navController.popBackStack() },
                     orderId = orderId,
-                    onOpenMap = { id ->
+                    onOpenMap = { id, estado ->
                         val route =
                                 if (destLat != null && destLon != null) {
-                                    "delivery_tracking/$id?destLat=$destLat&destLon=$destLon"
+                                    "delivery_tracking/$id?destLat=$destLat&destLon=$destLon&estado=$estado"
                                 } else {
-                                    "delivery_tracking/$id"
+                                    "delivery_tracking/$id?estado=$estado"
                                 }
                         navigateTo(route)
                     },
@@ -186,7 +195,6 @@ fun AppNavHost(modifier: Modifier = Modifier) {
                     },
                     onNavigateToOrderHistory = { navigateTo("order_history") },
                     onNavigateToNotifications = { navigateTo("notifications") },
-                    onNavigateToAddresses = { navigateTo("addresses") },
                     onLogout = {
                         // perform logout in ViewModel and navigate to login screen
                         authViewModel.logout()
@@ -232,11 +240,7 @@ fun AppNavHost(modifier: Modifier = Modifier) {
 
         composable("rating/{orderId}") { backStackEntry ->
             val id = backStackEntry.arguments?.getString("orderId") ?: ""
-            RatingScreen(
-                    orderId = id,
-                    onBack = { navController.popBackStack() },
-                    onSubmit = { stars, comment -> navController.popBackStack() }
-            )
+            RatingScreen(orderId = id, onBack = { navController.popBackStack() })
         }
 
         composable("cart") {
@@ -325,7 +329,12 @@ fun AppNavHost(modifier: Modifier = Modifier) {
         }
 
         composable("notifications") {
-            NotificationsScreen(onBack = { navController.popBackStack() })
+            NotificationsScreen(
+                    onBack = { navController.popBackStack() },
+                    onNavigateToOrder = { orderId ->
+                        navController.navigate("order_detail/$orderId")
+                    }
+            )
         }
     }
 }

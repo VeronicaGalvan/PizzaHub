@@ -2,6 +2,10 @@ package com.example.pizzahub_mobile.notifications
 
 import android.util.Log
 import com.example.pizzahub_mobile.data.models.EstadoPedido
+import com.example.pizzahub_mobile.data.network.AuthApi
+import com.example.pizzahub_mobile.data.network.AuthRepository
+import com.example.pizzahub_mobile.data.network.RetrofitInstance
+import com.example.pizzahub_mobile.data.storage.TokenDataStore
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.CoroutineScope
@@ -23,9 +27,20 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // Esto permitirá que el backend envíe notificaciones push específicas
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                // Aquí podrías llamar un endpoint como:
-                // authRepository.registerFcmToken(token)
-                Log.d(TAG, "FCM token ready to be registered with backend")
+                val api: AuthApi =
+                        RetrofitInstance.create(applicationContext).create(AuthApi::class.java)
+                val repo = AuthRepository(api, applicationContext)
+
+                // Guardar token localmente y enviar al backend (si el usuario está autenticado,
+                // el interceptor añadirá Authorization header)
+                TokenDataStore.saveFcmToken(applicationContext, token)
+
+                val res = repo.registrarTokenFcm(token)
+                if (res.isSuccess) {
+                    Log.d(TAG, "FCM token registered with backend")
+                } else {
+                    Log.e(TAG, "Failed to register FCM token: ${res.exceptionOrNull()?.message}")
+                }
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to register FCM token: ${e.localizedMessage}")
             }

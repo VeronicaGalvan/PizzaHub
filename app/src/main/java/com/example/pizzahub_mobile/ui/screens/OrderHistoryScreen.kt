@@ -48,8 +48,10 @@ fun OrderHistoryScreen(
         val isLoading by viewModel.isLoading.collectAsState()
         val error by viewModel.error.collectAsState()
         val clientePerfil by authViewModel.clientePerfil.collectAsState()
+        val repetirPedidoSuccess by viewModel.repetirPedidoSuccess.collectAsState()
 
         val scope = rememberCoroutineScope()
+        val snackbarHostState = remember { SnackbarHostState() }
 
         LaunchedEffect(Unit) { authViewModel.getClientePerfil() }
 
@@ -57,98 +59,129 @@ fun OrderHistoryScreen(
                 clientePerfil?.id?.let { clienteId -> viewModel.loadPedidos(clienteId) }
         }
 
-        Column(
-                modifier =
-                        Modifier.fillMaxSize()
-                                .background(Brush.verticalGradient(listOf(cream, Color.White)))
-                                .padding(16.dp)
-        ) {
-                // Título centrado
-                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                        IconButton(
-                                onClick = onBack,
-                                modifier = Modifier.align(Alignment.CenterStart)
+        // Mostrar mensaje cuando se repite un pedido exitosamente
+        LaunchedEffect(repetirPedidoSuccess) {
+                repetirPedidoSuccess?.let { nuevoPedido ->
+                        snackbarHostState.showSnackbar(
+                                message = "Pedido #${nuevoPedido.id} creado exitosamente",
+                                duration = SnackbarDuration.Short
+                        )
+                        viewModel.clearRepetirPedidoSuccess()
+                        // Recargar la lista de pedidos
+                        clientePerfil?.id?.let { viewModel.loadPedidos(it) }
+                        // Navegar al detalle del nuevo pedido
+                        onOpenDetail(nuevoPedido.id.toString())
+                }
+        }
+
+        Scaffold(snackbarHost = { SnackbarHost(snackbarHostState) }) { paddingValues ->
+                Column(
+                        modifier =
+                                Modifier.fillMaxSize()
+                                        .background(
+                                                Brush.verticalGradient(listOf(cream, Color.White))
+                                        )
+                                        .padding(paddingValues)
+                                        .padding(16.dp)
+                ) {
+                        // Título centrado
+                        Box(
+                                modifier = Modifier.fillMaxWidth(),
+                                contentAlignment = Alignment.Center
                         ) {
-                                Icon(
-                                        imageVector = Icons.Filled.ArrowBack,
-                                        contentDescription = "Volver",
-                                        tint = brownDark
+                                IconButton(
+                                        onClick = onBack,
+                                        modifier = Modifier.align(Alignment.CenterStart)
+                                ) {
+                                        Icon(
+                                                imageVector = Icons.Filled.ArrowBack,
+                                                contentDescription = "Volver",
+                                                tint = brownDark
+                                        )
+                                }
+                                Text(
+                                        "Historial de pedidos",
+                                        color = brownDark,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 20.sp
                                 )
                         }
-                        Text(
-                                "Historial de pedidos",
-                                color = brownDark,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 20.sp
-                        )
-                }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                if (isLoading) {
-                        Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                        ) { CircularProgressIndicator(color = terracota) }
-                } else if (error != null) {
-                        Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                        ) {
-                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                        Text(
-                                                "Error al cargar pedidos",
-                                                color = Color.Red,
-                                                fontWeight = FontWeight.Bold
-                                        )
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                        Text(error ?: "", color = brownDark)
-                                        Spacer(modifier = Modifier.height(16.dp))
-                                        Button(
-                                                onClick = {
-                                                        scope.launch {
-                                                                authViewModel.getClientePerfil()
-                                                                clientePerfil?.id?.let {
-                                                                        viewModel.loadPedidos(it)
+                        if (isLoading) {
+                                Box(
+                                        modifier = Modifier.fillMaxSize(),
+                                        contentAlignment = Alignment.Center
+                                ) { CircularProgressIndicator(color = terracota) }
+                        } else if (error != null) {
+                                Box(
+                                        modifier = Modifier.fillMaxSize(),
+                                        contentAlignment = Alignment.Center
+                                ) {
+                                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                                Text(
+                                                        "Error al cargar pedidos",
+                                                        color = Color.Red,
+                                                        fontWeight = FontWeight.Bold
+                                                )
+                                                Spacer(modifier = Modifier.height(8.dp))
+                                                Text(error ?: "", color = brownDark)
+                                                Spacer(modifier = Modifier.height(16.dp))
+                                                Button(
+                                                        onClick = {
+                                                                scope.launch {
+                                                                        authViewModel
+                                                                                .getClientePerfil()
+                                                                        clientePerfil?.id?.let {
+                                                                                viewModel
+                                                                                        .loadPedidos(
+                                                                                                it
+                                                                                        )
+                                                                        }
                                                                 }
-                                                        }
-                                                },
-                                                colors =
-                                                        ButtonDefaults.buttonColors(
-                                                                containerColor = terracota
-                                                        )
-                                        ) { Text("Reintentar") }
+                                                        },
+                                                        colors =
+                                                                ButtonDefaults.buttonColors(
+                                                                        containerColor = terracota
+                                                                )
+                                                ) { Text("Reintentar") }
+                                        }
                                 }
-                        }
-                } else if (pedidos.isEmpty()) {
-                        Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                        ) {
-                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                        Text(
-                                                "No tienes pedidos aún",
-                                                color = brownDark,
-                                                fontSize = 18.sp
-                                        )
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                        Text(
-                                                "¡Haz tu primer pedido!",
-                                                color = brownDark.copy(alpha = 0.7f)
-                                        )
+                        } else if (pedidos.isEmpty()) {
+                                Box(
+                                        modifier = Modifier.fillMaxSize(),
+                                        contentAlignment = Alignment.Center
+                                ) {
+                                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                                Text(
+                                                        "No tienes pedidos aún",
+                                                        color = brownDark,
+                                                        fontSize = 18.sp
+                                                )
+                                                Spacer(modifier = Modifier.height(8.dp))
+                                                Text(
+                                                        "¡Haz tu primer pedido!",
+                                                        color = brownDark.copy(alpha = 0.7f)
+                                                )
+                                        }
                                 }
-                        }
-                } else {
-                        LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                                items(pedidos) { pedido ->
-                                        OrderHistoryCard(
-                                                pedido = pedido,
-                                                onOpenDetail = onOpenDetail,
-                                                onRepeatOrder = onRepeatOrder,
-                                                brownDark = brownDark,
-                                                softBeige = softBeige,
-                                                terracota = terracota
-                                        )
+                        } else {
+                                LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                                        items(pedidos) { pedido ->
+                                                OrderHistoryCard(
+                                                        pedido = pedido,
+                                                        onOpenDetail = onOpenDetail,
+                                                        onRepeatOrder = { pedidoId ->
+                                                                viewModel.repetirPedido(
+                                                                        pedidoId.toInt()
+                                                                )
+                                                        },
+                                                        brownDark = brownDark,
+                                                        softBeige = softBeige,
+                                                        terracota = terracota
+                                                )
+                                        }
                                 }
                         }
                 }

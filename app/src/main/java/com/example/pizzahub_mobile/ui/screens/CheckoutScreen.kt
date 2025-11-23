@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -194,19 +196,45 @@ fun CheckoutScreen(
                                         ) {
                                                 OutlinedTextField(
                                                         value = nombre,
-                                                        onValueChange = { nombre = it },
+                                                        onValueChange = { newValue ->
+                                                                if (newValue.all {
+                                                                                it.isLetter() ||
+                                                                                        it.isWhitespace()
+                                                                        }
+                                                                ) {
+                                                                        nombre = newValue
+                                                                }
+                                                        },
                                                         label = { Text("Nombre") },
                                                         modifier = Modifier.weight(1f),
                                                         shape = RoundedCornerShape(12.dp),
-                                                        singleLine = true
+                                                        singleLine = true,
+                                                        keyboardOptions =
+                                                                KeyboardOptions(
+                                                                        keyboardType =
+                                                                                KeyboardType.Text
+                                                                )
                                                 )
                                                 OutlinedTextField(
                                                         value = apellidos,
-                                                        onValueChange = { apellidos = it },
+                                                        onValueChange = { newValue ->
+                                                                if (newValue.all {
+                                                                                it.isLetter() ||
+                                                                                        it.isWhitespace()
+                                                                        }
+                                                                ) {
+                                                                        apellidos = newValue
+                                                                }
+                                                        },
                                                         label = { Text("Apellidos") },
                                                         modifier = Modifier.weight(1f),
                                                         shape = RoundedCornerShape(12.dp),
-                                                        singleLine = true
+                                                        singleLine = true,
+                                                        keyboardOptions =
+                                                                KeyboardOptions(
+                                                                        keyboardType =
+                                                                                KeyboardType.Text
+                                                                )
                                                 )
                                         }
 
@@ -214,11 +242,21 @@ fun CheckoutScreen(
 
                                         OutlinedTextField(
                                                 value = telefono,
-                                                onValueChange = { telefono = it },
-                                                label = { Text("Teléfono") },
+                                                onValueChange = { newValue ->
+                                                        if (newValue.all { it.isDigit() } &&
+                                                                        newValue.length <= 10
+                                                        ) {
+                                                                telefono = newValue
+                                                        }
+                                                },
+                                                label = { Text("Teléfono (10 dígitos)") },
                                                 modifier = Modifier.fillMaxWidth(),
                                                 shape = RoundedCornerShape(12.dp),
-                                                singleLine = true
+                                                singleLine = true,
+                                                keyboardOptions =
+                                                        KeyboardOptions(
+                                                                keyboardType = KeyboardType.Phone
+                                                        )
                                         )
 
                                         Spacer(modifier = Modifier.height(10.dp))

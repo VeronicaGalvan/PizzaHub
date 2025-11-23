@@ -38,7 +38,8 @@ fun DeliveryTrackingMapScreen(
         originLat: Double = 21.15969,
         originLon: Double = -101.65070,
         destLat: Double? = null, // Coordenadas del usuario desde geocoding
-        destLon: Double? = null
+        destLon: Double? = null,
+        estado: String = "EN_CAMINO" // Estado del pedido
 ) {
     val cream = Color(0xFFFFF8EE)
     val brownDark = Color(0xFF4E342E)
@@ -115,7 +116,8 @@ fun DeliveryTrackingMapScreen(
             Column(Modifier.padding(16.dp)) {
                 Text("Pedido #$orderId", fontWeight = FontWeight.SemiBold, color = brownDark)
                 Spacer(Modifier.height(6.dp))
-                Text("Estado: EN CAMINO", color = terracota, fontWeight = FontWeight.Bold)
+                val estadoFormatted = estado.replace("_", " ").uppercase()
+                Text("Estado: $estadoFormatted", color = terracota, fontWeight = FontWeight.Bold)
                 Spacer(Modifier.height(6.dp))
 
                 val eta = ((1 - pos) * 25).toInt().coerceAtLeast(1)

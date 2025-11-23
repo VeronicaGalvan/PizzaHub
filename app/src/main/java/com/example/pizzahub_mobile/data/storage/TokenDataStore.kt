@@ -13,12 +13,16 @@ private val Context.dataStore by preferencesDataStore(name = "auth_prefs")
 object TokenDataStore {
     private val ACCESS_TOKEN = stringPreferencesKey("access_token")
     private val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
+    private val FCM_TOKEN = stringPreferencesKey("fcm_token")
 
     fun getAccessTokenFlow(context: Context): Flow<String?> =
             context.dataStore.data.map { prefs -> prefs[ACCESS_TOKEN] }
 
     fun getRefreshTokenFlow(context: Context): Flow<String?> =
             context.dataStore.data.map { prefs -> prefs[REFRESH_TOKEN] }
+
+    fun getFcmTokenFlow(context: Context): Flow<String?> =
+            context.dataStore.data.map { prefs -> prefs[FCM_TOKEN] }
 
     suspend fun saveTokens(context: Context, access: String, refresh: String?) {
         context.dataStore.edit { prefs ->
@@ -27,10 +31,15 @@ object TokenDataStore {
         }
     }
 
+    suspend fun saveFcmToken(context: Context, token: String) {
+        context.dataStore.edit { prefs -> prefs[FCM_TOKEN] = token }
+    }
+
     suspend fun clear(context: Context) {
         context.dataStore.edit { prefs ->
             prefs.remove(ACCESS_TOKEN)
             prefs.remove(REFRESH_TOKEN)
+            prefs.remove(FCM_TOKEN)
         }
     }
 
@@ -46,6 +55,14 @@ object TokenDataStore {
     fun getRefreshTokenBlocking(context: Context): String? {
         return try {
             kotlinx.coroutines.runBlocking { getRefreshTokenFlow(context).first() }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun getFcmTokenBlocking(context: Context): String? {
+        return try {
+            kotlinx.coroutines.runBlocking { getFcmTokenFlow(context).first() }
         } catch (e: Exception) {
             null
         }

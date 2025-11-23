@@ -21,12 +21,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 object RetrofitInstance {
-    // For local dev you can use the HTTPS Kestrel endpoint via 10.0.2.2
-    // launchSettings shows HTTPS at https://localhost:7188 and HTTP at http://localhost:5021
-    // Prefer HTTPS in dev; the emulator needs to trust the dev certificate or we can use a debug
-    // 'trust-all' client.
-    private const val BASE = "https://10.0.2.2:7188/"
-
     // Toggle to true to allow insecure TLS (trust-all). This will only be enabled in debug builds.
     private const val ENABLE_INSECURE_DEBUG_TLS = true
 
@@ -68,8 +62,12 @@ object RetrofitInstance {
                         .connectTimeout(15, TimeUnit.SECONDS)
                         .readTimeout(15, TimeUnit.SECONDS)
 
-        // If we're in debug mode and the flag is enabled, install a permissive TrustManager
-        if (isDebuggable(context) && ENABLE_INSECURE_DEBUG_TLS) {
+        // If we're in debug mode and using localhost, install a permissive TrustManager for
+        // self-signed certs
+        val isLocalhost =
+                NetworkConfig.BASE_URL.contains("10.0.2.2") ||
+                        NetworkConfig.BASE_URL.contains("localhost")
+        if (isDebuggable(context) && ENABLE_INSECURE_DEBUG_TLS && isLocalhost) {
             try {
                 val trustAllCerts =
                         arrayOf<TrustManager>(
@@ -107,7 +105,7 @@ object RetrofitInstance {
         // Crear una instancia temporal de Retrofit para obtener AuthApi para el authenticator
         val tempRetrofit =
                 Retrofit.Builder()
-                        .baseUrl(BASE)
+                        .baseUrl(NetworkConfig.BASE_URL)
                         .client(clientBuilder.build())
                         .addConverterFactory(MoshiConverterFactory.create(moshi))
                         .build()
@@ -123,7 +121,7 @@ object RetrofitInstance {
 
         val retrofit =
                 Retrofit.Builder()
-                        .baseUrl(BASE)
+                        .baseUrl(NetworkConfig.BASE_URL)
                         .client(client)
                         .addConverterFactory(MoshiConverterFactory.create(moshi))
                         .build()

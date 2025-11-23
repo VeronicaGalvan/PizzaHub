@@ -1,5 +1,6 @@
 package com.example.pizzahub_mobile.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,16 +13,19 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.AsyncImage
+import com.example.pizzahub_mobile.data.models.ProductImageMapper
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
 import com.example.pizzahub_mobile.ui.viewmodel.ProductsViewModel
 
@@ -88,6 +92,13 @@ fun ProductDetailScreen(
                         Spacer(modifier = Modifier.height(24.dp))
 
                         // 🍕 Imagen principal
+                        val imageRes =
+                                com.example.pizzahub_mobile.data.models.ProductImageMapper
+                                        .getDrawableResourceByProductName(
+                                                product?.name,
+                                                product?.imageUrl
+                                        )
+
                         Box(
                                 modifier =
                                         Modifier.size(220.dp)
@@ -95,15 +106,12 @@ fun ProductDetailScreen(
                                                 .background(Color.White, shape = CircleShape),
                                 contentAlignment = Alignment.Center
                         ) {
-                                if (product != null && !product.imageUrl.isNullOrBlank()) {
-                                        AsyncImage(
-                                                model = product.imageUrl,
-                                                contentDescription = product.name,
-                                                modifier = Modifier.size(200.dp)
-                                        )
-                                } else {
-                                        Text(text = "🍕", fontSize = 96.sp)
-                                }
+                                Image(
+                                        painter = painterResource(id = imageRes),
+                                        contentDescription = product?.name,
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier.size(200.dp).clip(CircleShape)
+                                )
                         }
 
                         Spacer(modifier = Modifier.height(28.dp))

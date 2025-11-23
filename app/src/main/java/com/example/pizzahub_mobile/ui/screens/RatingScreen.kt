@@ -17,15 +17,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
+import com.example.pizzahub_mobile.ui.viewmodel.RatingViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RatingScreen(
-        orderId: String,
-        onBack: () -> Unit,
-        onSubmit: (stars: Int, comment: String) -> Unit = { _, _ -> }
-) {
+fun RatingScreen(orderId: String, onBack: () -> Unit, viewModel: RatingViewModel = viewModel()) {
     val brownDark = Color(0xFF4E342E)
     val terracota = Color(0xFFD35400)
     val cream = Color(0xFFFFF8EE)
@@ -33,6 +31,17 @@ fun RatingScreen(
 
     var stars by remember { mutableStateOf(5) }
     var comment by remember { mutableStateOf("") }
+
+    val isLoading by viewModel.isLoading.collectAsState()
+    val error by viewModel.error.collectAsState()
+    val success by viewModel.success.collectAsState()
+
+    // Navegar hacia atrás cuando la calificación se envía exitosamente
+    LaunchedEffect(success) {
+        if (success) {
+            onBack()
+        }
+    }
 
     Column(
             modifier =
@@ -70,7 +79,11 @@ fun RatingScreen(
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
                     for (i in 1..5) {
-                        IconButton(onClick = { stars = i }, modifier = Modifier.size(44.dp)) {
+                        IconButton(
+                                onClick = { stars = i },
+                                modifier = Modifier.size(44.dp),
+                                enabled = !isLoading
+                        ) {
                             Icon(
                                     Icons.Filled.Star,
                                     contentDescription = "Star $i",
@@ -86,6 +99,7 @@ fun RatingScreen(
                         onValueChange = { comment = it },
                         label = { Text("Comentario") },
                         modifier = Modifier.fillMaxWidth(),
+                        enabled = !isLoading,
                         colors =
                                 OutlinedTextFieldDefaults.colors(
                                         focusedBorderColor = terracota,
@@ -94,12 +108,41 @@ fun RatingScreen(
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
+
+                // Mostrar error si existe
+                if (error != null) {
+                    Text(
+                            text = error!!,
+                            color = Color.Red,
+                            fontSize = 14.sp,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                }
+
                 Button(
-                        onClick = { onSubmit(stars, comment) },
+                        onClick = {
+                            orderId.toIntOrNull()?.let { id ->
+                                viewModel.submitCalificacion(id, stars, comment)
+                            }
+                        },
                         modifier = Modifier.fillMaxWidth(),
+                        enabled = !isLoading,
                         colors = ButtonDefaults.buttonColors(containerColor = terracota),
                         shape = RoundedCornerShape(16.dp)
-                ) { Text("Enviar reseña", color = Color.White, fontWeight = FontWeight.Bold) }
+                ) {
+                    if (isLoading) {
+                        CircularProgressIndicator(
+                                color = Color.White,
+                                modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                    }
+                    Text(
+                            if (isLoading) "Enviando..." else "Enviar reseña",
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
     }

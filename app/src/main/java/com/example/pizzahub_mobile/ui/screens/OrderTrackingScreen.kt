@@ -31,7 +31,7 @@ import java.util.Locale
 fun OrderTrackingScreen(
         onBack: () -> Unit,
         orderId: String,
-        onOpenMap: (String) -> Unit = {},
+        onOpenMap: (String, String) -> Unit = { _, _ -> },
         onViewDetails: (String) -> Unit = {},
         viewModel: OrderTrackingViewModel = viewModel()
 ) {
@@ -122,7 +122,7 @@ fun StepIndicator(label: String, step: Int, current: Int, brown: Color, activeCo
 private fun OrderTrackingContent(
         pedido: com.example.pizzahub_mobile.data.models.PedidoResponse,
         onBack: () -> Unit,
-        onOpenMap: (String) -> Unit,
+        onOpenMap: (String, String) -> Unit,
         onViewDetails: (String) -> Unit,
         terracota: Color,
         cream: Color,
@@ -379,7 +379,10 @@ private fun OrderTrackingContent(
                                                 }
                                                 IconButton(
                                                         onClick = {
-                                                                onOpenMap(pedido.id.toString())
+                                                                onOpenMap(
+                                                                        pedido.id.toString(),
+                                                                        pedido.estado
+                                                                )
                                                         }
                                                 ) {
                                                         Icon(
@@ -410,7 +413,7 @@ private fun OrderTrackingContent(
                         ) { Text("Ver detalles") }
 
                         Button(
-                                onClick = { onOpenMap(pedido.id.toString()) },
+                                onClick = { onOpenMap(pedido.id.toString(), pedido.estado) },
                                 modifier = Modifier.weight(1f),
                                 colors = ButtonDefaults.buttonColors(containerColor = terracota)
                         ) {

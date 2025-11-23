@@ -24,6 +24,9 @@ class OrderHistoryViewModel(application: Application) : AndroidViewModel(applica
     private val _pedidos = MutableStateFlow<List<PedidoResponse>>(emptyList())
     val pedidos: StateFlow<List<PedidoResponse>> = _pedidos.asStateFlow()
 
+    private val _repetirPedidoSuccess = MutableStateFlow<PedidoResponse?>(null)
+    val repetirPedidoSuccess: StateFlow<PedidoResponse?> = _repetirPedidoSuccess.asStateFlow()
+
     fun loadPedidos(clienteId: Int) {
         viewModelScope.launch {
             _isLoading.value = true
@@ -48,6 +51,36 @@ class OrderHistoryViewModel(application: Application) : AndroidViewModel(applica
 
             _isLoading.value = false
         }
+    }
+
+    fun repetirPedido(pedidoId: Int) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            _error.value = null
+            _repetirPedidoSuccess.value = null
+
+            repository
+                    .repetirPedido(pedidoId)
+                    .fold(
+                            onSuccess = { nuevoPedido ->
+                                _repetirPedidoSuccess.value = nuevoPedido
+                                Log.d(
+                                        "OrderHistoryViewModel",
+                                        "Pedido repetido exitosamente: ${nuevoPedido.id}"
+                                )
+                            },
+                            onFailure = { e ->
+                                _error.value = e.message ?: "Error al repetir el pedido"
+                                Log.e("OrderHistoryViewModel", "Error repitiendo pedido", e)
+                            }
+                    )
+
+            _isLoading.value = false
+        }
+    }
+
+    fun clearRepetirPedidoSuccess() {
+        _repetirPedidoSuccess.value = null
     }
 
     fun clearError() {

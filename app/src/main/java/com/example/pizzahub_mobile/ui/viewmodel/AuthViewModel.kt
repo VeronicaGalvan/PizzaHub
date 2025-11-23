@@ -1,6 +1,7 @@
 package com.example.pizzahub_mobile.ui.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pizzahub_mobile.data.models.ClientePerfilResponse
@@ -8,9 +9,11 @@ import com.example.pizzahub_mobile.data.network.AuthApi
 import com.example.pizzahub_mobile.data.network.AuthRepository
 import com.example.pizzahub_mobile.data.network.RetrofitInstance
 import com.example.pizzahub_mobile.data.storage.TokenDataStore
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val ctx = application.applicationContext
@@ -66,6 +69,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 is com.example.pizzahub_mobile.data.network.AuthResult.Success -> {
                     _isAuthenticated.value = true
                     _currentUser.value = r.user as? com.example.pizzahub_mobile.data.models.UserDto
+
+                    // Registrar token FCM después de login exitoso
+                    registerFcmToken()
                 }
                 is com.example.pizzahub_mobile.data.network.AuthResult.Failure -> {
                     _error.value = r.message
@@ -83,6 +89,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 is com.example.pizzahub_mobile.data.network.AuthResult.Success -> {
                     _isAuthenticated.value = true
                     _currentUser.value = r.user as? com.example.pizzahub_mobile.data.models.UserDto
+
+                    // Registrar token FCM después de registro exitoso
+                    registerFcmToken()
                 }
                 is com.example.pizzahub_mobile.data.network.AuthResult.Failure -> {
                     _error.value = r.message
@@ -174,6 +183,16 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     fun logout() {
         viewModelScope.launch {
             _isLoading.value = true
+            // Intentar eliminar token FCM en el backend (si existe)
+            try {
+                val fcm = TokenDataStore.getFcmTokenBlocking(ctx)
+                if (!fcm.isNullOrBlank()) {
+                    repo.eliminarTokenFcm(fcm)
+                }
+            } catch (e: Exception) {
+                // Ignorar errores de borrado de token; proceder con logout
+            }
+
             // Intentar cerrar sesión en el backend
             repo.logout()
             // Limpiar estado local
@@ -181,6 +200,50 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             _currentUser.value = null
             _clientePerfil.value = null
             _isLoading.value = false
+        }
+    }
+
+    /**
+     * Obtiene y registra el token FCM en el backend. Se llama automáticamente después de
+     * login/registro exitoso. Incluye reintentos en caso de fallo.
+     */
+    private fun registerFcmToken(retryCount: Int = 0) {
+        viewModelScope.launch {
+            try {
+                // Obtener token FCM de Firebase
+                val token = FirebaseMessaging.getInstance().token.await()
+                Log.d("AuthViewModel", "FCM Token obtenido: $token")
+
+                // Guardar localmente
+                TokenDataStore.saveFcmToken(ctx, token)
+
+                // Enviar al backend
+                val result = repo.registrarTokenFcm(token)
+                if (result.isSuccess) {
+                    Log.d("AuthViewModel", "Token FCM registrado exitosamente en backend")
+                } else {
+                    Log.e(
+                            "AuthViewModel",
+                            "Error al registrar token FCM: ${result.exceptionOrNull()?.message}"
+                    )
+                    // Reintentar hasta 3 veces
+                    if (retryCount < 3) {
+                        Log.d(
+                                "AuthViewModel",
+                                "Reintentando registro de token... intento ${retryCount + 1}"
+                        )
+                        kotlinx.coroutines.delay(2000L * (retryCount + 1)) // Delay exponencial
+                        registerFcmToken(retryCount + 1)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("AuthViewModel", "Excepción al obtener/registrar token FCM", e)
+                // Reintentar hasta 3 veces
+                if (retryCount < 3) {
+                    kotlinx.coroutines.delay(2000L * (retryCount + 1))
+                    registerFcmToken(retryCount + 1)
+                }
+            }
         }
     }
 }

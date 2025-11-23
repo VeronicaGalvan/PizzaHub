@@ -112,6 +112,9 @@ dependencies {
 
     // Firebase Cloud Messaging (FCM)
     implementation("com.google.firebase:firebase-messaging:23.2.0")
+    
+    // Coroutines support for Firebase
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

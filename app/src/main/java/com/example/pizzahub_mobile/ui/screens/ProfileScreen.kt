@@ -1,7 +1,5 @@
 package com.example.pizzahub_mobile.ui.screens
 
-import android.content.pm.ApplicationInfo
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
@@ -29,15 +28,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pizzahub_mobile.ui.theme.PizzaBrown
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
-import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
 
 @Composable
@@ -46,7 +44,6 @@ fun ProfileScreen(
         onNavigateToOrderTracking: (String) -> Unit = {},
         onNavigateToOrderHistory: () -> Unit = {},
         onNavigateToNotifications: () -> Unit = {},
-        onNavigateToAddresses: () -> Unit = {},
         onLogout: () -> Unit = {},
         authViewModel: com.example.pizzahub_mobile.ui.viewmodel.AuthViewModel? = null
 ) {
@@ -66,6 +63,11 @@ fun ProfileScreen(
         val orderHistoryViewModel: com.example.pizzahub_mobile.ui.viewmodel.OrderHistoryViewModel =
                 viewModel()
         val pedidos by orderHistoryViewModel.pedidos.collectAsState()
+
+        val notificationsViewModel:
+                com.example.pizzahub_mobile.ui.viewmodel.NotificationsViewModel =
+                viewModel()
+        val unreadCount by notificationsViewModel.unreadCount.collectAsState()
 
         // Estados de edición
         var isEditing by remember { mutableStateOf(false) }
@@ -118,14 +120,42 @@ fun ProfileScreen(
                                 fontWeight = FontWeight.Bold
                         )
                         Row {
-                                IconButton(onClick = { onNavigateToNotifications() }) {
-                                        Icon(
-                                                imageVector = Icons.Filled.Notifications,
-                                                contentDescription = "Notifications",
-                                                tint = brownDark
-                                        )
+                                // Notifications button with badge
+                                Box {
+                                        IconButton(onClick = { onNavigateToNotifications() }) {
+                                                Icon(
+                                                        imageVector = Icons.Filled.Notifications,
+                                                        contentDescription = "Notifications",
+                                                        tint = brownDark
+                                                )
+                                        }
+                                        if (unreadCount > 0) {
+                                                Box(
+                                                        modifier =
+                                                                Modifier.align(Alignment.TopEnd)
+                                                                        .offset(
+                                                                                x = (-4).dp,
+                                                                                y = 4.dp
+                                                                        )
+                                                                        .size(18.dp)
+                                                                        .background(
+                                                                                terracota,
+                                                                                shape = CircleShape
+                                                                        ),
+                                                        contentAlignment = Alignment.Center
+                                                ) {
+                                                        Text(
+                                                                text =
+                                                                        if (unreadCount > 9) "9+"
+                                                                        else unreadCount.toString(),
+                                                                color = Color.White,
+                                                                fontSize = 10.sp,
+                                                                fontWeight = FontWeight.Bold
+                                                        )
+                                                }
+                                        }
                                 }
-                                IconButton(onClick = { /* TODO: edit profile */}) {
+                                IconButton(onClick = { isEditing = !isEditing }) {
                                         Icon(
                                                 imageVector = Icons.Filled.Edit,
                                                 contentDescription = "Edit",
@@ -230,30 +260,64 @@ fun ProfileScreen(
 
                                         OutlinedTextField(
                                                 value = nombre,
-                                                onValueChange = { nombre = it },
+                                                onValueChange = { newValue ->
+                                                        if (newValue.all {
+                                                                        it.isLetter() ||
+                                                                                it.isWhitespace()
+                                                                }
+                                                        ) {
+                                                                nombre = newValue
+                                                        }
+                                                },
                                                 label = { Text("Nombre") },
                                                 modifier = Modifier.fillMaxWidth(),
-                                                shape = RoundedCornerShape(12.dp)
+                                                shape = RoundedCornerShape(12.dp),
+                                                keyboardOptions =
+                                                        KeyboardOptions(
+                                                                keyboardType = KeyboardType.Text
+                                                        )
                                         )
 
                                         Spacer(modifier = Modifier.height(8.dp))
 
                                         OutlinedTextField(
                                                 value = apellidos,
-                                                onValueChange = { apellidos = it },
+                                                onValueChange = { newValue ->
+                                                        if (newValue.all {
+                                                                        it.isLetter() ||
+                                                                                it.isWhitespace()
+                                                                }
+                                                        ) {
+                                                                apellidos = newValue
+                                                        }
+                                                },
                                                 label = { Text("Apellidos") },
                                                 modifier = Modifier.fillMaxWidth(),
-                                                shape = RoundedCornerShape(12.dp)
+                                                shape = RoundedCornerShape(12.dp),
+                                                keyboardOptions =
+                                                        KeyboardOptions(
+                                                                keyboardType = KeyboardType.Text
+                                                        )
                                         )
 
                                         Spacer(modifier = Modifier.height(8.dp))
 
                                         OutlinedTextField(
                                                 value = telefono,
-                                                onValueChange = { telefono = it },
-                                                label = { Text("Teléfono") },
+                                                onValueChange = { newValue ->
+                                                        if (newValue.all { it.isDigit() } &&
+                                                                        newValue.length <= 10
+                                                        ) {
+                                                                telefono = newValue
+                                                        }
+                                                },
+                                                label = { Text("Teléfono (10 dígitos)") },
                                                 modifier = Modifier.fillMaxWidth(),
-                                                shape = RoundedCornerShape(12.dp)
+                                                shape = RoundedCornerShape(12.dp),
+                                                keyboardOptions =
+                                                        KeyboardOptions(
+                                                                keyboardType = KeyboardType.Phone
+                                                        )
                                         )
 
                                         Spacer(modifier = Modifier.height(12.dp))
@@ -348,36 +412,6 @@ fun ProfileScreen(
                         Spacer(modifier = Modifier.height(16.dp))
                 }
 
-                // Quick stats
-                Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                        StatisticCard(
-                                modifier = Modifier.weight(1f),
-                                number = "12",
-                                label = "Pedidos",
-                                background = Color(0xFFFFF4F2),
-                                brown = brownDark
-                        )
-                        StatisticCard(
-                                modifier = Modifier.weight(1f),
-                                number = "4",
-                                label = "Favoritos",
-                                background = Color(0xFFFFF8E6),
-                                brown = brownDark
-                        )
-                        StatisticCard(
-                                modifier = Modifier.weight(1f),
-                                number = "240",
-                                label = "Puntos",
-                                background = Color(0xFFFFF0EC),
-                                brown = brownDark
-                        )
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
                 // Pedido activo (si existe)
                 val activePedido =
                         pedidos.firstOrNull { pedido ->
@@ -451,12 +485,7 @@ fun ProfileScreen(
                 }
 
                 // Settings / actions list
-                val items =
-                        listOf(
-                                Pair("Mis pedidos", "P"),
-                                Pair("Direcciones", "D"),
-                                Pair("Notificaciones", "N")
-                        )
+                val items = listOf(Pair("Mis pedidos", "P"), Pair("Notificaciones", "N"))
 
                 LazyColumn(modifier = Modifier.fillMaxWidth()) {
                         items(items) { it ->
@@ -489,20 +518,6 @@ fun ProfileScreen(
                                                         )
                                                 }
                                         }
-                                        "Direccion", "Direcciones" -> {
-                                                Box(
-                                                        modifier =
-                                                                Modifier.fillMaxWidth().clickable {
-                                                                        onNavigateToAddresses()
-                                                                }
-                                                ) {
-                                                        SimpleCardItem(
-                                                                initial = it.second,
-                                                                title = it.first,
-                                                                brown = brownDark
-                                                        )
-                                                }
-                                        }
                                         else -> {
                                                 SimpleCardItem(
                                                         initial = it.second,
@@ -515,49 +530,6 @@ fun ProfileScreen(
 
                         item {
                                 Spacer(modifier = Modifier.height(8.dp))
-                                // Debug-only: show FCM token so developer can copy it for Firebase
-                                // Console tests
-                                val ctx = LocalContext.current
-                                val isDebug =
-                                        (ctx.applicationInfo.flags and
-                                                ApplicationInfo.FLAG_DEBUGGABLE) != 0
-                                if (isDebug) {
-                                        Text(
-                                                text = "Mostrar token FCM",
-                                                color = terracota,
-                                                modifier =
-                                                        Modifier.fillMaxWidth()
-                                                                .clickable {
-                                                                        FirebaseMessaging
-                                                                                .getInstance()
-                                                                                .token
-                                                                                .addOnCompleteListener {
-                                                                                        task ->
-                                                                                        if (task.isSuccessful
-                                                                                        ) {
-                                                                                                val token =
-                                                                                                        task.result
-                                                                                                Toast.makeText(
-                                                                                                                ctx,
-                                                                                                                "FCM token:\n$token",
-                                                                                                                Toast.LENGTH_LONG
-                                                                                                        )
-                                                                                                        .show()
-                                                                                        } else {
-                                                                                                Toast.makeText(
-                                                                                                                ctx,
-                                                                                                                "Error obteniendo token FCM",
-                                                                                                                Toast.LENGTH_SHORT
-                                                                                                        )
-                                                                                                        .show()
-                                                                                        }
-                                                                                }
-                                                                }
-                                                                .padding(vertical = 8.dp),
-                                                fontWeight = FontWeight.SemiBold
-                                        )
-                                        Spacer(modifier = Modifier.height(6.dp))
-                                }
                                 Button(
                                         onClick = { onLogout() },
                                         colors =

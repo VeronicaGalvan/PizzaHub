@@ -141,8 +141,7 @@ fun CartScreen(
 
         // Footer summary
         val subtotal = itemsWithQty.sumOf { it.product.price * it.quantity }
-        val tax = subtotal * 0.12
-        val total = subtotal + tax
+        val total = subtotal
 
         Card(
                 shape = RoundedCornerShape(22.dp),
@@ -151,7 +150,6 @@ fun CartScreen(
         ) {
             Column(modifier = Modifier.padding(20.dp)) {
                 SummaryRow("Subtotal", subtotal, brownDark)
-                SummaryRow("Impuestos", tax, brownDark)
                 Divider(modifier = Modifier.padding(vertical = 8.dp))
                 SummaryRow("Total", total, brownDark, true)
                 Spacer(modifier = Modifier.height(16.dp))

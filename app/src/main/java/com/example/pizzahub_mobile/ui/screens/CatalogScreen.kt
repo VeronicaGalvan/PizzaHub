@@ -1,5 +1,6 @@
 package com.example.pizzahub_mobile.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,12 +20,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.AsyncImage
 import com.example.pizzahub_mobile.data.models.Product
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
 import com.example.pizzahub_mobile.ui.viewmodel.ProductsViewModel
@@ -97,12 +99,18 @@ fun CatalogScreen(onBack: () -> Unit, onNavigate: (String) -> Unit, category: St
                                         "bebidas" ->
                                                 items.filter {
                                                         it.name.contains("cola", true) ||
-                                                                it.name.contains("agua", true)
+                                                                it.name.contains("sprite", true) ||
+                                                                it.name.contains("agua", true) ||
+                                                                it.name.contains("refresco", true)
                                                 }
                                         "complementos" ->
                                                 items.filter {
-                                                        !it.name.contains("pizza", true) &&
-                                                                !it.name.contains("cola", true)
+                                                        it.name.contains("papas", true) ||
+                                                                it.name.contains("aros", true) ||
+                                                                it.name.contains(
+                                                                        "complemento",
+                                                                        true
+                                                                )
                                                 }
                                         else -> items
                                 }
@@ -128,6 +136,9 @@ fun CatalogScreen(onBack: () -> Unit, onNavigate: (String) -> Unit, category: St
 fun ProductItemCard(product: Product, onClick: () -> Unit) {
         val brownDark = Color(0xFF4E342E)
         val softBeige = Color(0xFFFFEFD5)
+        val imageRes =
+                com.example.pizzahub_mobile.data.models.ProductImageMapper
+                        .getDrawableResourceByProductName(product.name, product.imageUrl)
 
         Card(
                 modifier =
@@ -149,16 +160,12 @@ fun ProductItemCard(product: Product, onClick: () -> Unit) {
                                                 .background(softBeige),
                                 contentAlignment = Alignment.Center
                         ) {
-                                val imageUrl = product.imageUrl
-                                if (!imageUrl.isNullOrBlank()) {
-                                        AsyncImage(
-                                                model = imageUrl,
-                                                contentDescription = product.name,
-                                                modifier = Modifier.fillMaxSize()
-                                        )
-                                } else {
-                                        Text(text = "🍕", fontSize = 40.sp)
-                                }
+                                Image(
+                                        painter = painterResource(id = imageRes),
+                                        contentDescription = product.name,
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier.fillMaxSize()
+                                )
                         }
 
                         Spacer(modifier = Modifier.width(16.dp))

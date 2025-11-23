@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -16,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -114,20 +116,37 @@ fun RegisterScreen(
                                 Column(modifier = Modifier.padding(20.dp)) {
                                         OutlinedTextField(
                                                 value = nombreCompleto,
-                                                onValueChange = { nombreCompleto = it },
+                                                onValueChange = { newValue ->
+                                                        // Solo letras, espacios y acentos
+                                                        if (newValue.all {
+                                                                        it.isLetter() ||
+                                                                                it.isWhitespace()
+                                                                }
+                                                        ) {
+                                                                nombreCompleto = newValue
+                                                        }
+                                                },
                                                 label = { Text("Nombre completo") },
                                                 modifier = Modifier.fillMaxWidth(),
-                                                shape = RoundedCornerShape(12.dp)
+                                                shape = RoundedCornerShape(12.dp),
+                                                keyboardOptions =
+                                                        KeyboardOptions(
+                                                                keyboardType = KeyboardType.Text
+                                                        )
                                         )
 
                                         Spacer(modifier = Modifier.height(12.dp))
 
                                         OutlinedTextField(
                                                 value = email,
-                                                onValueChange = { email = it },
+                                                onValueChange = { email = it.trim() },
                                                 label = { Text("Correo electrónico") },
                                                 modifier = Modifier.fillMaxWidth(),
-                                                shape = RoundedCornerShape(12.dp)
+                                                shape = RoundedCornerShape(12.dp),
+                                                keyboardOptions =
+                                                        KeyboardOptions(
+                                                                keyboardType = KeyboardType.Email
+                                                        )
                                         )
 
                                         Spacer(modifier = Modifier.height(12.dp))
@@ -148,10 +167,23 @@ fun RegisterScreen(
 
                                         OutlinedTextField(
                                                 value = telefonoContacto,
-                                                onValueChange = { telefonoContacto = it },
-                                                label = { Text("Teléfono de contacto") },
+                                                onValueChange = { newValue ->
+                                                        // Solo números y máximo 10 dígitos
+                                                        if (newValue.all { it.isDigit() } &&
+                                                                        newValue.length <= 10
+                                                        ) {
+                                                                telefonoContacto = newValue
+                                                        }
+                                                },
+                                                label = {
+                                                        Text("Teléfono de contacto (10 dígitos)")
+                                                },
                                                 modifier = Modifier.fillMaxWidth(),
-                                                shape = RoundedCornerShape(12.dp)
+                                                shape = RoundedCornerShape(12.dp),
+                                                keyboardOptions =
+                                                        KeyboardOptions(
+                                                                keyboardType = KeyboardType.Phone
+                                                        )
                                         )
 
                                         Spacer(modifier = Modifier.height(24.dp))
@@ -160,6 +192,13 @@ fun RegisterScreen(
                                                 onClick = {
                                                         // Basic client-side validation
                                                         localError = null
+
+                                                        if (nombreCompleto.isBlank()) {
+                                                                localError =
+                                                                        "Ingrese su nombre completo"
+                                                                return@Button
+                                                        }
+
                                                         if (!android.util.Patterns.EMAIL_ADDRESS
                                                                         .matcher(email)
                                                                         .matches()
@@ -171,6 +210,12 @@ fun RegisterScreen(
                                                         if (password.length < 8) {
                                                                 localError =
                                                                         "La contraseña debe tener al menos 8 caracteres"
+                                                                return@Button
+                                                        }
+
+                                                        if (telefonoContacto.length != 10) {
+                                                                localError =
+                                                                        "El teléfono debe tener exactamente 10 dígitos"
                                                                 return@Button
                                                         }
                                                         if (nombreCompleto.isBlank()) {

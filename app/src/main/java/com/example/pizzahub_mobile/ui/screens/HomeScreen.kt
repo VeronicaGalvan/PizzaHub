@@ -155,8 +155,7 @@ fun HomeScreen(onNavigate: (String) -> Unit) {
                                 listOf(
                                         Pair("Pizzas", "🍕"),
                                         Pair("Bebidas", "🥤"),
-                                        Pair("Complementos", "🍟"),
-                                        Pair("Ofertas", "🔥")
+                                        Pair("Complementos", "🍟")
                                 )
 
                         // Grid 2 columnas

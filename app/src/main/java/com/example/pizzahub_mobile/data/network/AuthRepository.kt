@@ -1,6 +1,7 @@
 package com.example.pizzahub_mobile.data.network
 
 import android.content.Context
+import com.example.pizzahub_mobile.data.models.CalificacionRequest
 import com.example.pizzahub_mobile.data.models.ClientePerfilResponse
 import com.example.pizzahub_mobile.data.models.ClienteRequest
 import com.example.pizzahub_mobile.data.models.ClienteUpdateRequest
@@ -238,6 +239,113 @@ class AuthRepository(private val api: AuthApi, private val context: Context) {
                 if (resp.isSuccessful && resp.body() != null) {
                     Result.success(resp.body()!!)
                 } else {
+                    val msg = resp.errorBody()?.string() ?: "${resp.code()}: ${resp.message()}"
+                    Result.failure(Exception(msg))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+
+    suspend fun repetirPedido(pedidoId: Int): Result<PedidoResponse> =
+            try {
+                val resp = api.repetirPedido(pedidoId)
+                if (resp.isSuccessful && resp.body() != null) {
+                    Result.success(resp.body()!!)
+                } else {
+                    val msg = resp.errorBody()?.string() ?: "${resp.code()}: ${resp.message()}"
+                    Result.failure(Exception(msg))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+
+    suspend fun createCalificacion(
+            pedidoId: Int,
+            request: CalificacionRequest
+    ): retrofit2.Response<Any> = api.createCalificacion(pedidoId, request)
+
+    // Notifications
+    suspend fun registrarTokenFcm(fcmToken: String): Result<Unit> =
+            try {
+                val dto = com.example.pizzahub_mobile.data.models.RegistrarTokenFCMDto(fcmToken)
+                val resp = api.registrarToken(dto)
+                if (resp.isSuccessful) Result.success(Unit)
+                else {
+                    val msg = resp.errorBody()?.string() ?: "${resp.code()}: ${resp.message()}"
+                    Result.failure(Exception(msg))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+
+    suspend fun eliminarTokenFcm(fcmToken: String): Result<Unit> =
+            try {
+                val dto = com.example.pizzahub_mobile.data.models.RegistrarTokenFCMDto(fcmToken)
+                val resp = api.eliminarToken(dto)
+                if (resp.isSuccessful) Result.success(Unit)
+                else {
+                    val msg = resp.errorBody()?.string() ?: "${resp.code()}: ${resp.message()}"
+                    Result.failure(Exception(msg))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+
+    suspend fun getNotificaciones():
+            Result<List<com.example.pizzahub_mobile.data.models.NotificacionDto>> =
+            try {
+                val resp = api.getNotificaciones()
+                if (resp.isSuccessful && resp.body() != null) Result.success(resp.body()!!)
+                else {
+                    val msg = resp.errorBody()?.string() ?: "${resp.code()}: ${resp.message()}"
+                    Result.failure(Exception(msg))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+
+    suspend fun getNotificacionesNoLeidasConteo(): Result<Int> =
+            try {
+                val resp = api.getNotificacionesNoLeidasConteo()
+                if (resp.isSuccessful && resp.body() != null) Result.success(resp.body()!!)
+                else {
+                    val msg = resp.errorBody()?.string() ?: "${resp.code()}: ${resp.message()}"
+                    Result.failure(Exception(msg))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+
+    suspend fun marcarNotificacionLeida(id: Int): Result<Unit> =
+            try {
+                val resp = api.marcarNotificacionLeida(id)
+                if (resp.isSuccessful) Result.success(Unit)
+                else {
+                    val msg = resp.errorBody()?.string() ?: "${resp.code()}: ${resp.message()}"
+                    Result.failure(Exception(msg))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+
+    suspend fun marcarTodasNotificacionesLeidas(): Result<Unit> =
+            try {
+                val resp = api.marcarTodasNotificacionesLeidas()
+                if (resp.isSuccessful) Result.success(Unit)
+                else {
+                    val msg = resp.errorBody()?.string() ?: "${resp.code()}: ${resp.message()}"
+                    Result.failure(Exception(msg))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+
+    suspend fun pruebaNotificacion(fcmToken: String): Result<Unit> =
+            try {
+                val dto = com.example.pizzahub_mobile.data.models.RegistrarTokenFCMDto(fcmToken)
+                val resp = api.pruebaNotificacion(dto)
+                if (resp.isSuccessful) Result.success(Unit)
+                else {
                     val msg = resp.errorBody()?.string() ?: "${resp.code()}: ${resp.message()}"
                     Result.failure(Exception(msg))
                 }
