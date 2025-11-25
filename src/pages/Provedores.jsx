@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CRow,
   CCol,
@@ -22,93 +22,142 @@ import {
   CInputGroupText,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilUser, cilEnvelopeClosed, cilPhone, cilSave, cilTrash, cilPen } from '@coreui/icons'
+import {
+  cilUser,
+  cilPhone,
+  cilSave,
+  cilTrash,
+  cilPen,
+} from '@coreui/icons'
 
 const Provedores = () => {
-  // Lista de proveedores inicial
-  const [provedores, setProvedores] = useState([
-    { id: 1, nombre: 'Distribuidora México', telefono: '3312345678', correo: 'ventas@dmx.com' },
-    { id: 2, nombre: 'Harinas del Norte', telefono: '3323456789', correo: 'contacto@harinasnorte.com' },
-  ])
+  const [usuarios, setUsuarios] = useState([])
+  const [repartidores, setRepartidores] = useState([])
 
-  // Formulario nuevo proveedor
   const [form, setForm] = useState({
     nombre: '',
+    apellidos: '',
     telefono: '',
-    correo: '',
+    usuarioId: '',
   })
 
-  // Estados para editar
   const [editModal, setEditModal] = useState(false)
-  const [proveedorEditando, setProveedorEditando] = useState(null)
+  const [repartidorEditando, setRepartidorEditando] = useState(null)
 
+  // ======== CARGAR USUARIOS (solo rol 2) ==========
+  const fetchUsuarios = async () => {
+    try {
+      const res = await fetch('https://localhost:7188/api/Usuarios')
+      const data = await res.json()
+
+      const filtrados = data.filter((u) => u.rol === 2 || u.rol === 3) // empleados o repartidores
+      setUsuarios(filtrados)
+    } catch (err) {
+      console.error('Error cargando usuarios:', err)
+    }
+  }
+
+  // ======== CARGAR REPARTIDORES ==========
+  const fetchRepartidores = async () => {
+    try {
+      const res = await fetch('https://localhost:7188/api/Repartidores')
+      const data = await res.json()
+      setRepartidores(data)
+    } catch (err) {
+      console.error('Error cargando repartidores:', err)
+    }
+  }
+
+  useEffect(() => {
+    fetchUsuarios()
+    fetchRepartidores()
+  }, [])
+
+  // ========= MANEJAR FORM ==========
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
-  // AGREGAR
-  const handleAgregar = (e) => {
+  // ========= REGISTRAR REPARTIDOR ==========
+  const handleAgregar = async (e) => {
     e.preventDefault()
 
-    if (!form.nombre || !form.telefono || !form.correo) return
+    if (!form.nombre || !form.apellidos || !form.telefono || !form.usuarioId) return
 
-    const nuevoProveedor = {
-      id: Date.now(),
-      ...form,
+    try {
+      const res = await fetch('https://localhost:7188/api/Repartidores', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+
+      if (res.ok) {
+        await fetchRepartidores()
+        setForm({ nombre: '', apellidos: '', telefono: '', usuarioId: '' })
+      }
+    } catch (err) {
+      console.error('Error registrando:', err)
     }
-
-    setProvedores([...provedores, nuevoProveedor])
-    setForm({ nombre: '', telefono: '', correo: '' })
   }
 
-  // ELIMINAR
-  const handleEliminar = (id) => {
-    setProvedores(provedores.filter((p) => p.id !== id))
+  // ========= ELIMINAR ==========
+  const handleEliminar = async (id) => {
+    try {
+      await fetch(`https://localhost:7188/api/Repartidores/${id}`, {
+        method: 'DELETE',
+      })
+
+      fetchRepartidores()
+    } catch (err) {
+      console.error('Error eliminando:', err)
+    }
   }
 
-  // ABRIR MODAL EDITAR
-  const abrirEditar = (proveedor) => {
-    setProveedorEditando(proveedor)
+  // ========= EDITAR ==========
+  const abrirEditar = (rep) => {
+    setRepartidorEditando(rep)
     setEditModal(true)
   }
 
-  // GUARDAR EDICIÓN
-  const handleGuardarEdicion = () => {
-    setProvedores(
-      provedores.map((p) =>
-        p.id === proveedorEditando.id ? proveedorEditando : p
-      )
-    )
-    setEditModal(false)
+  const handleGuardarEdicion = async () => {
+    try {
+      await fetch(`https://localhost:7188/api/Repartidores/${repartidorEditando.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(repartidorEditando),
+      })
+
+      setEditModal(false)
+      fetchRepartidores()
+    } catch (err) {
+      console.error('Error editando:', err)
+    }
   }
 
   return (
     <>
-      {/* ENCABEZADO */}
       <CCard>
         <CCardHeader
           style={{
-            background: '#D35400',
+            background: '#2980B9',
             color: 'white',
             fontWeight: 'bold',
             fontSize: '1.2rem',
             letterSpacing: '1px',
           }}
         >
-          Gestión de Proveedores
+          Registro de Repartidores
         </CCardHeader>
 
         <CCardBody style={{ background: '#fafafa' }}>
           <CRow>
-            {/* FORM AGREGAR */}
+            {/* FORMULARIO */}
             <CCol md={4}>
-              <h5 style={{ fontWeight: 'bold', color: '#333' }}>Agregar Proveedor</h5>
-              <CForm onSubmit={handleAgregar}>
+              <h5 style={{ fontWeight: 'bold', color: '#333' }}>Nuevo Repartidor</h5>
 
+              <CForm onSubmit={handleAgregar}>
                 {/* Nombre */}
-                <CFormLabel style={{ fontWeight: '600', color: '#333' }}>
-                  Nombre
-                </CFormLabel>
+                <CFormLabel>Nombre</CFormLabel>
                 <CInputGroup className="mb-3">
                   <CInputGroupText>
                     <CIcon icon={cilUser} />
@@ -116,16 +165,25 @@ const Provedores = () => {
                   <CFormInput
                     type="text"
                     name="nombre"
-                    placeholder="Nombre del proveedor"
+                    placeholder="Nombre"
                     value={form.nombre}
                     onChange={handleChange}
                   />
                 </CInputGroup>
 
+                {/* Apellidos */}
+                <CFormLabel>Apellidos</CFormLabel>
+                <CFormInput
+                  className="mb-3"
+                  type="text"
+                  name="apellidos"
+                  placeholder="Apellidos"
+                  value={form.apellidos}
+                  onChange={handleChange}
+                />
+
                 {/* Teléfono */}
-                <CFormLabel style={{ fontWeight: '600', color: '#333' }}>
-                  Teléfono
-                </CFormLabel>
+                <CFormLabel>Teléfono</CFormLabel>
                 <CInputGroup className="mb-3">
                   <CInputGroupText>
                     <CIcon icon={cilPhone} />
@@ -139,32 +197,26 @@ const Provedores = () => {
                   />
                 </CInputGroup>
 
-                {/* Correo */}
-                <CFormLabel style={{ fontWeight: '600', color: '#333' }}>
-                  Correo
-                </CFormLabel>
-                <CInputGroup className="mb-3">
-                  <CInputGroupText>
-                    <CIcon icon={cilEnvelopeClosed} />
-                  </CInputGroupText>
-                  <CFormInput
-                    type="email"
-                    name="correo"
-                    placeholder="Correo electrónico"
-                    value={form.correo}
-                    onChange={handleChange}
-                  />
-                </CInputGroup>
+                {/* Usuario */}
+                <CFormLabel>Usuario</CFormLabel>
+                <CFormInput
+                  list="usuariosList"
+                  name="usuarioId"
+                  className="mb-3"
+                  placeholder="Selecciona un usuario"
+                  value={form.usuarioId}
+                  onChange={handleChange}
+                />
 
-                <CButton
-                  type="submit"
-                  color="dark"
-                  style={{
-                    background: '#000',
-                    width: '100%',
-                    fontWeight: '600',
-                  }}
-                >
+                <datalist id="usuariosList">
+                  {usuarios.map((u) => (
+                    <option key={u.id} value={u.id}>
+                      {u.nombreUsuario}
+                    </option>
+                  ))}
+                </datalist>
+
+                <CButton type="submit" color="dark" style={{ width: '100%' }}>
                   <CIcon icon={cilSave} className="me-2" />
                   Guardar
                 </CButton>
@@ -173,28 +225,31 @@ const Provedores = () => {
 
             {/* TABLA */}
             <CCol md={8}>
-              <h5 style={{ fontWeight: 'bold', color: '#333' }}>Lista de Proveedores</h5>
-              <CTable hover responsive bordered>
+              <h5 style={{ fontWeight: 'bold', color: '#333' }}>Lista de Repartidores</h5>
+
+              <CTable hover bordered responsive>
                 <CTableHead color="dark">
                   <CTableRow>
                     <CTableHeaderCell>Nombre</CTableHeaderCell>
                     <CTableHeaderCell>Teléfono</CTableHeaderCell>
-                    <CTableHeaderCell>Correo</CTableHeaderCell>
+                    <CTableHeaderCell>Usuario</CTableHeaderCell>
                     <CTableHeaderCell className="text-center">Acciones</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
+
                 <CTableBody>
-                  {provedores.map((p) => (
-                    <CTableRow key={p.id}>
-                      <CTableDataCell>{p.nombre}</CTableDataCell>
-                      <CTableDataCell>{p.telefono}</CTableDataCell>
-                      <CTableDataCell>{p.correo}</CTableDataCell>
+                  {repartidores.map((r) => (
+                    <CTableRow key={r.id}>
+                      <CTableDataCell>{r.nombre + ' ' + r.apellidos}</CTableDataCell>
+                      <CTableDataCell>{r.telefono}</CTableDataCell>
+                      <CTableDataCell>{r.usuario?.nombreUsuario || '-'}</CTableDataCell>
+
                       <CTableDataCell className="text-center">
                         <CButton
                           size="sm"
                           color="warning"
                           className="me-2 text-white"
-                          onClick={() => abrirEditar(p)}
+                          onClick={() => abrirEditar(r)}
                         >
                           <CIcon icon={cilPen} />
                         </CButton>
@@ -202,7 +257,7 @@ const Provedores = () => {
                         <CButton
                           size="sm"
                           color="danger"
-                          onClick={() => handleEliminar(p.id)}
+                          onClick={() => handleEliminar(r.id)}
                         >
                           <CIcon icon={cilTrash} />
                         </CButton>
@@ -218,56 +273,49 @@ const Provedores = () => {
 
       {/* MODAL EDITAR */}
       <CModal visible={editModal} onClose={() => setEditModal(false)}>
-        <CModalHeader style={{ fontWeight: 'bold' }}>Editar Proveedor</CModalHeader>
+        <CModalHeader>Editar Repartidor</CModalHeader>
         <CModalBody>
-          {proveedorEditando && (
+          {repartidorEditando && (
             <>
-              {/* Nombre */}
               <CFormLabel>Nombre</CFormLabel>
               <CFormInput
                 className="mb-3"
-                value={proveedorEditando.nombre}
+                value={repartidorEditando.nombre}
                 onChange={(e) =>
-                  setProveedorEditando({
-                    ...proveedorEditando,
+                  setRepartidorEditando({
+                    ...repartidorEditando,
                     nombre: e.target.value,
                   })
                 }
               />
 
-              {/* Teléfono */}
+              <CFormLabel>Apellidos</CFormLabel>
+              <CFormInput
+                className="mb-3"
+                value={repartidorEditando.apellidos}
+                onChange={(e) =>
+                  setRepartidorEditando({
+                    ...repartidorEditando,
+                    apellidos: e.target.value,
+                  })
+                }
+              />
+
               <CFormLabel>Teléfono</CFormLabel>
               <CFormInput
                 className="mb-3"
-                value={proveedorEditando.telefono}
+                value={repartidorEditando.telefono}
                 onChange={(e) =>
-                  setProveedorEditando({
-                    ...proveedorEditando,
+                  setRepartidorEditando({
+                    ...repartidorEditando,
                     telefono: e.target.value,
                   })
                 }
               />
 
-              {/* Correo */}
-              <CFormLabel>Correo</CFormLabel>
-              <CFormInput
-                className="mb-3"
-                value={proveedorEditando.correo}
-                onChange={(e) =>
-                  setProveedorEditando({
-                    ...proveedorEditando,
-                    correo: e.target.value,
-                  })
-                }
-              />
-
-              <CButton
-                color="dark"
-                style={{ background: '#000' }}
-                onClick={handleGuardarEdicion}
-              >
+              <CButton color="dark" onClick={handleGuardarEdicion}>
                 <CIcon icon={cilSave} className="me-2" />
-                Guardar cambios
+                Guardar Cambios
               </CButton>
             </>
           )}

@@ -1,3 +1,5 @@
+
+// ========== SidebarNav.jsx ==========
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -9,16 +11,21 @@ import { CBadge, CNavLink, CSidebarNav } from '@coreui/react'
 
 export const AppSidebarNav = ({ items }) => {
 
-  // ESTILOS PARA EL ITEM ACTIVO (SIN ARCHIVO CSS)
   const activeStyles = `
     .nav-link.active {
-      color: #ffb984 !important;
+      color: #ffffff !important;
       font-weight: bold !important;
       background-color: rgba(255, 255, 255, 0.25) !important;
-      border-radius: 6px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
     .nav-link.active .nav-icon {
-      color: #ffb984 !important;
+      color: #ffffff !important;
+    }
+    .nav-link:hover {
+      background-color: rgba(255, 255, 255, 0.15) !important;
+      border-radius: 8px;
+      transition: all 0.2s ease;
     }
   `
 
@@ -33,9 +40,12 @@ export const AppSidebarNav = ({ items }) => {
               </span>
             )}
 
-        {/* Color aplicado directamente al texto */}
         {name && (
-          <span style={{ color: '#000000', fontWeight: '500' }}>
+          <span style={{ 
+            color: '#ffffff', 
+            fontWeight: '500',
+            fontSize: '14px',
+          }}>
             {name}
           </span>
         )}
@@ -60,12 +70,16 @@ export const AppSidebarNav = ({ items }) => {
           key={index}
           {...rest}
           style={{
-            color: '#000',
-            fontWeight: 'bold',
-            opacity: 1,
-            borderBottom: '1px solid white',
-            paddingBottom: '4px',
-            marginBottom: '6px',
+            color: '#ffffff',
+            fontWeight: '800',
+            fontSize: '12px',
+            letterSpacing: '1.5px',
+            opacity: 0.9,
+            borderBottom: '2px solid rgba(255, 255, 255, 0.3)',
+            paddingBottom: '8px',
+            marginBottom: '10px',
+            marginTop: '15px',
+            textTransform: 'uppercase',
           }}
         >
           {name}
@@ -105,7 +119,6 @@ export const AppSidebarNav = ({ items }) => {
 
   return (
     <>
-      {/* INYECCIÓN DE ESTILOS PARA EL ITEM ACTIVO */}
       <style>{activeStyles}</style>
 
       <CSidebarNav as={SimpleBar}>

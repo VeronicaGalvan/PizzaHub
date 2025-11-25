@@ -11,11 +11,15 @@ const Enproceso = React.lazy(() => import('./pages/Enproceso'))
 const Mermas = React.lazy(() => import('./pages/Mermas'))
 const AgregarMermas = React.lazy(() => import('./pages/agregarMermas'))
 const Repartidores = React.lazy(() => import('./pages/Repartidores'))
+const CompraInsumos = React.lazy(() => import('./pages/CompraInsumos'))
+const RegistroEmpleados = React.lazy(() => import('./pages/RegistroEmpleados'))
+const Caja = React.lazy(() => import('./pages/Caja'))
 
 const routes = [
 
     { path: '/', exact: true, name: 'home' },
     { path: '/pages/Insumos', name: 'Insumos', element: Insumos },
+    {path: '/pages/CompraInsumos', name: 'CompraInsumos', element: CompraInsumos },
     { path: '/pages/AgregarInsumos', name: 'AgregarInsumos', element: AgregarInsumos },
     { path: '/pages/Provedores', name: 'Provedores', element: Provedores },
     { path: '/pages/Usuarios', name: 'Usuarios', element: Usuarios },
@@ -26,6 +30,8 @@ const routes = [
     { path: '/pages/Mermas', name: 'Mermas', element: Mermas },
     { path: '/pages/AgregarMermas', name: 'Agregar mermas', element: AgregarMermas },
     { path: '/pages/Repartidores', name: 'Repartidores', element: Repartidores },
+    {path: '/pages/RegistroEmpleados', name: 'RegistroEmpleados', element: RegistroEmpleados },
+    {path: '/pages/Caja', name: 'Caja', element: Caja },
 
 ]
 export default routes

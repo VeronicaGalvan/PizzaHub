@@ -1,31 +1,25 @@
-//import { useState } from 'react'
+import { useContext } from "react";
 import AppSidebar from './components/Sidebar';
 import './App.css'
 import '@coreui/coreui/dist/css/coreui.min.css'
 import 'simplebar-react/dist/simplebar.min.css'
-import DefaultLayout from './navegacion/DefaultLayout' //  Aqui esta metido el fooder, slider y el principal
+import DefaultLayout from './navegacion/DefaultLayout'
 import Login from './components/Login';
-import { useState } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom'
-     
+import AuthContext from "./context/AuthContext";   //  ← CORREGIDO
+
 function App() {
-
-
-const [inicioSecion, setInicioSecion] = useState(false);
-
-
-
+  const { token } = useContext(AuthContext);
 
   return (
     <>
-      {inicioSecion ? (
-        // Si inició sesión, carga el layout principal
+      {token ? (
         <DefaultLayout />
       ) : (
-        // Si no, muestra el login y pasa la función para cambiar el estado
-        <Login onSuccess={() => setInicioSecion(true)} />
+        <Login />
       )}
     </>
-  )
+  );
 }
-export default App
+
+export default App;

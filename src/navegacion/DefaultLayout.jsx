@@ -1,29 +1,28 @@
 import React from "react";
-// ../components/index.js
-import AppSidebar  from "../components/Sidebar";
-//import { AppSidebar } from "../components/Sidebar";
-import Login from "../components/Login";
+import AppSidebar from "../components/Sidebar";
 import AppContent from "../components/appContent";
-const DefaultLayout = () =>{
-    return(
-        <div>  
-            <AppSidebar/>  
-            <div className="wrapper d-flex flex-column min-vh-100">
+
+const DefaultLayout = () => {
+    return (
+        <div style={{ display: 'flex', minHeight: '100vh' }}>  
+            <AppSidebar />  
+            
+            <div 
+                className="wrapper d-flex flex-column min-vh-100" 
+                style={{ 
+                    marginLeft: '256px', // Ajusta este valor al ancho de tu sidebar
+                    width: 'calc(100% - 256px)',
+                    transition: 'margin-left 0.3s ease'
+                }}
+            >
                 <div className="body flex-grow-1">
-                <AppContent/>
-
-
-
-
-                </div>
+                    <AppContent />
                 </div>
 
-
-                <div className="body flex-grow-1">
-                </div>
-
-<h1>Footer</h1>
+                
             </div>
-    )
+        </div>
+    );
 }
-export default DefaultLayout
+
+export default DefaultLayout;

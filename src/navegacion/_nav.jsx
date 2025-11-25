@@ -1,122 +1,92 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
 import {
+  cilChartLine,
+  cilCart,
+  cilClock,
+  cilLibrary,
+  cilBasket,
+  cilPlus,
+  cilWarning,
+  cilTruck,
   cilBell,
-  cilCalculator,
-  cilChartPie,
-  cilDescription,
-  cilDrop,
-  cilPencil,
-  cilPuzzle,
-  cilSpeedometer,
-  cilStar,
+  cilPeople,
+  cilUserPlus,
+  cilMobile,
+  cilBook,
+  cilMoney,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
-// Sidebar navigation
 const _nav = [
   {
     component: CNavTitle,
     name: 'Analíticas',
-    style: { color: '#000000' },
   },
   {
     component: CNavItem,
     name: 'Movimientos',
     to: '/pages/Movimientos',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-    style: { color: '#000000' },
+    icon: <CIcon icon={cilChartLine} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,
-    name: 'PEDIDOS',
-    style: { color: '#000000' },
+    name: 'Pedidos',
   },
   {
     component: CNavItem,
     name: 'Entrada Pedidos',
     to: '/pages/EntradaPedidos',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-    style: { color: '#000000' },
+    icon: <CIcon icon={cilCart} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'En proceso',
     to: '/pages/Enproceso',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
-    style: { color: '#000000' },
+    icon: <CIcon icon={cilClock} customClassName="nav-icon" />,
   },
 
   {
     component: CNavTitle,
-    name: 'INVENTARIO',
-    style: { color: '#000000' },
+    name: 'Inventario',
   },
   {
     component: CNavGroup,
     name: 'Inventario',
     to: '/pages',
-    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
-    style: { color: '#000000' },
+    icon: <CIcon icon={cilLibrary} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
         name: 'Insumos',
         to: '/pages/Insumos',
-        style: { color: '#000000' },
+      },
+      {
+        component: CNavItem,
+        name: 'Compra Insumos',
+        to: '/pages/CompraInsumos',
+        icon: <CIcon icon={cilBasket} customClassName="nav-icon" />,
       },
       {
         component: CNavItem,
         name: 'Agregar Insumos',
         to: '/pages/AgregarInsumos',
-        style: { color: '#000000' },
+        icon: <CIcon icon={cilPlus} customClassName="nav-icon" />,
       },
-      {
-        component: CNavItem,
-        name: 'Mermas',
-        to: '/pages/Mermas',
-        style: { color: '#000000' },
-      },
-      {
-        component: CNavItem,
-        name: 'Agregar mermas',
-        to: '/pages/AgregarMermas',
-        style: { color: '#000000' },
-      },
+     
+     
     ],
   },
-  {
-    component: CNavItem,
-    name: 'Provedores',
-    to: '/pages/Provedores',
-    icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
-    style: { color: '#000000' },
-  },
-  {
-    component: CNavGroup,
-    name: 'Lista provedores',
-    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
-    style: { color: '#000000' },
-    items: [
-      {
-        component: CNavItem,
-        name: 'Agregar Provedores',
-        to: '/pages/Provedores',
-        style: { color: '#000000' },
-      },
-    ],
-  },
+ 
   {
     component: CNavGroup,
     name: 'Repartidores',
-    icon: <CIcon icon={cilBell} customClassName="nav-icon" />,
-    style: { color: '#000000' },
+    icon: <CIcon icon={cilTruck} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
         name: 'Repartidores',
         to: '/pages/Repartidores',
-        style: { color: '#000000' },
       },
     ],
   },
@@ -124,31 +94,33 @@ const _nav = [
     component: CNavItem,
     name: 'Notificaciones',
     to: 'pages/notificaciones',
-    icon: <CIcon icon={cilCalculator} customClassName="nav-icon" />,
-    style: { color: '#000000' },
+    icon: <CIcon icon={cilBell} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,
     name: 'Usuarios',
-    style: { color: '#000000' },
   },
   {
     component: CNavGroup,
     name: 'Usuarios',
-    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
-    style: { color: '#000000' },
+    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: 'Gestion Usuarios',
+        name: 'Gestión Usuarios',
         to: '/pages/Usuarios',
-        style: { color: '#000000' },
       },
       {
         component: CNavItem,
-        name: 'Usuarios Movil',
+        name: 'Registro de empleados',
+        to: '/pages/RegistroEmpleados',
+        icon: <CIcon icon={cilUserPlus} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
+        name: 'Clientes',
         to: '/pages/UsuariosMovil',
-        style: { color: '#000000' },
+        icon: <CIcon icon={cilMobile} customClassName="nav-icon" />,
       },
     ],
   },
@@ -156,8 +128,17 @@ const _nav = [
     component: CNavItem,
     name: 'Documentación',
     href: 'https://coreui.io/react/docs/templates/installation/',
-    icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
-    style: { color: '#000000' },
+    icon: <CIcon icon={cilBook} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
+    name: 'Caja',
+  },
+  {
+    component: CNavItem,
+    name: 'Abrir/Cerrar Caja',
+    to: '/pages/Caja',
+    icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
   },
 ]
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CCol,
   CRow,
@@ -6,26 +6,70 @@ import {
   CForm,
   CFormInput,
   CFormLabel,
-  CFormSelect,
   CCard,
   CCardBody,
   CCardHeader,
   CInputGroup,
   CInputGroupText,
+  CTable,
+  CTableHead,
+  CTableRow,
+  CTableHeaderCell,
+  CTableBody,
+  CTableDataCell
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilUser, cilLockLocked, cilEnvelopeClosed, cilUserPlus } from '@coreui/icons'
+import { cilUser, cilLockLocked, cilEnvelopeClosed, cilUserPlus, cilPhone } from '@coreui/icons'
+
+// 🔹 Convertir rol numérico a texto
+const rolToText = (rol) => {
+  switch (rol) {
+    case 0: return "Administrador"
+    case 1: return "Repartidor"
+    case 2: return "Empleado"
+    case 3: return "Cliente"
+    default: return "Desconocido"
+  }
+}
 
 const Usuarios = () => {
+
   const [formData, setFormData] = useState({
-    nombre: '',
-    apellido: '',
+    nombreUsuario: '',
     email: '',
-    contrasena: '',
-    confirmarContrasena: '',
-    tipoUsuario: 'empleado',
-    telefono: ''
+    password: '',
+    telefonoContacto: ''
   })
+
+  const [usuarios, setUsuarios] = useState([])
+
+  // 🔹 Cargar usuarios
+  const fetchUsuarios = async () => {
+    try {
+      const token = localStorage.getItem("token")
+
+      const res = await fetch("https://localhost:7188/api/Clientes", {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
+
+      if (!res.ok) {
+        console.error("Error cargando usuarios:", res.status)
+        return
+      }
+
+      const data = await res.json()
+      setUsuarios(data)
+
+    } catch (err) {
+      console.error("Error:", err)
+    }
+  }
+
+  useEffect(() => {
+    fetchUsuarios()
+  }, [])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -35,217 +79,199 @@ const Usuarios = () => {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('Nuevo usuario:', formData)
-    // Aquí iría la lógica para agregar el usuario
-    alert('Usuario agregado correctamente')
+
+    try {
+      const response = await fetch('https://localhost:7188/api/v1/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) {
+        const err = await response.text()
+        console.log("Error:", err)
+        alert("Error al registrar usuario (400)")
+        return
+      }
+
+      alert("Cliente registrado correctamente ✔")
+
+      setFormData({
+        nombreUsuario: "",
+        email: "",
+        password: "",
+        telefonoContacto: ""
+      })
+
+      fetchUsuarios()
+
+    } catch (error) {
+      console.error("Error:", error)
+      alert("Error en el servidor")
+    }
   }
+
 
   return (
     <>
-      <CCard className="shadow-sm mb-4">
-        <CCardHeader style={{ 
-          background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-          color: 'white',
-          borderBottom: 'none',
-          padding: '12px 20px'
-        }}>
+
+      {/* ------------------ FORMULARIO MODERNO ------------------ */}
+      <CCard className="shadow-lg mb-4" style={{ borderRadius: '15px' }}>
+        <CCardHeader
+          style={{
+            background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+            color: 'white',
+            padding: '18px 20px',
+            borderTopLeftRadius: '15px',
+            borderTopRightRadius: '15px'
+          }}
+        >
           <div className="d-flex align-items-center">
             <CIcon icon={cilUser} size="lg" className="me-2" />
-            <h5 className="mb-0">Agregar Nuevo Usuario</h5>
+            <h5 className="mb-0 fw-bold">Registrar Nuevo Usuario</h5>
           </div>
         </CCardHeader>
-        <CCardBody style={{ backgroundColor: '#f8f9fa', padding: '20px' }}>
+
+        <CCardBody style={{ backgroundColor: '#f9fafc', padding: '25px' }}>
           <CForm onSubmit={handleSubmit}>
-            <CRow className="g-3">
-              {/* Información Personal */}
+            <CRow className="g-4">
+
               <CCol md={6}>
-                <CFormLabel htmlFor="nombre" style={{ fontWeight: '500', color: '#495057', fontSize: '0.9rem' }}>
-                  Nombre
-                </CFormLabel>
-                <CInputGroup>
-                  <CInputGroupText style={{ backgroundColor: 'white', borderRight: 'none' }}>
-                    <CIcon icon={cilUser} size="sm" />
-                  </CInputGroupText>
+                <CFormLabel className="fw-semibold">Nombre de Usuario</CFormLabel>
+                <CInputGroup className="shadow-sm">
+                  <CInputGroupText><CIcon icon={cilUser} /></CInputGroupText>
                   <CFormInput
-                    type="text"
-                    id="nombre"
-                    name="nombre"
-                    placeholder="Nombre del usuario"
-                    value={formData.nombre}
+                    name="nombreUsuario"
+                    value={formData.nombreUsuario}
                     onChange={handleInputChange}
-                    style={{ borderLeft: 'none' }}
+                    placeholder="usuario123"
                   />
                 </CInputGroup>
               </CCol>
 
               <CCol md={6}>
-                <CFormLabel htmlFor="apellido" style={{ fontWeight: '500', color: '#495057', fontSize: '0.9rem' }}>
-                  Apellido
-                </CFormLabel>
-                <CInputGroup>
-                  <CInputGroupText style={{ backgroundColor: 'white', borderRight: 'none' }}>
-                    <CIcon icon={cilUser} size="sm" />
-                  </CInputGroupText>
-                  <CFormInput
-                    type="text"
-                    id="apellido"
-                    name="apellido"
-                    placeholder="Apellido del usuario"
-                    value={formData.apellido}
-                    onChange={handleInputChange}
-                    style={{ borderLeft: 'none' }}
-                  />
-                </CInputGroup>
-              </CCol>
-
-              {/* Email y Teléfono */}
-              <CCol md={6}>
-                <CFormLabel htmlFor="email" style={{ fontWeight: '500', color: '#495057', fontSize: '0.9rem' }}>
-                  Correo Electrónico
-                </CFormLabel>
-                <CInputGroup>
-                  <CInputGroupText style={{ backgroundColor: 'white', borderRight: 'none' }}>
-                    <CIcon icon={cilEnvelopeClosed} size="sm" />
-                  </CInputGroupText>
+                <CFormLabel className="fw-semibold">Correo Electrónico</CFormLabel>
+                <CInputGroup className="shadow-sm">
+                  <CInputGroupText><CIcon icon={cilEnvelopeClosed} /></CInputGroupText>
                   <CFormInput
                     type="email"
-                    id="email"
                     name="email"
-                    placeholder="correo@ejemplo.com"
                     value={formData.email}
                     onChange={handleInputChange}
-                    style={{ borderLeft: 'none' }}
+                    placeholder="correo@ejemplo.com"
                   />
                 </CInputGroup>
               </CCol>
 
               <CCol md={6}>
-                <CFormLabel htmlFor="telefono" style={{ fontWeight: '500', color: '#495057', fontSize: '0.9rem' }}>
-                  Teléfono
-                </CFormLabel>
-                <CFormInput
-                  type="tel"
-                  id="telefono"
-                  name="telefono"
-                  placeholder="(123) 456-7890"
-                  value={formData.telefono}
-                  onChange={handleInputChange}
-                />
-              </CCol>
-
-              {/* Contraseñas */}
-              <CCol md={6}>
-                <CFormLabel htmlFor="contrasena" style={{ fontWeight: '500', color: '#495057', fontSize: '0.9rem' }}>
-                  Contraseña
-                </CFormLabel>
-                <CInputGroup>
-                  <CInputGroupText style={{ backgroundColor: 'white', borderRight: 'none' }}>
-                    <CIcon icon={cilLockLocked} size="sm" />
-                  </CInputGroupText>
+                <CFormLabel className="fw-semibold">Contraseña</CFormLabel>
+                <CInputGroup className="shadow-sm">
+                  <CInputGroupText><CIcon icon={cilLockLocked} /></CInputGroupText>
                   <CFormInput
                     type="password"
-                    id="contrasena"
-                    name="contrasena"
-                    placeholder="••••••••"
-                    value={formData.contrasena}
+                    name="password"
+                    value={formData.password}
                     onChange={handleInputChange}
-                    style={{ borderLeft: 'none' }}
+                    placeholder="•••••••"
                   />
                 </CInputGroup>
               </CCol>
 
               <CCol md={6}>
-                <CFormLabel htmlFor="confirmarContrasena" style={{ fontWeight: '500', color: '#495057', fontSize: '0.9rem' }}>
-                  Confirmar Contraseña
-                </CFormLabel>
-                <CInputGroup>
-                  <CInputGroupText style={{ backgroundColor: 'white', borderRight: 'none' }}>
-                    <CIcon icon={cilLockLocked} size="sm" />
-                  </CInputGroupText>
+                <CFormLabel className="fw-semibold">Teléfono</CFormLabel>
+                <CInputGroup className="shadow-sm">
+                  <CInputGroupText><CIcon icon={cilPhone} /></CInputGroupText>
                   <CFormInput
-                    type="password"
-                    id="confirmarContrasena"
-                    name="confirmarContrasena"
-                    placeholder="••••••••"
-                    value={formData.confirmarContrasena}
+                    name="telefonoContacto"
+                    value={formData.telefonoContacto}
                     onChange={handleInputChange}
-                    style={{ borderLeft: 'none' }}
+                    placeholder="4771234567"
                   />
                 </CInputGroup>
               </CCol>
 
-              {/* Tipo de Usuario */}
-              <CCol md={6}>
-                <CFormLabel htmlFor="tipoUsuario" style={{ fontWeight: '500', color: '#495057', fontSize: '0.9rem' }}>
-                  Tipo de Usuario
-                </CFormLabel>
-                <CFormSelect
-                  id="tipoUsuario"
-                  name="tipoUsuario"
-                  value={formData.tipoUsuario}
-                  onChange={handleInputChange}
-                  style={{
-                    fontWeight: '500',
-                    color: formData.tipoUsuario === 'administrador' ? '#e55353' : '#2eb85c'
-                  }}
-                >
-                  <option value="empleado">👤 Empleado</option>
-                  <option value="administrador">⭐ Administrador</option>
-                </CFormSelect>
-              </CCol>
-
-              {/* Botón de Agregar */}
-              <CCol md={6} className="d-flex align-items-end">
-                <CButton 
+              <CCol xs={12}>
+                <CButton
                   type="submit"
+                  className="w-100 shadow-sm"
                   style={{
-                    width: '100%',
                     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                     border: 'none',
-                    padding: '10px 20px',
+                    padding: '12px',
                     fontWeight: '600',
-                    boxShadow: '0 4px 6px rgba(102, 126, 234, 0.3)',
-                    transition: 'all 0.3s',
-                    fontSize: '0.95rem'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.transform = 'translateY(-2px)'
-                    e.target.style.boxShadow = '0 6px 10px rgba(102, 126, 234, 0.4)'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.transform = 'translateY(0)'
-                    e.target.style.boxShadow = '0 4px 6px rgba(102, 126, 234, 0.3)'
+                    color: 'white',
+                    borderRadius: '10px'
                   }}
                 >
                   <CIcon icon={cilUserPlus} className="me-2" />
-                  Agregar Usuario
+                  Registrar Usuario
                 </CButton>
               </CCol>
+
             </CRow>
           </CForm>
         </CCardBody>
       </CCard>
 
-      {/* Espacio reservado para la tabla de usuarios */}
-      <CCard className="shadow-sm">
-        <CCardHeader style={{ 
-          backgroundColor: '#fff',
-          borderBottom: '2px solid #e9ecef',
-          padding: '15px 20px'
-        }}>
-          <h5 className="mb-0" style={{ color: '#495057', fontWeight: '600' }}>
-            📋 Lista de Usuarios
-          </h5>
+
+
+      {/* ------------------ TABLA DE USUARIOS ------------------ */}
+      <CCard className="shadow-lg" style={{ borderRadius: '15px' }}>
+        <CCardHeader
+          style={{
+            background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+            color: 'white',
+            borderTopLeftRadius: '15px',
+            borderTopRightRadius: '15px',
+            padding: '18px 20px'
+          }}
+        >
+          <h5 className="mb-0 fw-bold">📋 Lista de Usuarios</h5>
         </CCardHeader>
-        <CCardBody>
-          <div className="text-center py-5 text-muted">
-            <p style={{ fontSize: '1.1rem' }}>La tabla de usuarios aparecerá aquí</p>
-            <small>Agrega usuarios utilizando el formulario de arriba</small>
-          </div>
+
+        <CCardBody style={{ padding: '25px' }}>
+          <CTable hover responsive className="shadow-sm rounded">
+            <CTableHead style={{ backgroundColor: '#f1f3f5' }}>
+              <CTableRow>
+                <CTableHeaderCell className="fw-bold">Nombre</CTableHeaderCell>
+                <CTableHeaderCell className="fw-bold">Correo</CTableHeaderCell>
+                <CTableHeaderCell className="fw-bold">Teléfono</CTableHeaderCell>
+                <CTableHeaderCell className="fw-bold">Rol</CTableHeaderCell>
+                <CTableHeaderCell className="fw-bold">Fecha</CTableHeaderCell>
+              </CTableRow>
+            </CTableHead>
+
+            <CTableBody>
+              {usuarios.map((u) => {
+                const usuarioObj = u.usuario || {}
+                return (
+                  <CTableRow key={u.id}>
+                    <CTableDataCell>{usuarioObj.nombreUsuario || u.nombre}</CTableDataCell>
+                    <CTableDataCell>{usuarioObj.correo || '-'}</CTableDataCell>
+                    <CTableDataCell>{u.telefono || usuarioObj.telefono || '-'}</CTableDataCell>
+                    <CTableDataCell>{rolToText(usuarioObj.rol)}</CTableDataCell>
+                    <CTableDataCell>
+                      {usuarioObj.fechaCreacion
+                        ? new Date(usuarioObj.fechaCreacion).toLocaleDateString()
+                        : '-'}
+                    </CTableDataCell>
+                  </CTableRow>
+                )
+              })}
+            </CTableBody>
+
+          </CTable>
+
+          {usuarios.length === 0 && (
+            <div className="text-center text-muted py-4">
+              <p>No hay usuarios registrados</p>
+            </div>
+          )}
         </CCardBody>
       </CCard>
+
     </>
   )
 }

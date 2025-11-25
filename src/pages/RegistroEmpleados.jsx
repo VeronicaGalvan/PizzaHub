@@ -17,21 +17,22 @@ import {
   CTableRow,
   CTableHeaderCell,
   CTableBody,
-  CTableDataCell
+  CTableDataCell,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilUser, cilUserPlus, cilPhone, cilTruck } from '@coreui/icons'
 
-const Repartidores = () => {
+import CIcon from '@coreui/icons-react'
+import { cilUser, cilUserPlus, cilPhone } from '@coreui/icons'
+
+const RegistroEmpleado = () => {
   const [formData, setFormData] = useState({
     nombre: '',
     apellidos: '',
     telefono: '',
-    usuarioId: ''
+    usuarioId: '',
   })
 
   const [usuarios, setUsuarios] = useState([])
-  const [repartidores, setRepartidores] = useState([])
+  const [empleados, setEmpleados] = useState([])
 
   // 🔹 Cargar usuarios con rol 2
   const fetchUsuarios = async () => {
@@ -45,112 +46,128 @@ const Repartidores = () => {
 
       const data = await res.json()
 
-      const empleados = data
-        .filter(u => u.usuario && u.usuario.rol === 2)
-        .map(u => ({
+      const empleadosDisponibles = data
+        .filter((u) => u.usuario && u.usuario.rol === 2)
+        .map((u) => ({
           id: u.usuario.id,
-          nombreUsuario: u.usuario.nombreUsuario
+          nombreUsuario: u.usuario.nombreUsuario,
         }))
 
-      setUsuarios(empleados)
+      setUsuarios(empleadosDisponibles)
     } catch (err) {
-      console.error("Error cargando usuarios:", err)
+      console.error('Error al cargar usuarios:', err)
     }
   }
 
-  // 🔹 Cargar repartidores
-  const fetchRepartidores = async () => {
+  // 🔹 Cargar empleados desde API
+  const fetchEmpleados = async () => {
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch('https://localhost:7188/api/Repartidores', {
+      const res = await fetch('https://localhost:7188/api/Empleados', {
         headers: { Authorization: `Bearer ${token}` },
       })
 
       if (!res.ok) return
 
       const data = await res.json()
-      setRepartidores(data)
+      setEmpleados(data)
     } catch (err) {
-      console.error("Error cargando repartidores:", err)
+      console.error('Error al cargar empleados:', err)
     }
   }
 
   useEffect(() => {
     fetchUsuarios()
-    fetchRepartidores()
+    fetchEmpleados()
   }, [])
 
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    if (!formData.usuarioId) {
+      alert('Seleccione un usuario para registrar')
+      return
+    }
+
     try {
       const token = localStorage.getItem('token')
 
-      const res = await fetch('https://localhost:7188/api/Repartidores', {
+      const response = await fetch('https://localhost:7188/api/Empleados', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           nombre: formData.nombre,
           apellidos: formData.apellidos,
           telefono: formData.telefono,
-          usuarioId: parseInt(formData.usuarioId)
-        })
+          usuarioId: parseInt(formData.usuarioId),
+        }),
       })
 
-      if (!res.ok) {
-        alert("Error al registrar el repartidor")
+      if (!response.ok) {
+        alert('Error al registrar empleado')
         return
       }
 
-      alert("Repartidor registrado correctamente ✔")
+      alert('Empleado registrado correctamente ✔')
 
-      // Reset form
       setFormData({
         nombre: '',
         apellidos: '',
         telefono: '',
-        usuarioId: ''
+        usuarioId: '',
       })
 
-      // Refrescar tabla
-      fetchRepartidores()
+      fetchEmpleados()
     } catch (err) {
-      console.error("Error al registrar repartidor:", err)
+      console.error('Error al registrar empleado:', err)
+      alert('Error en el servidor')
     }
   }
 
   return (
     <>
       {/* FORMULARIO */}
-      <CCard className="shadow-sm mb-4">
-        <CCardHeader style={{ background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', color: 'white' }}>
+      <CCard
+        className="shadow-sm mb-4"
+        style={{ borderRadius: '15px', overflow: 'hidden' }}
+      >
+        <CCardHeader
+          style={{
+            background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+            color: 'white',
+            padding: '18px',
+            fontSize: '1.2rem',
+            fontWeight: 'bold',
+          }}
+        >
           <div className="d-flex align-items-center">
-            <CIcon icon={cilTruck} size="lg" className="me-2" />
-            <h5 className="mb-0">Registrar Repartidor</h5>
+            <CIcon icon={cilUser} size="lg" className="me-2" />
+            Registrar Nuevo Empleado
           </div>
         </CCardHeader>
 
         <CCardBody style={{ backgroundColor: '#f8f9fa' }}>
           <CForm onSubmit={handleSubmit}>
             <CRow className="g-3">
-
               {/* Usuario */}
               <CCol md={6}>
-                <CFormLabel>Usuario</CFormLabel>
+                <CFormLabel style={{ fontWeight: '600' }}>Usuario</CFormLabel>
                 <CFormSelect
                   name="usuarioId"
                   value={formData.usuarioId}
                   onChange={handleInputChange}
+                  style={{ borderRadius: '10px' }}
                 >
                   <option value="">-- Seleccione un usuario --</option>
-                  {usuarios.map(u => (
+                  {usuarios.map((u) => (
                     <option key={u.id} value={u.id}>
                       {u.nombreUsuario}
                     </option>
@@ -160,42 +177,51 @@ const Repartidores = () => {
 
               {/* Nombre */}
               <CCol md={6}>
-                <CFormLabel>Nombre</CFormLabel>
+                <CFormLabel style={{ fontWeight: '600' }}>Nombre</CFormLabel>
                 <CInputGroup>
-                  <CInputGroupText><CIcon icon={cilUser} /></CInputGroupText>
+                  <CInputGroupText style={{ background: '#eef3ff' }}>
+                    <CIcon icon={cilUser} />
+                  </CInputGroupText>
                   <CFormInput
                     name="nombre"
+                    placeholder="Nombre del empleado"
                     value={formData.nombre}
                     onChange={handleInputChange}
-                    placeholder="Nombre del repartidor"
+                    style={{ borderRadius: '10px' }}
                   />
                 </CInputGroup>
               </CCol>
 
               {/* Apellidos */}
               <CCol md={6}>
-                <CFormLabel>Apellidos</CFormLabel>
+                <CFormLabel style={{ fontWeight: '600' }}>Apellidos</CFormLabel>
                 <CInputGroup>
-                  <CInputGroupText><CIcon icon={cilUser} /></CInputGroupText>
+                  <CInputGroupText style={{ background: '#eef3ff' }}>
+                    <CIcon icon={cilUser} />
+                  </CInputGroupText>
                   <CFormInput
                     name="apellidos"
+                    placeholder="Apellidos del empleado"
                     value={formData.apellidos}
                     onChange={handleInputChange}
-                    placeholder="Apellidos"
+                    style={{ borderRadius: '10px' }}
                   />
                 </CInputGroup>
               </CCol>
 
               {/* Teléfono */}
               <CCol md={6}>
-                <CFormLabel>Teléfono</CFormLabel>
+                <CFormLabel style={{ fontWeight: '600' }}>Teléfono</CFormLabel>
                 <CInputGroup>
-                  <CInputGroupText><CIcon icon={cilPhone} /></CInputGroupText>
+                  <CInputGroupText style={{ background: '#eef3ff' }}>
+                    <CIcon icon={cilPhone} />
+                  </CInputGroupText>
                   <CFormInput
                     name="telefono"
+                    placeholder="4771234567"
                     value={formData.telefono}
                     onChange={handleInputChange}
-                    placeholder="4771234567"
+                    style={{ borderRadius: '10px' }}
                   />
                 </CInputGroup>
               </CCol>
@@ -208,29 +234,42 @@ const Repartidores = () => {
                     width: '100%',
                     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                     border: 'none',
-                    padding: '12px',
-                    fontWeight: '600'
+                    padding: '14px',
+                    fontWeight: '600',
+                    borderRadius: '12px',
+                    transition: '0.3s',
                   }}
+                  className="text-white"
                 >
                   <CIcon icon={cilUserPlus} className="me-2" />
-                  Registrar Repartidor
+                  Registrar Empleado
                 </CButton>
               </CCol>
-
             </CRow>
           </CForm>
         </CCardBody>
       </CCard>
 
-      {/* TABLA DE REPARTIDORES */}
-      <CCard className="shadow-sm">
-        <CCardHeader style={{ background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', color: 'white' }}>
-          <h5 className="mb-0">Lista de Repartidores</h5>
+      {/* TABLA */}
+      <CCard
+        className="shadow-sm"
+        style={{ borderRadius: '15px', overflow: 'hidden' }}
+      >
+        <CCardHeader
+          style={{
+            background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+            color: 'white',
+            fontWeight: 'bold',
+            padding: '16px',
+            fontSize: '1.2rem',
+          }}
+        >
+          Lista de Empleados
         </CCardHeader>
 
-        <CCardBody>
-          <CTable hover bordered responsive>
-            <CTableHead>
+        <CCardBody style={{ background: '#ffffff' }}>
+          <CTable hover bordered responsive style={{ borderRadius: '10px' }}>
+            <CTableHead color="light">
               <CTableRow>
                 <CTableHeaderCell>ID</CTableHeaderCell>
                 <CTableHeaderCell>Nombre</CTableHeaderCell>
@@ -241,14 +280,16 @@ const Repartidores = () => {
             </CTableHead>
 
             <CTableBody>
-              {repartidores.map(r => (
-                <CTableRow key={r.id}>
-                  <CTableDataCell>{r.id}</CTableDataCell>
-                  <CTableDataCell>{r.nombre} {r.apellidos}</CTableDataCell>
-                  <CTableDataCell>{r.telefono}</CTableDataCell>
-                  <CTableDataCell>{r.usuario?.nombreUsuario}</CTableDataCell>
+              {empleados.map((emp) => (
+                <CTableRow key={emp.id}>
+                  <CTableDataCell>{emp.id}</CTableDataCell>
                   <CTableDataCell>
-                    {r.estado === 0 ? "Activo" : "Inactivo"}
+                    {emp.nombre} {emp.apellidos}
+                  </CTableDataCell>
+                  <CTableDataCell>{emp.telefono}</CTableDataCell>
+                  <CTableDataCell>{emp.usuario?.nombreUsuario}</CTableDataCell>
+                  <CTableDataCell>
+                    {emp.estado === 0 ? 'Activo' : 'Inactivo'}
                   </CTableDataCell>
                 </CTableRow>
               ))}
@@ -260,4 +301,4 @@ const Repartidores = () => {
   )
 }
 
-export default Repartidores
+export default RegistroEmpleado
