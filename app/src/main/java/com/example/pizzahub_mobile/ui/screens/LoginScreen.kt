@@ -1,5 +1,6 @@
 package com.example.pizzahub_mobile.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,8 +15,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -24,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.pizzahub_mobile.R
 import com.example.pizzahub_mobile.data.storage.TokenDataStore
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
 import com.example.pizzahub_mobile.ui.viewmodel.AuthViewModel
@@ -78,13 +83,23 @@ fun LoginScreen(
                         }
 
                         // 🍕 Ilustración central
+                        // Imagen central (emoji)
                         Box(
-                                modifier =
-                                        Modifier.size(120.dp)
-                                                .clip(CircleShape)
-                                                .background(terracota.copy(alpha = 0.15f)),
+                                modifier = Modifier
+                                        .size(120.dp)
+                                        .shadow(8.dp, shape = CircleShape, clip = false)
+                                        .background(terracota, shape = CircleShape),
                                 contentAlignment = Alignment.Center
-                        ) { Text(text = "🍕", fontSize = 56.sp) }
+                        ) {
+                                Image(
+                                        painter = painterResource(id = R.drawable.logo2),
+                                        contentDescription = "Logo PizzaHub",
+                                        modifier = Modifier
+                                                .size(115.dp)
+                                                .clip(CircleShape),     // 🔥 Recorta la imagen dentro del círculo
+                                        contentScale = ContentScale.Crop
+                                )
+                        }
 
                         Spacer(modifier = Modifier.height(16.dp))
 

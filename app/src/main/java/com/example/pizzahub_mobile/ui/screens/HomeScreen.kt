@@ -26,7 +26,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.pizzahub_mobile.R
 import com.example.pizzahub_mobile.ui.theme.PizzaHub_MobileTheme
+import androidx.compose.foundation.Image
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -89,12 +94,21 @@ fun HomeScreen(onNavigate: (String) -> Unit) {
 
                         // Imagen central (emoji)
                         Box(
-                                modifier =
-                                        Modifier.size(220.dp)
-                                                .shadow(8.dp, shape = CircleShape, clip = false)
-                                                .background(Color.White, shape = CircleShape),
+                                modifier = Modifier
+                                        .size(220.dp)
+                                        .shadow(8.dp, shape = CircleShape, clip = false)
+                                        .background(terracota, shape = CircleShape),
                                 contentAlignment = Alignment.Center
-                        ) { Text(text = "🍕", fontSize = 84.sp) }
+                        ) {
+                                Image(
+                                        painter = painterResource(id = R.drawable.logo2),
+                                        contentDescription = "Logo PizzaHub",
+                                        modifier = Modifier
+                                                .size(215.dp)
+                                                .clip(CircleShape),     // 🔥 Recorta la imagen dentro del círculo
+                                        contentScale = ContentScale.Crop
+                                )
+                        }
 
                         Spacer(modifier = Modifier.height(20.dp))
 
