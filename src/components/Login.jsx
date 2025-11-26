@@ -33,7 +33,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://localhost:7188/api/v1/auth/login", {
+      const response = await fetch("https://pizzahub-api.onrender.com/api/v1/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

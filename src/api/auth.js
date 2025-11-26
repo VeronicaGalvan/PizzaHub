@@ -1,4 +1,4 @@
-const API_URL = "https://localhost:7188/api/v1/auth";
+const API_URL = "https://pizzahub-api.onrender.com/api/v1/auth";
 
 export const loginRequest = async (email, password) => {
   const response = await fetch(`${API_URL}/login`, {

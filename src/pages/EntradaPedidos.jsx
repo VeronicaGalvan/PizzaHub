@@ -18,7 +18,7 @@ const EntradaPedidos = () => {
   // CARGAR PRODUCTOS
   const fetchProductos = async () => {
     try {
-      const res = await fetch("https://localhost:7188/api/Productos", {
+      const res = await fetch("https://pizzahub-api.onrender.com/api/Productos", {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -88,7 +88,7 @@ const EntradaPedidos = () => {
 
     try {
       const res = await fetch(
-        "https://localhost:7188/api/PedidosNew/registrar",
+        "https://pizzahub-api.onrender.com/api/PedidosNew/registrar",
         {
           method: "POST",
           headers: {

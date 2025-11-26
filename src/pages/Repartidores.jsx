@@ -37,7 +37,7 @@ const Repartidores = () => {
   const fetchUsuarios = async () => {
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch('https://localhost:7188/api/Clientes', {
+      const res = await fetch('https://pizzahub-api.onrender.com/api/Clientes', {
         headers: { Authorization: `Bearer ${token}` },
       })
 
@@ -62,7 +62,7 @@ const Repartidores = () => {
   const fetchRepartidores = async () => {
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch('https://localhost:7188/api/Repartidores', {
+      const res = await fetch('https://pizzahub-api.onrender.com/api/Repartidores', {
         headers: { Authorization: `Bearer ${token}` },
       })
 
@@ -90,7 +90,7 @@ const Repartidores = () => {
     try {
       const token = localStorage.getItem('token')
 
-      const res = await fetch('https://localhost:7188/api/Repartidores', {
+      const res = await fetch('https://pizzahub-api.onrender.com/api/Repartidores', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

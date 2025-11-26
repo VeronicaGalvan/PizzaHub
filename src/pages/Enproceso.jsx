@@ -11,7 +11,7 @@ const Pedidos = () => {
   // -------------------------------
   const fetchPedidos = async () => {
     try {
-      const response = await fetch("https://localhost:7188/api/PedidosNew", {
+      const response = await fetch("https://pizzahub-api.onrender.com/api/PedidosNew", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -40,7 +40,7 @@ const Pedidos = () => {
   // -------------------------------
   const fetchRepartidores = async () => {
     try {
-      const response = await fetch("https://localhost:7188/api/Repartidores", {
+      const response = await fetch("https://pizzahub-api.onrender.com/api/Repartidores", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -67,7 +67,7 @@ const Pedidos = () => {
   const cambiarEstado = async (pedidoId, nuevoEstado) => {
     try {
       const response = await fetch(
-        `https://localhost:7188/api/PedidosNew/${pedidoId}/estado`,
+        `https://pizzahub-api.onrender.com/api/PedidosNew/${pedidoId}/estado`,
         {
           method: "PUT",
           headers: {
@@ -111,7 +111,7 @@ const Pedidos = () => {
 
     try {
       const response = await fetch(
-        `https://localhost:7188/api/PedidosNew/${pedidoId}/asignar-repartidor`,
+        `https://pizzahub-api.onrender.com/api/PedidosNew/${pedidoId}/asignar-repartidor`,
         {
           method: "PUT",
           headers: {

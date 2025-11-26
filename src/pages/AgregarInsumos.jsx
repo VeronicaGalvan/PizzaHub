@@ -73,7 +73,7 @@ const AgregarInsumos = () => {
     };
 
     try {
-      const response = await fetch("https://localhost:7188/api/Insumos", {
+      const response = await fetch("https://pizzahub-api.onrender.com/api/Insumos", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

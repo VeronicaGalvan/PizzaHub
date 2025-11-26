@@ -20,7 +20,7 @@ const Caja = () => {
   // -------------------------------
   const fetchCaja = async () => {
     try {
-      const res = await fetch("https://localhost:7188/api/Caja/abierta", {
+      const res = await fetch("https://pizzahub-api.onrender.com/api/Caja/abierta", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -53,7 +53,7 @@ const Caja = () => {
 
     setLoading(true);
     try {
-      const resp = await fetch("https://localhost:7188/api/Caja/abrir", {
+      const resp = await fetch("https://pizzahub-api.onrender.com/api/Caja/abrir", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -97,7 +97,7 @@ const Caja = () => {
     setLoading(true);
     try {
       const resp = await fetch(
-        `https://localhost:7188/api/Caja/${cajaAbierta.id}/cerrar`,
+        `https://pizzahub-api.onrender.com/api/Caja/${cajaAbierta.id}/cerrar`,
         {
           method: "POST",
           headers: {

@@ -38,7 +38,7 @@ const RegistroEmpleado = () => {
   const fetchUsuarios = async () => {
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch('https://localhost:7188/api/Clientes', {
+      const res = await fetch('https://pizzahub-api.onrender.com/api/Clientes', {
         headers: { Authorization: `Bearer ${token}` },
       })
 
@@ -63,7 +63,7 @@ const RegistroEmpleado = () => {
   const fetchEmpleados = async () => {
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch('https://localhost:7188/api/Empleados', {
+      const res = await fetch('https://pizzahub-api.onrender.com/api/Empleados', {
         headers: { Authorization: `Bearer ${token}` },
       })
 
@@ -97,7 +97,7 @@ const RegistroEmpleado = () => {
     try {
       const token = localStorage.getItem('token')
 
-      const response = await fetch('https://localhost:7188/api/Empleados', {
+      const response = await fetch('https://pizzahub-api.onrender.com/api/Empleados', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

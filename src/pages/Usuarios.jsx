@@ -48,7 +48,7 @@ const Usuarios = () => {
     try {
       const token = localStorage.getItem("token")
 
-      const res = await fetch("https://localhost:7188/api/Clientes", {
+      const res = await fetch("https://pizzahub-api.onrender.com/api/Clientes", {
         headers: {
           "Authorization": `Bearer ${token}`
         }
@@ -83,7 +83,7 @@ const Usuarios = () => {
     e.preventDefault()
 
     try {
-      const response = await fetch('https://localhost:7188/api/v1/auth/register', {
+      const response = await fetch('https://pizzahub-api.onrender.com/api/v1/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

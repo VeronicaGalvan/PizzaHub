@@ -48,7 +48,7 @@ const UsuariosMovil = () => {
 
   const fetchClientes = async () => {
     try {
-      const res = await fetch('https://localhost:7188/api/Clientes', {
+      const res = await fetch('https://pizzahub-api.onrender.com/api/Clientes', {
         headers: { Authorization: `Bearer ${token}` },
       })
       if (!res.ok) return
@@ -103,7 +103,7 @@ const UsuariosMovil = () => {
 
   const handleSubmit = async () => {
     try {
-      let url = 'https://localhost:7188/api/Clientes'
+      let url = 'https://pizzahub-api.onrender.com/api/Clientes'
       let method = 'POST'
       if (formData.id && formData.id > 0) {
         url += `/${formData.id}`
@@ -136,7 +136,7 @@ const UsuariosMovil = () => {
   const handleDelete = async () => {
     if (!window.confirm('¿Desea eliminar este cliente?')) return
     try {
-      const res = await fetch(`https://localhost:7188/api/Clientes/${formData.id}`, {
+      const res = await fetch(`https://pizzahub-api.onrender.com/api/Clientes/${formData.id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       })

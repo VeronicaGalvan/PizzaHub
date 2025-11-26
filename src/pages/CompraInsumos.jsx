@@ -32,7 +32,7 @@ const CompraInsumos = () => {
     const fetchInsumos = async () => {
       try {
         const token = localStorage.getItem("token")
-        const res = await fetch("https://localhost:7188/api/Insumos", {
+        const res = await fetch("https://pizzahub-api.onrender.com/api/Insumos", {
           headers: { Authorization: `Bearer ${token}` }
         })
 
@@ -82,7 +82,7 @@ const CompraInsumos = () => {
     try {
       const token = localStorage.getItem("token")
 
-      const res = await fetch("https://localhost:7188/api/ComprasInsumos", {
+      const res = await fetch("https://pizzahub-api.onrender.com/api/ComprasInsumos", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

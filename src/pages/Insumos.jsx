@@ -76,7 +76,7 @@ const Insumos = () => {
         return
       }
 
-      const response = await fetch('https://localhost:7188/api/Insumos', {
+      const response = await fetch('https://pizzahub-api.onrender.com/api/Insumos', {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
@@ -165,7 +165,7 @@ const Insumos = () => {
     }
 
     try {
-      const response = await fetch('https://localhost:7188/api/InventarioLog', {
+      const response = await fetch('https://pizzahub-api.onrender.com/api/InventarioLog', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
