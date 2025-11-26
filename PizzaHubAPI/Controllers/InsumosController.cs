@@ -69,7 +69,7 @@ public class InsumosController : ControllerBase
                 TipoMovimiento = TipoMovimientoEnum.Entrada,
                 Motivo = "Stock inicial al registrar insumo",
                 Fecha = DateTime.UtcNow
-            });
+            };
             _context.InventarioLogs.Add(log);
             await _context.SaveChangesAsync();
         }

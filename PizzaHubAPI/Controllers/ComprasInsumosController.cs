@@ -136,7 +136,7 @@ public class ComprasInsumosController : ControllerBase
                     TipoMovimiento = TipoMovimientoEnum.Entrada,
                     Motivo = $"Compra #{compra.Id} - {dto.Proveedor}",
                     Fecha = DateTime.UtcNow
-                });
+                };
 
                 _context.InventarioLogs.Add(log);
             }
