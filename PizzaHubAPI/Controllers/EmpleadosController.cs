@@ -49,6 +49,10 @@ public class EmpleadosController : ControllerBase
     [Authorize(Roles = "Administrador")]
     public async Task<ActionResult<Empleado>> CreateEmpleado(CrearEmpleadoDto dto)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         // Verificar que el usuario existe
         var usuario = await _context.Usuarios.FindAsync(dto.UsuarioId);
         if (usuario == null)
@@ -67,7 +71,18 @@ public class EmpleadosController : ControllerBase
         };
 
         _context.Empleados.Add(empleado);
-        await _context.SaveChangesAsync();
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateException ex)
+        {
+            return Problem(detail: ex.InnerException?.Message ?? ex.Message, title: "Error al guardar Empleado");
+        }
+        catch (Exception ex)
+        {
+            return Problem(detail: ex.Message, title: "Error inesperado al crear Empleado");
+        }
 
         return CreatedAtAction(nameof(GetEmpleado), new { id = empleado.Id }, empleado);
     }
