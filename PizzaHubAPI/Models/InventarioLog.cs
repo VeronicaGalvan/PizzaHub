@@ -26,7 +26,7 @@ public class InventarioLog
     public string? Motivo { get; set; }
     
     [Column("fecha")]
-    public DateTime Fecha { get; set; } = DateTime.Now;
+    public DateTime Fecha { get; set; } = DateTime.UtcNow;
 
     // Relaciones
     [ForeignKey("InsumoId")]

@@ -66,7 +66,7 @@ public class EmpleadosController : ControllerBase
             Apellidos = dto.Apellidos,
             Telefono = dto.Telefono,
             UsuarioId = dto.UsuarioId,
-            FechaIngreso = DateTime.Now.Date,
+            FechaIngreso = DateTime.UtcNow.Date,
             Activo = true
         };
 

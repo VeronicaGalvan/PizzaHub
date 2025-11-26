@@ -29,7 +29,7 @@ public class Venta
     public decimal Total { get; set; } = 0;
     
     [Column("fecha_venta")]
-    public DateTime FechaVenta { get; set; } = DateTime.Now;
+    public DateTime FechaVenta { get; set; } = DateTime.UtcNow;
 
     // Relaciones
     [ForeignKey("CajaId")]

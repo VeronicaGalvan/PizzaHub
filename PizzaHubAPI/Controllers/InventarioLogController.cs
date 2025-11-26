@@ -73,7 +73,7 @@ public class InventarioLogController : ControllerBase
             insumo.StockActual -= dto.Cantidad;
         }
 
-        insumo.UltimaActualizacion = DateTime.Now;
+        insumo.UltimaActualizacion = DateTime.UtcNow;
 
         // Crear registro en el log
         var inventarioLog = new InventarioLog
@@ -82,7 +82,7 @@ public class InventarioLogController : ControllerBase
             Cantidad = dto.Cantidad,
             TipoMovimiento = dto.TipoMovimiento,
             Motivo = dto.Motivo,
-            Fecha = DateTime.Now
+            Fecha = DateTime.UtcNow
         };
 
         _context.InventarioLogs.Add(inventarioLog);
@@ -168,7 +168,7 @@ public class InventarioLogController : ControllerBase
             inventarioLog.Insumo.StockActual += inventarioLog.Cantidad;
         }
 
-        inventarioLog.Insumo.UltimaActualizacion = DateTime.Now;
+        inventarioLog.Insumo.UltimaActualizacion = DateTime.UtcNow;
 
         _context.InventarioLogs.Remove(inventarioLog);
         await _context.SaveChangesAsync();

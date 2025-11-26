@@ -26,7 +26,7 @@ public class Insumo
     public decimal StockMinimo { get; set; } = 0;
     
     [Column("ultima_actualizacion")]
-    public DateTime UltimaActualizacion { get; set; } = DateTime.Now;
+    public DateTime UltimaActualizacion { get; set; } = DateTime.UtcNow;
 
     // Relaciones
     [JsonIgnore]

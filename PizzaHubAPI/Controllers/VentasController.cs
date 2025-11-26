@@ -95,7 +95,7 @@ public class VentasController : ControllerBase
             EmpleadoId = dto.EmpleadoId,
             MetodoPago = dto.MetodoPago,
             Total = dto.Total,
-            FechaVenta = DateTime.Now
+            FechaVenta = DateTime.UtcNow
         };
 
         _context.Ventas.Add(venta);

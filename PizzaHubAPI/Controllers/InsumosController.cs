@@ -68,8 +68,8 @@ public class InsumosController : ControllerBase
                 Cantidad = dto.StockInicial,
                 TipoMovimiento = TipoMovimientoEnum.Entrada,
                 Motivo = "Stock inicial al registrar insumo",
-                Fecha = DateTime.Now
-            };
+                Fecha = DateTime.UtcNow
+            });
             _context.InventarioLogs.Add(log);
             await _context.SaveChangesAsync();
         }
@@ -95,7 +95,7 @@ public class InsumosController : ControllerBase
         insumo.UnidadMedida = dto.UnidadMedida;
         // No modificamos StockActual aquí, solo mediante compras o movimientos
         insumo.StockMinimo = dto.StockMinimo;
-        insumo.UltimaActualizacion = DateTime.Now;
+        insumo.UltimaActualizacion = DateTime.UtcNow;
 
         try
         {

@@ -76,7 +76,7 @@ public class CalificacionesController : ControllerBase
             PedidoId = pedidoId,
             Estrellas = dto.Estrellas,
             Comentario = dto.Comentario,
-            Fecha = DateTime.Now
+            Fecha = DateTime.UtcNow
         };
 
         _context.Calificaciones.Add(calificacion);

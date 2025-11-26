@@ -24,7 +24,7 @@ public class CompraInsumo
     public decimal Total { get; set; }
     
     [Column("fecha_compra")]
-    public DateTime FechaCompra { get; set; } = DateTime.Now;
+    public DateTime FechaCompra { get; set; } = DateTime.UtcNow;
     
     [Column("observaciones")]
     public string? Observaciones { get; set; }

@@ -44,7 +44,7 @@ public class Pedido
     public string? Observaciones { get; set; }
     
     [Column("fecha_pedido")]
-    public DateTime FechaPedido { get; set; } = DateTime.Now;
+    public DateTime FechaPedido { get; set; } = DateTime.UtcNow;
     
     // Relaciones
     [ForeignKey("ClienteId")]

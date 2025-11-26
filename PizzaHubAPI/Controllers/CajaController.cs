@@ -79,7 +79,7 @@ public class CajaController : ControllerBase
         }
 
         // Verificar que no exista una caja para la fecha actual
-        var fechaHoy = DateTime.Now.Date;
+        var fechaHoy = DateTime.UtcNow.Date;
         var cajaHoy = await _context.Cajas
             .FirstOrDefaultAsync(c => c.Fecha.Date == fechaHoy);
 

@@ -38,7 +38,7 @@ public class Usuario
     public bool Activo { get; set; } = true;
     
     [Column("fecha_creacion")]
-    public DateTime FechaCreacion { get; set; } = DateTime.Now;
+    public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
 
     // Relaciones
     [JsonIgnore]

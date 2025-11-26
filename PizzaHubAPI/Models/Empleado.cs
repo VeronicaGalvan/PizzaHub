@@ -30,7 +30,7 @@ public class Empleado
     public int UsuarioId { get; set; }
     
     [Column("fecha_ingreso")]
-    public DateTime FechaIngreso { get; set; } = DateTime.Now.Date;
+    public DateTime FechaIngreso { get; set; } = DateTime.UtcNow.Date;
     
     [Column("activo")]
     public bool Activo { get; set; } = true;

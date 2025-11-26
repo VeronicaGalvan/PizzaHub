@@ -23,7 +23,7 @@ public class Calificacion
     public string? Comentario { get; set; }
 
     [Column("fecha")]
-    public DateTime Fecha { get; set; } = DateTime.Now;
+    public DateTime Fecha { get; set; } = DateTime.UtcNow;
 
     // Relaciones
     [ForeignKey("PedidoId")]

@@ -79,7 +79,7 @@ public class NotificacionService
                 PedidoId = pedidoId,
                 Enviada = false,
                 Leida = false,
-                FechaCreacion = DateTime.Now
+                FechaCreacion = DateTime.UtcNow
             };
 
             _context.Notificaciones.Add(notificacion);
@@ -130,7 +130,7 @@ public class NotificacionService
                     { "titulo", titulo },
                     { "mensaje", mensaje },
                     { "pedido_id", pedidoId?.ToString() ?? "" },
-                    { "timestamp", DateTime.Now.ToString("o") }
+                    { "timestamp", DateTime.UtcNow.ToString("o") }
                 },
                 Android = new AndroidConfig()
                 {
@@ -296,7 +296,7 @@ public class NotificacionService
             }
 
             notificacion.Leida = true;
-            notificacion.FechaLectura = DateTime.Now;
+            notificacion.FechaLectura = DateTime.UtcNow;
             await _context.SaveChangesAsync();
 
             return true;
@@ -322,7 +322,7 @@ public class NotificacionService
             foreach (var notificacion in notificaciones)
             {
                 notificacion.Leida = true;
-                notificacion.FechaLectura = DateTime.Now;
+                notificacion.FechaLectura = DateTime.UtcNow;
             }
 
             await _context.SaveChangesAsync();

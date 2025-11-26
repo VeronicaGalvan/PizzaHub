@@ -96,7 +96,7 @@ public class ComprasInsumosController : ControllerBase
                 NumeroFactura = dto.NumeroFactura,
                 Observaciones = dto.Observaciones,
                 EmpleadoId = empleado?.Id,
-                FechaCompra = DateTime.Now,
+                FechaCompra = DateTime.UtcNow,
                 Total = 0 // Se calculará después
             };
 
@@ -126,7 +126,7 @@ public class ComprasInsumosController : ControllerBase
                 // Actualizar stock del insumo
                 var insumo = insumos.First(i => i.Id == detalleDto.InsumoId);
                 insumo.StockActual += detalleDto.Cantidad;
-                insumo.UltimaActualizacion = DateTime.Now;
+                insumo.UltimaActualizacion = DateTime.UtcNow;
 
                 // Crear registro en el log de inventario
                 var log = new InventarioLog
@@ -135,8 +135,8 @@ public class ComprasInsumosController : ControllerBase
                     Cantidad = detalleDto.Cantidad,
                     TipoMovimiento = TipoMovimientoEnum.Entrada,
                     Motivo = $"Compra #{compra.Id} - {dto.Proveedor}",
-                    Fecha = DateTime.Now
-                };
+                    Fecha = DateTime.UtcNow
+                });
 
                 _context.InventarioLogs.Add(log);
             }
@@ -223,7 +223,7 @@ public class ComprasInsumosController : ControllerBase
             foreach (var detalle in compra.Detalles)
             {
                 detalle.Insumo.StockActual -= detalle.Cantidad;
-                detalle.Insumo.UltimaActualizacion = DateTime.Now;
+                detalle.Insumo.UltimaActualizacion = DateTime.UtcNow;
 
                 // Eliminar el log de inventario asociado
                 var logs = await _context.InventarioLogs

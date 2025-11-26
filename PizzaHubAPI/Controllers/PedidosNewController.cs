@@ -140,7 +140,7 @@ public class PedidosNewController : ControllerBase
             Total = total,
             DireccionEntrega = pedidoOriginal.DireccionEntrega,
             Observaciones = pedidoOriginal.Observaciones,
-            FechaPedido = DateTime.Now,
+            FechaPedido = DateTime.UtcNow,
             Detalles = detalles
         };
 
@@ -223,7 +223,7 @@ public class PedidosNewController : ControllerBase
             Total = total,
             DireccionEntrega = dto.DireccionEntrega,
             Observaciones = dto.Observaciones,
-            FechaPedido = DateTime.Now,
+            FechaPedido = DateTime.UtcNow,
             Detalles = detalles
         };
 

@@ -40,7 +40,7 @@ public class Notificacion
     public bool Enviada { get; set; } = false;
     
     [Column("fecha_creacion")]
-    public DateTime FechaCreacion { get; set; } = DateTime.Now;
+    public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
     
     [Column("fecha_lectura")]
     public DateTime? FechaLectura { get; set; }
