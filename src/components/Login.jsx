@@ -59,11 +59,14 @@ const Login = () => {
 
   return (
     <div
-      className="min-vh-100 d-flex flex-row align-items-center"
+      className="d-flex flex-row align-items-center justify-content-center"
       style={{
         background: "linear-gradient(135deg, #ff8c00 0%, #ff6b00 50%, #ff4500 100%)",
+        minHeight: "100vh",
+        width: "100%",
         position: "relative",
         overflow: "hidden",
+        padding: "20px",
       }}
     >
       {/* Elementos decorativos de fondo */}
@@ -92,9 +95,9 @@ const Login = () => {
         }}
       />
 
-      <CContainer>
+      <CContainer fluid="md" style={{ maxWidth: "500px" }}>
         <CRow className="justify-content-center">
-          <CCol md={8} lg={6} xl={5}>
+          <CCol xs={12}>
             <CCard
               className="shadow-lg"
               style={{
