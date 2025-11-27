@@ -207,19 +207,21 @@ const Insumos = () => {
     <div
       style={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: '#F3F4F6',
         padding: '30px 20px',
       }}
     >
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
         {/* Header */}
         <div
+          className="fade-in"
           style={{
             background: 'white',
             borderRadius: '20px',
             padding: '30px',
             marginBottom: '30px',
             boxShadow: '0 8px 30px rgba(0, 0, 0, 0.12)',
+            borderBottom: '4px solid #FF6600',
           }}
         >
           <h1
@@ -227,10 +229,7 @@ const Insumos = () => {
               margin: '0 0 8px 0',
               fontSize: '36px',
               fontWeight: '800',
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
+              color: '#1A1C20',
               fontFamily: "'Inter', sans-serif",
             }}
           >
@@ -255,14 +254,14 @@ const Insumos = () => {
             <CCol xs={12} md={6} lg={5}>
               <CInputGroup
                 style={{
-                  border: '2px solid #e0e0e0',
+                  border: '2px solid #E5E7EB',
                   borderRadius: '12px',
                   overflow: 'hidden',
                 }}
               >
                 <CInputGroupText
                   style={{
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    background: '#FF6600',
                     border: 'none',
                     color: 'white',
                   }}
@@ -348,8 +347,8 @@ const Insumos = () => {
                     onClick={() => handleInsumoClick(insumo)}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = 'translateY(-8px)'
-                      e.currentTarget.style.boxShadow = '0 12px 40px rgba(102, 126, 234, 0.25)'
-                      e.currentTarget.style.borderColor = '#667eea'
+                      e.currentTarget.style.boxShadow = '0 12px 40px rgba(255, 102, 0, 0.25)'
+                      e.currentTarget.style.borderColor = '#FF6600'
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = 'translateY(0)'
@@ -375,7 +374,7 @@ const Insumos = () => {
                       </h4>
                       <div
                         style={{
-                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                          background: 'linear-gradient(135deg, #FF6600 0%, #FF8533 100%)',
                           borderRadius: '10px',
                           padding: '12px',
                           textAlign: 'center',
@@ -435,10 +434,7 @@ const Insumos = () => {
               margin: 0,
               fontSize: '24px',
               fontWeight: '800',
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
+              color: '#1A1C20',
               fontFamily: "'Inter', sans-serif",
             }}
           >
@@ -483,7 +479,7 @@ const Insumos = () => {
           <span
             style={{
               marginLeft: '8px',
-              color: '#667eea',
+              color: '#FF6600',
               fontSize: '18px',
               fontWeight: '800',
               fontFamily: "'Inter', sans-serif",
@@ -608,7 +604,7 @@ const Insumos = () => {
   Cancelar
 </CButton>
 
-          <CButton onClick={actualizarStock} style={{ padding: '12px 24px', fontWeight: '700', borderRadius: '10px', fontSize: '14px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', border: 'none', color: 'white' }}>
+          <CButton onClick={actualizarStock} style={{ padding: '12px 24px', fontWeight: '700', borderRadius: '10px', fontSize: '14px', background: 'linear-gradient(135deg, #FF6600 0%, #FF8533 100%)', border: 'none', color: 'white' }}>
             ✅ Actualizar Stock
           </CButton>
         </CModalFooter>

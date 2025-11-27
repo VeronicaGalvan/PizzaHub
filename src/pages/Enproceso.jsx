@@ -189,22 +189,24 @@ const Pedidos = () => {
     <div
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+        background: "#F3F4F6",
         padding: "30px 20px",
       }}
     >
       <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
         {/* Header */}
         <div
+          className="fade-in"
           style={{
             background: "white",
-            borderRadius: "16px",
+            borderRadius: "20px",
             padding: "25px 30px",
             marginBottom: "30px",
             boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            borderBottom: "4px solid #FF6600",
           }}
         >
           <div>
@@ -213,10 +215,7 @@ const Pedidos = () => {
                 margin: 0,
                 fontSize: "32px",
                 fontWeight: "800",
-                background: "linear-gradient(135deg, #ff8c00 0%, #ff4500 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
+                color: "#1A1C20",
               }}
             >
               📦 Gestión de Pedidos
@@ -227,13 +226,13 @@ const Pedidos = () => {
           </div>
           <div
             style={{
-              background: "linear-gradient(135deg, #ff8c00 0%, #ff4500 100%)",
+              background: "linear-gradient(135deg, #FF6600 0%, #FF8533 100%)",
               color: "white",
               padding: "12px 24px",
               borderRadius: "12px",
               fontWeight: "bold",
               fontSize: "18px",
-              boxShadow: "0 4px 15px rgba(255, 140, 0, 0.3)",
+              boxShadow: "0 4px 15px rgba(255, 102, 0, 0.3)",
             }}
           >
             Total: {pedidos.length} pedidos
@@ -337,7 +336,7 @@ const Pedidos = () => {
                   {/* Total */}
                   <div
                     style={{
-                      background: "linear-gradient(135deg, #ff8c00 0%, #ff4500 100%)",
+                      background: "linear-gradient(135deg, #FF6600 0%, #FF8533 100%)",
                       borderRadius: "12px",
                       padding: "16px",
                       marginBottom: "20px",
@@ -363,7 +362,7 @@ const Pedidos = () => {
                   {nombreRepartidor && (
                     <div
                       style={{
-                        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                        background: "linear-gradient(135deg, #4A5568 0%, #2D3748 100%)",
                         borderRadius: "12px",
                         padding: "12px 16px",
                         marginBottom: "20px",
@@ -429,7 +428,7 @@ const Pedidos = () => {
                         <div
                           style={{
                             fontWeight: "700",
-                            color: "#ff8c00",
+                            color: "#FF6600",
                             fontSize: "14px",
                           }}
                         >
@@ -600,7 +599,7 @@ const Pedidos = () => {
                         background: "white",
                       }}
                       onFocus={(e) => {
-                        e.target.style.borderColor = "#ff8c00";
+                        e.target.style.borderColor = "#FF6600";
                         e.target.style.outline = "none";
                       }}
                       onBlur={(e) => {

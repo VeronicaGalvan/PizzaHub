@@ -60,6 +60,7 @@ const _nav = [
         component: CNavItem,
         name: 'Insumos',
         to: '/pages/Insumos',
+        icon: <CIcon icon={cilLibrary} customClassName="nav-icon" />,
       },
       {
         component: CNavItem,
@@ -73,8 +74,6 @@ const _nav = [
         to: '/pages/AgregarInsumos',
         icon: <CIcon icon={cilPlus} customClassName="nav-icon" />,
       },
-     
-     
     ],
   },
  
@@ -87,6 +86,7 @@ const _nav = [
         component: CNavItem,
         name: 'Repartidores',
         to: '/pages/Repartidores',
+        icon: <CIcon icon={cilTruck} customClassName="nav-icon" />,
       },
     ],
   },
@@ -109,6 +109,7 @@ const _nav = [
         component: CNavItem,
         name: 'Gestión Usuarios',
         to: '/pages/Usuarios',
+        icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
       },
       {
         component: CNavItem,

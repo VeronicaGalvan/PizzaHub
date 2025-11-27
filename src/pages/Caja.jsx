@@ -147,8 +147,21 @@ const Caja = () => {
   };
 
   return (
-    <div className="container mt-4" style={{ maxWidth: "800px" }}>
-      <h2 className="text-center mb-4 fw-bold">Gestión de Caja</h2>
+    <div className="container mt-4 fade-in" style={{ maxWidth: "800px" }}>
+      <h2 className="text-center mb-4" style={{
+        fontWeight: "800",
+        fontSize: "32px",
+        background: "linear-gradient(135deg, #FF6600 0%, #FF8533 100%)",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "12px"
+      }}>
+        <span style={{ fontSize: "36px" }}>💰</span>
+        Gestión de Caja
+      </h2>
 
       {/* Mensajes de error y éxito */}
       {error && (
@@ -165,30 +178,46 @@ const Caja = () => {
 
       {/* Si NO hay caja abierta → mostrar abrir */}
       {!cajaAbierta && (
-        <CCard className="shadow-sm mb-4">
+        <CCard className="shadow-sm mb-4 slide-in" style={{
+          borderRadius: "20px",
+          border: "1px solid rgba(0, 0, 0, 0.05)",
+          boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+          overflow: "hidden"
+        }}>
           <CCardHeader
             style={{
-              background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+              background: "linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)",
               color: "white",
+              padding: "20px 24px",
+              border: "none"
             }}
           >
-            <h5 className="mb-0">🏦 Abrir Caja</h5>
+            <h5 className="mb-0" style={{ fontWeight: "700", fontSize: "18px", display: "flex", alignItems: "center", gap: "10px" }}>
+              <span style={{ fontSize: "24px" }}>🏦</span>
+              Abrir Caja
+            </h5>
           </CCardHeader>
 
-          <CCardBody style={{ backgroundColor: "#f8f9fa" }}>
+          <CCardBody style={{ backgroundColor: "white", padding: "28px" }}>
             {(empleadoInfo || user?.nombre) && (
-              <div className="alert alert-info mb-3">
-                <small>
-                  <strong>👤 Empleado:</strong>{" "}
-                  {empleadoInfo
+              <div style={{
+                background: "linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%)",
+                padding: "14px 18px",
+                borderRadius: "12px",
+                marginBottom: "20px",
+                border: "1px solid #93C5FD"
+              }}>
+                <div style={{ fontSize: "13px", color: "#1E40AF", fontWeight: "600" }}>
+                  <span style={{ fontSize: "16px", marginRight: "8px" }}>👤</span>
+                  Empleado: {empleadoInfo
                     ? `${empleadoInfo.nombre} ${empleadoInfo.apellidos}`
                     : user?.nombreUsuario || "No especificado"}
-                </small>
+                </div>
               </div>
             )}
 
-            <label className="form-label mt-2">
-              Saldo Inicial <span className="text-danger">*</span>
+            <label className="form-label" style={{ fontWeight: "600", color: "#374151", fontSize: "14px", marginBottom: "10px" }}>
+              Saldo Inicial <span style={{ color: "#DC2626" }}>*</span>
             </label>
             <CFormInput
               type="number"
@@ -199,26 +228,50 @@ const Caja = () => {
               placeholder="Ej: 500.00"
               className="mb-3"
               disabled={loading}
+              style={{
+                padding: "12px 16px",
+                borderRadius: "10px",
+                border: "2px solid #E5E7EB",
+                fontSize: "15px",
+                transition: "all 0.2s ease"
+              }}
             />
 
             <CButton
               color="primary"
               className="w-100"
               style={{
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                background: "linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)",
                 border: "none",
-                padding: "12px",
-                fontWeight: "600",
+                padding: "14px",
+                fontWeight: "700",
+                fontSize: "15px",
+                borderRadius: "12px",
+                boxShadow: "0 4px 6px -1px rgba(59, 130, 246, 0.3)",
+                transition: "all 0.2s ease"
               }}
               onClick={handleAbrirCaja}
               disabled={loading}
+              onMouseEnter={(e) => {
+                if (!loading) {
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.boxShadow = "0 10px 15px -3px rgba(59, 130, 246, 0.4)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 6px -1px rgba(59, 130, 246, 0.3)";
+              }}
             >
               {loading ? (
                 <>
                   <CSpinner size="sm" className="me-2" /> Procesando...
                 </>
               ) : (
-                "🔓 Abrir Caja"
+                <>
+                  <span style={{ fontSize: "18px", marginRight: "8px" }}>🔓</span>
+                  Abrir Caja
+                </>
               )}
             </CButton>
           </CCardBody>
@@ -227,17 +280,27 @@ const Caja = () => {
 
       {/* Si hay caja abierta → mostrar cerrar */}
       {cajaAbierta && (
-        <CCard className="shadow-sm mb-4">
+        <CCard className="shadow-sm mb-4 slide-in" style={{
+          borderRadius: "20px",
+          border: "1px solid rgba(0, 0, 0, 0.05)",
+          boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+          overflow: "hidden"
+        }}>
           <CCardHeader
             style={{
-              background: "linear-gradient(135deg, #ff7170 0%, #ff9a8b 100%)",
+              background: "linear-gradient(135deg, #EF4444 0%, #DC2626 100%)",
               color: "white",
+              padding: "20px 24px",
+              border: "none"
             }}
           >
-            <h5 className="mb-0">🔒 Cerrar Caja</h5>
+            <h5 className="mb-0" style={{ fontWeight: "700", fontSize: "18px", display: "flex", alignItems: "center", gap: "10px" }}>
+              <span style={{ fontSize: "24px" }}>🔒</span>
+              Cerrar Caja
+            </h5>
           </CCardHeader>
 
-          <CCardBody style={{ backgroundColor: "#f8f9fa" }}>
+          <CCardBody style={{ backgroundColor: "white", padding: "28px" }}>
             <div className="alert alert-warning mb-3">
               <p className="mb-1">
                 <strong>📅 Fecha:</strong>{" "}

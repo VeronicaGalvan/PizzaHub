@@ -15,6 +15,7 @@ import {
 import CIcon from "@coreui/icons-react";
 import { cilLockLocked, cilUser } from "@coreui/icons";
 import AuthContext from "../context/AuthContext";
+import logo from "../media/img/logo.jpg";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ const Login = () => {
     <div
       className="d-flex flex-row align-items-center justify-content-center"
       style={{
-        background: "linear-gradient(135deg, #ff8c00 0%, #ff6b00 50%, #ff4500 100%)",
+        background: "linear-gradient(135deg, #1A1C20 0%, #2D3748 50%, #1F2937 100%)",
         minHeight: "100vh",
         width: "100%",
         position: "relative",
@@ -75,11 +76,11 @@ const Login = () => {
           position: "absolute",
           top: "-10%",
           right: "-5%",
-          width: "400px",
-          height: "400px",
+          width: "500px",
+          height: "500px",
           borderRadius: "50%",
-          background: "rgba(255, 255, 255, 0.1)",
-          filter: "blur(60px)",
+          background: "rgba(255, 102, 0, 0.1)",
+          filter: "blur(80px)",
         }}
       />
       <div
@@ -87,11 +88,11 @@ const Login = () => {
           position: "absolute",
           bottom: "-10%",
           left: "-5%",
-          width: "500px",
-          height: "500px",
+          width: "600px",
+          height: "600px",
           borderRadius: "50%",
-          background: "rgba(255, 255, 255, 0.08)",
-          filter: "blur(80px)",
+          background: "rgba(255, 133, 51, 0.08)",
+          filter: "blur(100px)",
         }}
       />
 
@@ -99,41 +100,65 @@ const Login = () => {
         <CRow className="justify-content-center">
           <CCol xs={12}>
             <CCard
-              className="shadow-lg"
+              className="shadow-lg fade-in"
               style={{
-                borderRadius: "20px",
-                border: "none",
-                backdropFilter: "blur(10px)",
-                backgroundColor: "rgba(255, 255, 255, 0.95)",
+                borderRadius: "24px",
+                border: "1px solid rgba(0, 0, 0, 0.05)",
+                backdropFilter: "blur(20px)",
+                backgroundColor: "rgba(255, 255, 255, 0.98)",
+                boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)",
               }}
             >
               <CCardBody className="p-5">
                 <div className="text-center mb-4">
                   <div
                     style={{
-                      width: "120px",
-                      height: "120px",
-                      margin: "0 auto 20px",
+                      width: "140px",
+                      height: "140px",
+                      margin: "0 auto 24px",
+                      position: "relative",
                     }}
                   >
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: "-8px",
+                        background: "linear-gradient(135deg, #FF6600 0%, #FF8533 100%)",
+                        borderRadius: "50%",
+                        opacity: 0.2,
+                        filter: "blur(20px)",
+                        animation: "pulse 2s ease-in-out infinite",
+                      }}
+                    />
                     <img
-                      src="/logoPizza.jpg"
+                      src={logo}
                       alt="Logo PizzaHub"
                       style={{
                         width: "100%",
                         height: "100%",
                         objectFit: "cover",
                         borderRadius: "50%",
-                        border: "4px solid #ff8c00",
-                        boxShadow: "0 8px 20px rgba(255, 140, 0, 0.3)",
+                        border: "4px solid #FF6600",
+                        boxShadow: "0 10px 25px rgba(255, 102, 0, 0.4)",
+                        position: "relative",
+                        backgroundColor: "white",
                       }}
                     />
                   </div>
-                  <h2 style={{ color: "#333", fontWeight: "bold" }}>
-                    Bienvenido
+                  <h2 style={{ 
+                    color: "#1F2937", 
+                    fontWeight: "800",
+                    fontSize: "28px",
+                    marginBottom: "8px",
+                  }}>
+                    ¡Bienvenido! 
                   </h2>
-                  <p style={{ color: "#666", marginTop: "10px" }}>
-                    Inicia sesión para continuar
+                  <p style={{ 
+                    color: "#6B7280", 
+                    fontSize: "15px",
+                    fontWeight: "500",
+                  }}>
+                    Inicia sesión para acceder al panel
                   </p>
                 </div>
 
@@ -141,20 +166,36 @@ const Login = () => {
                   <CInputGroup className="mb-3">
                     <CInputGroupText
                       style={{
-                        backgroundColor: "#fff",
-                        borderColor: "#ddd",
+                        backgroundColor: "#F9FAFB",
+                        borderColor: "#E5E7EB",
+                        border: "2px solid #E5E7EB",
+                        borderRight: "none",
+                        borderRadius: "12px 0 0 12px",
                       }}
                     >
-                      <CIcon icon={cilUser} style={{ color: "#ff8c00" }} />
+                      <CIcon icon={cilUser} style={{ color: "#FF6600" }} />
                     </CInputGroupText>
                     <CFormInput
                       name="usuario"
-                      placeholder="Usuario"
+                      placeholder="Correo electrónico"
                       autoComplete="username"
                       value={form.usuario}
                       onChange={handleChange}
                       style={{
-                        borderColor: "#ddd",
+                        borderColor: "#E5E7EB",
+                        border: "2px solid #E5E7EB",
+                        borderLeft: "none",
+                        borderRadius: "0 12px 12px 0",
+                        padding: "12px 16px",
+                        fontSize: "15px",
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = "#FF6600";
+                        e.target.previousSibling.style.borderColor = "#FF6600";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = "#E5E7EB";
+                        e.target.previousSibling.style.borderColor = "#E5E7EB";
                       }}
                     />
                   </CInputGroup>
@@ -162,11 +203,14 @@ const Login = () => {
                   <CInputGroup className="mb-4">
                     <CInputGroupText
                       style={{
-                        backgroundColor: "#fff",
-                        borderColor: "#ddd",
+                        backgroundColor: "#F9FAFB",
+                        borderColor: "#E5E7EB",
+                        border: "2px solid #E5E7EB",
+                        borderRight: "none",
+                        borderRadius: "12px 0 0 12px",
                       }}
                     >
-                      <CIcon icon={cilLockLocked} style={{ color: "#ff8c00" }} />
+                      <CIcon icon={cilLockLocked} style={{ color: "#FF6600" }} />
                     </CInputGroupText>
                     <CFormInput
                       type="password"
@@ -176,7 +220,20 @@ const Login = () => {
                       value={form.contraseña}
                       onChange={handleChange}
                       style={{
-                        borderColor: "#ddd",
+                        borderColor: "#E5E7EB",
+                        border: "2px solid #E5E7EB",
+                        borderLeft: "none",
+                        borderRadius: "0 12px 12px 0",
+                        padding: "12px 16px",
+                        fontSize: "15px",
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = "#FF6600";
+                        e.target.previousSibling.style.borderColor = "#FF6600";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = "#E5E7EB";
+                        e.target.previousSibling.style.borderColor = "#E5E7EB";
                       }}
                     />
                   </CInputGroup>
@@ -184,27 +241,27 @@ const Login = () => {
                   <CButton
                     type="submit"
                     style={{
-                      backgroundColor: "#ff8c00",
-                      borderColor: "#ff8c00",
+                      background: "linear-gradient(135deg, #FF6600 0%, #FF8533 100%)",
+                      border: "none",
                       width: "100%",
-                      padding: "12px",
+                      padding: "14px",
                       fontSize: "16px",
-                      fontWeight: "600",
-                      borderRadius: "10px",
-                      transition: "all 0.3s ease",
+                      fontWeight: "700",
+                      borderRadius: "12px",
+                      transition: "all 0.2s ease",
+                      boxShadow: "0 4px 6px -1px rgba(255, 102, 0, 0.3)",
+                      color: "white",
                     }}
                     onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = "#ff7a00";
                       e.target.style.transform = "translateY(-2px)";
-                      e.target.style.boxShadow = "0 6px 20px rgba(255, 140, 0, 0.4)";
+                      e.target.style.boxShadow = "0 10px 15px -3px rgba(255, 102, 0, 0.4)";
                     }}
                     onMouseLeave={(e) => {
-                      e.target.style.backgroundColor = "#ff8c00";
                       e.target.style.transform = "translateY(0)";
-                      e.target.style.boxShadow = "none";
+                      e.target.style.boxShadow = "0 4px 6px -1px rgba(255, 102, 0, 0.3)";
                     }}
                   >
-                    Iniciar Sesión
+                     Iniciar Sesión
                   </CButton>
                 </CForm>
               </CCardBody>

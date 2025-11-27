@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
   CCloseButton,
   CSidebar,
-  CSidebarBrand,
   CSidebarFooter,
   CSidebarHeader,
   CSidebarToggler,
@@ -14,6 +13,7 @@ import { AppSidebarNav } from './SidebarNav'
 import navigation from '../navegacion/_nav'
 import AuthContext from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import logo from '../media/img/logo.jpg'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
@@ -30,7 +30,7 @@ const AppSidebar = () => {
 
   return (
     <CSidebar
-      className="border-end"
+      className="border-end sidebar-dark-theme"
       position="fixed"
       unfoldable={unfoldable}
       visible={sidebarShow}
@@ -38,43 +38,76 @@ const AppSidebar = () => {
         dispatch({ type: 'set', sidebarShow: visible })
       }}
       style={{
-        background: 'linear-gradient(135deg, #ff8c00 0%, #ff6b00 50%, #ff4500 100%)',
+        background: 'linear-gradient(180deg, #1A1C20 0%, #2D3748 100%)',
         opacity: 1,
-        padding: '10px 0',
-        boxShadow: '4px 0 15px rgba(255, 69, 0, 0.2)',
+        padding: '0',
+        boxShadow: '4px 0 20px rgba(0, 0, 0, 0.15)',
+        borderRight: '1px solid rgba(255, 255, 255, 0.1)',
       }}
     >
       {/* Header */}
       <CSidebarHeader
-        className="border-bottom d-flex align-items-center justify-content-center"
+        className="border-bottom"
         style={{
-          backgroundColor: 'rgba(0, 0, 0, 0.15)',
-          padding: '20px 0',
-          borderBottom: '2px solid rgba(255, 255, 255, 0.2)',
+          backgroundColor: 'rgba(0, 0, 0, 0.2)',
+          padding: '24px 20px',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          position: 'relative',
         }}
       >
-        <h2
-          style={{
-            color: '#ffffff',
-            fontWeight: '900',
-            letterSpacing: '3px',
-            fontSize: '1.8rem',
-            fontFamily: "'Bebas Neue', 'Arial Black', sans-serif",
-            textShadow: '2px 2px 8px rgba(0, 0, 0, 0.3)',
-            margin: 0,
-            textTransform: 'uppercase',
-          }}
-        >
-          PIZZAHUB
-        </h2>
-
-        <CSidebarBrand to="/" />
-
         <CCloseButton
           className="d-lg-none"
-          style={{ color: '#fff' }}
+          style={{ 
+            color: '#fff',
+            position: 'absolute',
+            top: '12px',
+            right: '12px',
+            zIndex: 10
+          }}
           onClick={() => dispatch({ type: 'set', sidebarShow: false })}
         />
+        
+        <div style={{ textAlign: 'center', width: '100%' }}>
+          <div style={{
+            width: '80px',
+            height: '80px',
+            margin: '0 auto 12px',
+            borderRadius: '16px',
+            overflow: 'hidden',
+            boxShadow: '0 8px 16px rgba(255, 102, 0, 0.3)',
+            border: '3px solid rgba(255, 102, 0, 0.3)',
+          }}>
+            <img 
+              src={logo} 
+              alt="PizzaHub Logo" 
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              }}
+            />
+          </div>
+          <h2
+            style={{
+              color: '#ffffff',
+              fontWeight: '800',
+              letterSpacing: '2px',
+              fontSize: '1.5rem',
+              fontFamily: "'Inter', sans-serif",
+              margin: 0,
+              textTransform: 'uppercase',
+            }}
+          >
+            PizzaHub
+          </h2>
+          <p style={{
+            color: 'rgba(255, 255, 255, 0.6)',
+            fontSize: '0.75rem',
+            margin: '4px 0 0 0',
+            fontWeight: '500',
+            letterSpacing: '1px',
+          }}>ADMIN PANEL</p>
+        </div>
       </CSidebarHeader>
 
       {/* Navegación */}
@@ -84,36 +117,42 @@ const AppSidebar = () => {
       <CSidebarFooter
         className="border-top d-flex flex-column align-items-center justify-content-center p-3"
         style={{
-          borderTop: '2px solid rgba(255, 255, 255, 0.2)',
-          backgroundColor: 'rgba(0, 0, 0, 0.1)',
+          borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+          backgroundColor: 'rgba(0, 0, 0, 0.2)',
+          padding: '20px',
         }}
       >
         <CButton
           color="danger"
           style={{
             width: '100%',
-            fontWeight: 'bold',
-            backgroundColor: '#dc3545',
-            borderColor: '#dc3545',
-            borderRadius: '8px',
-            padding: '10px',
+            fontWeight: '600',
+            backgroundColor: 'transparent',
+            borderColor: 'rgba(220, 53, 69, 0.5)',
+            border: '2px solid rgba(220, 53, 69, 0.5)',
+            borderRadius: '10px',
+            padding: '12px',
             fontSize: '14px',
-            boxShadow: '0 4px 10px rgba(220, 53, 69, 0.3)',
-            transition: 'all 0.3s ease',
+            color: '#ff6b6b',
+            transition: 'all 0.2s ease',
           }}
           onMouseEnter={(e) => {
-            e.target.style.backgroundColor = '#c82333'
+            e.target.style.backgroundColor = '#dc3545'
+            e.target.style.borderColor = '#dc3545'
+            e.target.style.color = '#ffffff'
             e.target.style.transform = 'translateY(-2px)'
-            e.target.style.boxShadow = '0 6px 15px rgba(220, 53, 69, 0.4)'
+            e.target.style.boxShadow = '0 4px 12px rgba(220, 53, 69, 0.4)'
           }}
           onMouseLeave={(e) => {
-            e.target.style.backgroundColor = '#dc3545'
+            e.target.style.backgroundColor = 'transparent'
+            e.target.style.borderColor = 'rgba(220, 53, 69, 0.5)'
+            e.target.style.color = '#ff6b6b'
             e.target.style.transform = 'translateY(0)'
-            e.target.style.boxShadow = '0 4px 10px rgba(220, 53, 69, 0.3)'
+            e.target.style.boxShadow = 'none'
           }}
           onClick={handleLogout}
         >
-          🔒 Cerrar sesión
+          🚪 Cerrar sesión
         </CButton>
 
         <CSidebarToggler

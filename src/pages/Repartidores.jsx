@@ -127,17 +127,23 @@ const Repartidores = () => {
   }
 
   return (
-    <>
+    <div style={{ padding: '20px', background: '#F3F4F6', minHeight: '100vh' }}>
       {/* FORMULARIO */}
-      <CCard className="shadow-sm mb-4">
-        <CCardHeader style={{ background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', color: 'white' }}>
+      <CCard className="shadow-lg mb-4 fade-in" style={{ borderRadius: '20px', border: 'none' }}>
+        <CCardHeader style={{ 
+          background: 'white', 
+          borderBottom: '3px solid #FF6600',
+          borderTopLeftRadius: '20px',
+          borderTopRightRadius: '20px',
+          padding: '20px 30px'
+        }}>
           <div className="d-flex align-items-center">
-            <CIcon icon={cilTruck} size="lg" className="me-2" />
-            <h5 className="mb-0">Registrar Repartidor</h5>
+            <CIcon icon={cilTruck} size="lg" className="me-2" style={{ color: '#FF6600' }} />
+            <h5 className="mb-0" style={{ fontWeight: '700', color: '#1A1C20' }}>Registrar Repartidor</h5>
           </div>
         </CCardHeader>
 
-        <CCardBody style={{ backgroundColor: '#f8f9fa' }}>
+        <CCardBody style={{ backgroundColor: 'white', padding: '30px' }}>
           <CForm onSubmit={handleSubmit}>
             <CRow className="g-3">
 
@@ -206,10 +212,13 @@ const Repartidores = () => {
                   type="submit"
                   style={{
                     width: '100%',
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    background: 'linear-gradient(135deg, #FF6600 0%, #FF8533 100%)',
                     border: 'none',
-                    padding: '12px',
-                    fontWeight: '600'
+                    padding: '14px',
+                    fontWeight: '700',
+                    borderRadius: '12px',
+                    color: 'white',
+                    transition: 'all 0.3s ease'
                   }}
                 >
                   <CIcon icon={cilUserPlus} className="me-2" />
@@ -223,20 +232,26 @@ const Repartidores = () => {
       </CCard>
 
       {/* TABLA DE REPARTIDORES */}
-      <CCard className="shadow-sm">
-        <CCardHeader style={{ background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', color: 'white' }}>
-          <h5 className="mb-0">Lista de Repartidores</h5>
+      <CCard className="shadow-lg fade-in" style={{ borderRadius: '20px', border: 'none' }}>
+        <CCardHeader style={{ 
+          background: 'white', 
+          borderBottom: '3px solid #FF6600',
+          borderTopLeftRadius: '20px',
+          borderTopRightRadius: '20px',
+          padding: '20px 30px'
+        }}>
+          <h5 className="mb-0" style={{ fontWeight: '700', color: '#1A1C20' }}>📋 Lista de Repartidores</h5>
         </CCardHeader>
 
-        <CCardBody>
-          <CTable hover bordered responsive>
-            <CTableHead>
+        <CCardBody style={{ padding: '30px', background: 'white' }}>
+          <CTable hover responsive>
+            <CTableHead style={{ background: '#F3F4F6' }}>
               <CTableRow>
-                <CTableHeaderCell>ID</CTableHeaderCell>
-                <CTableHeaderCell>Nombre</CTableHeaderCell>
-                <CTableHeaderCell>Teléfono</CTableHeaderCell>
-                <CTableHeaderCell>Usuario</CTableHeaderCell>
-                <CTableHeaderCell>Estado</CTableHeaderCell>
+                <CTableHeaderCell style={{ fontWeight: '700', color: '#1A1C20', borderBottom: '2px solid #E5E7EB' }}>ID</CTableHeaderCell>
+                <CTableHeaderCell style={{ fontWeight: '700', color: '#1A1C20', borderBottom: '2px solid #E5E7EB' }}>Nombre</CTableHeaderCell>
+                <CTableHeaderCell style={{ fontWeight: '700', color: '#1A1C20', borderBottom: '2px solid #E5E7EB' }}>Teléfono</CTableHeaderCell>
+                <CTableHeaderCell style={{ fontWeight: '700', color: '#1A1C20', borderBottom: '2px solid #E5E7EB' }}>Usuario</CTableHeaderCell>
+                <CTableHeaderCell style={{ fontWeight: '700', color: '#1A1C20', borderBottom: '2px solid #E5E7EB' }}>Estado</CTableHeaderCell>
               </CTableRow>
             </CTableHead>
 
@@ -256,7 +271,7 @@ const Repartidores = () => {
           </CTable>
         </CCardBody>
       </CCard>
-    </>
+    </div>
   )
 }
 

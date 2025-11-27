@@ -133,28 +133,30 @@ const RegistroEmpleado = () => {
   }
 
   return (
-    <>
+    <div style={{ padding: '20px', background: '#F3F4F6', minHeight: '100vh' }}>
       {/* FORMULARIO */}
       <CCard
-        className="shadow-sm mb-4"
-        style={{ borderRadius: '15px', overflow: 'hidden' }}
+        className="shadow-lg mb-4 fade-in"
+        style={{ borderRadius: '20px', border: 'none' }}
       >
         <CCardHeader
           style={{
-            background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-            color: 'white',
-            padding: '18px',
+            background: 'white',
+            borderBottom: '3px solid #FF6600',
+            padding: '20px 30px',
             fontSize: '1.2rem',
             fontWeight: 'bold',
+            borderTopLeftRadius: '20px',
+            borderTopRightRadius: '20px'
           }}
         >
           <div className="d-flex align-items-center">
-            <CIcon icon={cilUser} size="lg" className="me-2" />
-            Registrar Nuevo Empleado
+            <CIcon icon={cilUser} size="lg" className="me-2" style={{ color: '#FF6600' }} />
+            <span style={{ color: '#1A1C20' }}>Registrar Nuevo Empleado</span>
           </div>
         </CCardHeader>
 
-        <CCardBody style={{ backgroundColor: '#f8f9fa' }}>
+        <CCardBody style={{ backgroundColor: 'white', padding: '30px' }}>
           <CForm onSubmit={handleSubmit}>
             <CRow className="g-3">
               {/* Usuario */}
@@ -232,14 +234,13 @@ const RegistroEmpleado = () => {
                   type="submit"
                   style={{
                     width: '100%',
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    background: 'linear-gradient(135deg, #FF6600 0%, #FF8533 100%)',
                     border: 'none',
                     padding: '14px',
-                    fontWeight: '600',
+                    fontWeight: '700',
                     borderRadius: '12px',
-                    transition: '0.3s',
+                    color: 'white'
                   }}
-                  className="text-white"
                 >
                   <CIcon icon={cilUserPlus} className="me-2" />
                   Registrar Empleado
@@ -252,24 +253,27 @@ const RegistroEmpleado = () => {
 
       {/* TABLA */}
       <CCard
-        className="shadow-sm"
-        style={{ borderRadius: '15px', overflow: 'hidden' }}
+        className="shadow-lg fade-in"
+        style={{ borderRadius: '20px', border: 'none' }}
       >
         <CCardHeader
           style={{
-            background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-            color: 'white',
+            background: 'white',
+            borderBottom: '3px solid #FF6600',
+            color: '#1A1C20',
             fontWeight: 'bold',
-            padding: '16px',
+            padding: '20px 30px',
             fontSize: '1.2rem',
+            borderTopLeftRadius: '20px',
+            borderTopRightRadius: '20px'
           }}
         >
           Lista de Empleados
         </CCardHeader>
 
-        <CCardBody style={{ background: '#ffffff' }}>
-          <CTable hover bordered responsive style={{ borderRadius: '10px' }}>
-            <CTableHead color="light">
+        <CCardBody style={{ background: 'white', padding: '30px' }}>
+          <CTable hover responsive>
+            <CTableHead style={{ background: '#F3F4F6' }}>
               <CTableRow>
                 <CTableHeaderCell>ID</CTableHeaderCell>
                 <CTableHeaderCell>Nombre</CTableHeaderCell>
@@ -297,7 +301,7 @@ const RegistroEmpleado = () => {
           </CTable>
         </CCardBody>
       </CCard>
-    </>
+    </div>
   )
 }
 

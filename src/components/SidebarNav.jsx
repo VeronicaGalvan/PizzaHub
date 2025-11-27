@@ -12,20 +12,86 @@ import { CBadge, CNavLink, CSidebarNav } from '@coreui/react'
 export const AppSidebarNav = ({ items }) => {
 
   const activeStyles = `
-    .nav-link.active {
-      color: #ffffff !important;
-      font-weight: bold !important;
-      background-color: rgba(255, 255, 255, 0.25) !important;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    .sidebar-dark-theme .nav-link {
+      color: rgba(255, 255, 255, 0.7) !important;
+      font-weight: 500 !important;
+      padding: 12px 16px !important;
+      margin: 4px 12px !important;
+      border-radius: 10px !important;
+      transition: all 0.2s ease !important;
+      position: relative;
     }
-    .nav-link.active .nav-icon {
+    
+    .sidebar-dark-theme .nav-link.active {
+      color: #ffffff !important;
+      font-weight: 600 !important;
+      background: linear-gradient(135deg, rgba(255, 102, 0, 0.15) 0%, rgba(255, 133, 51, 0.1) 100%) !important;
+      border-left: 3px solid #FF6600 !important;
+      padding-left: 13px !important;
+      box-shadow: 0 2px 8px rgba(255, 102, 0, 0.2);
+    }
+    
+    .sidebar-dark-theme .nav-link.active .nav-icon {
+      color: #FF6600 !important;
+    }
+    
+    .sidebar-dark-theme .nav-link:hover {
+      background-color: rgba(255, 255, 255, 0.08) !important;
+      color: #ffffff !important;
+      transform: translateX(4px);
+    }
+    
+    .sidebar-dark-theme .nav-icon {
+      color: rgba(255, 255, 255, 0.6) !important;
+      transition: color 0.2s ease;
+      margin-right: 8px !important;
+    }
+    
+    .sidebar-dark-theme .nav-link:hover .nav-icon {
+      color: #FF8533 !important;
+    }
+
+    /* Estilos para grupos desplegables */
+    .sidebar-dark-theme .nav-group-toggle {
+      color: rgba(255, 255, 255, 0.7) !important;
+      font-weight: 500 !important;
+      padding: 12px 16px !important;
+      margin: 4px 12px !important;
+      border-radius: 10px !important;
+      transition: all 0.2s ease !important;
+      cursor: pointer;
+    }
+
+    .sidebar-dark-theme .nav-group-toggle:hover {
+      background-color: rgba(255, 255, 255, 0.08) !important;
       color: #ffffff !important;
     }
-    .nav-link:hover {
-      background-color: rgba(255, 255, 255, 0.15) !important;
-      border-radius: 8px;
-      transition: all 0.2s ease;
+
+    .sidebar-dark-theme .nav-group-toggle .nav-icon {
+      color: rgba(255, 255, 255, 0.6) !important;
+    }
+
+    .sidebar-dark-theme .nav-group-toggle:hover .nav-icon {
+      color: #FF8533 !important;
+    }
+
+    /* Subitems dentro de grupos */
+    .sidebar-dark-theme .nav-group-items {
+      background-color: rgba(0, 0, 0, 0.15);
+      margin: 4px 12px 8px 12px;
+      border-radius: 10px;
+      padding: 4px 0;
+    }
+
+    .sidebar-dark-theme .nav-group-items .nav-link {
+      padding: 10px 16px 10px 40px !important;
+      margin: 2px 8px !important;
+      font-size: 13px !important;
+    }
+
+    .sidebar-dark-theme .nav-group-items .nav-icon {
+      font-size: 12px !important;
+      opacity: 0.8;
     }
   `
 
@@ -70,15 +136,13 @@ export const AppSidebarNav = ({ items }) => {
           key={index}
           {...rest}
           style={{
-            color: '#ffffff',
-            fontWeight: '800',
-            fontSize: '12px',
-            letterSpacing: '1.5px',
-            opacity: 0.9,
-            borderBottom: '2px solid rgba(255, 255, 255, 0.3)',
-            paddingBottom: '8px',
-            marginBottom: '10px',
-            marginTop: '15px',
+            color: 'rgba(255, 255, 255, 0.5)',
+            fontWeight: '700',
+            fontSize: '11px',
+            letterSpacing: '2px',
+            padding: '20px 28px 8px 28px',
+            marginBottom: '4px',
+            marginTop: '8px',
             textTransform: 'uppercase',
           }}
         >

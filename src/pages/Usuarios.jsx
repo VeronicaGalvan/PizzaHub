@@ -115,26 +115,26 @@ const Usuarios = () => {
 
 
   return (
-    <>
+    <div style={{ padding: '20px', background: '#F3F4F6', minHeight: '100vh' }}>
 
       {/* ------------------ FORMULARIO MODERNO ------------------ */}
-      <CCard className="shadow-lg mb-4" style={{ borderRadius: '15px' }}>
+      <CCard className="shadow-lg mb-4 fade-in" style={{ borderRadius: '20px', border: 'none' }}>
         <CCardHeader
           style={{
-            background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-            color: 'white',
-            padding: '18px 20px',
-            borderTopLeftRadius: '15px',
-            borderTopRightRadius: '15px'
+            background: 'white',
+            borderBottom: '3px solid #FF6600',
+            padding: '20px 30px',
+            borderTopLeftRadius: '20px',
+            borderTopRightRadius: '20px'
           }}
         >
           <div className="d-flex align-items-center">
-            <CIcon icon={cilUser} size="lg" className="me-2" />
-            <h5 className="mb-0 fw-bold">Registrar Nuevo Usuario</h5>
+            <CIcon icon={cilUser} size="lg" className="me-2" style={{ color: '#FF6600' }} />
+            <h5 className="mb-0 fw-bold" style={{ color: '#1A1C20' }}>Registrar Nuevo Usuario</h5>
           </div>
         </CCardHeader>
 
-        <CCardBody style={{ backgroundColor: '#f9fafc', padding: '25px' }}>
+        <CCardBody style={{ backgroundColor: 'white', padding: '30px' }}>,
           <CForm onSubmit={handleSubmit}>
             <CRow className="g-4">
 
@@ -195,14 +195,14 @@ const Usuarios = () => {
               <CCol xs={12}>
                 <CButton
                   type="submit"
-                  className="w-100 shadow-sm"
+                  className="w-100"
                   style={{
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    background: 'linear-gradient(135deg, #FF6600 0%, #FF8533 100%)',
                     border: 'none',
-                    padding: '12px',
-                    fontWeight: '600',
+                    padding: '14px',
+                    fontWeight: '700',
                     color: 'white',
-                    borderRadius: '10px'
+                    borderRadius: '12px'
                   }}
                 >
                   <CIcon icon={cilUserPlus} className="me-2" />
@@ -218,22 +218,22 @@ const Usuarios = () => {
 
 
       {/* ------------------ TABLA DE USUARIOS ------------------ */}
-      <CCard className="shadow-lg" style={{ borderRadius: '15px' }}>
+      <CCard className="shadow-lg fade-in" style={{ borderRadius: '20px', border: 'none' }}>
         <CCardHeader
           style={{
-            background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-            color: 'white',
-            borderTopLeftRadius: '15px',
-            borderTopRightRadius: '15px',
-            padding: '18px 20px'
+            background: 'white',
+            borderBottom: '3px solid #FF6600',
+            borderTopLeftRadius: '20px',
+            borderTopRightRadius: '20px',
+            padding: '20px 30px'
           }}
         >
-          <h5 className="mb-0 fw-bold">📋 Lista de Usuarios</h5>
+          <h5 className="mb-0 fw-bold" style={{ color: '#1A1C20' }}>📋 Lista de Usuarios</h5>
         </CCardHeader>
 
-        <CCardBody style={{ padding: '25px' }}>
-          <CTable hover responsive className="shadow-sm rounded">
-            <CTableHead style={{ backgroundColor: '#f1f3f5' }}>
+        <CCardBody style={{ padding: '30px', background: 'white' }}>
+          <CTable hover responsive>
+            <CTableHead style={{ backgroundColor: '#F3F4F6' }}>
               <CTableRow>
                 <CTableHeaderCell className="fw-bold">Nombre</CTableHeaderCell>
                 <CTableHeaderCell className="fw-bold">Correo</CTableHeaderCell>
@@ -272,7 +272,7 @@ const Usuarios = () => {
         </CCardBody>
       </CCard>
 
-    </>
+    </div>
   )
 }
 

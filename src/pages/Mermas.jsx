@@ -18,12 +18,17 @@ const Mermas = () => {
   )
 
   return (
-    <>
+    <div style={{ padding: '20px', background: '#F3F4F6', minHeight: '100vh' }}>
+      <div className="fade-in" style={{ background: 'white', padding: '30px', borderRadius: '20px', marginBottom: '30px', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)', borderBottom: '4px solid #FF6600' }}>
+        <h1 style={{ margin: '0 0 8px 0', fontSize: '32px', fontWeight: '800', color: '#1A1C20' }}>📉 Registro de Mermas</h1>
+        <p style={{ margin: 0, color: '#666', fontSize: '15px' }}>Control de pérdidas e insumos dañados</p>
+      </div>
+      
       {/* Barra de búsqueda */}
       <CRow className="mb-4">
         <CCol xs={12} md={6} lg={4}>
-          <CInputGroup>
-            <CInputGroupText>
+          <CInputGroup style={{ border: '2px solid #E5E7EB', borderRadius: '12px', overflow: 'hidden' }}>
+            <CInputGroupText style={{ background: '#FF6600', color: 'white', border: 'none' }}>
               <CIcon icon={cilSearch} />
             </CInputGroupText>
             <CFormInput
@@ -31,6 +36,7 @@ const Mermas = () => {
               placeholder="Buscar merma..."
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
+              style={{ border: 'none', padding: '12px' }}
             />
           </CInputGroup>
         </CCol>
@@ -64,13 +70,16 @@ const Mermas = () => {
       {mermasFiltradas.length === 0 && (
         <CRow>
           <CCol xs={12} className="text-center py-5">
-            <p className="text-muted">
-              No se encontraron mermas que coincidan con "{busqueda}"
-            </p>
+            <div style={{ background: 'white', padding: '60px', borderRadius: '20px', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)' }}>
+              <div style={{ fontSize: '64px', marginBottom: '20px' }}>🔍</div>
+              <h3 style={{ color: '#666', fontWeight: '600', margin: 0 }}>
+                No se encontraron mermas que coincidan con "{busqueda}"
+              </h3>
+            </div>
           </CCol>
         </CRow>
       )}
-    </>
+    </div>
   )
 }
 

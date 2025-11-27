@@ -135,21 +135,24 @@ const Provedores = () => {
   }
 
   return (
-    <>
-      <CCard>
+    <div style={{ padding: '20px', background: '#F3F4F6', minHeight: '100vh' }}>
+      <CCard className="fade-in" style={{ borderRadius: '20px', border: 'none', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)' }}>
         <CCardHeader
           style={{
-            background: '#2980B9',
-            color: 'white',
+            background: 'white',
+            borderBottom: '3px solid #FF6600',
+            color: '#1A1C20',
             fontWeight: 'bold',
             fontSize: '1.2rem',
-            letterSpacing: '1px',
+            padding: '20px 30px',
+            borderTopLeftRadius: '20px',
+            borderTopRightRadius: '20px'
           }}
         >
           Registro de Repartidores
         </CCardHeader>
 
-        <CCardBody style={{ background: '#fafafa' }}>
+        <CCardBody style={{ background: 'white', padding: '30px' }}>
           <CRow>
             {/* FORMULARIO */}
             <CCol md={4}>
@@ -216,7 +219,7 @@ const Provedores = () => {
                   ))}
                 </datalist>
 
-                <CButton type="submit" color="dark" style={{ width: '100%' }}>
+                <CButton type="submit" style={{ width: '100%', background: 'linear-gradient(135deg, #FF6600 0%, #FF8533 100%)', border: 'none', padding: '12px', fontWeight: '700', borderRadius: '12px', color: 'white' }}>
                   <CIcon icon={cilSave} className="me-2" />
                   Guardar
                 </CButton>
@@ -270,6 +273,7 @@ const Provedores = () => {
           </CRow>
         </CCardBody>
       </CCard>
+    </div>
 
       {/* MODAL EDITAR */}
       <CModal visible={editModal} onClose={() => setEditModal(false)}>
@@ -313,7 +317,7 @@ const Provedores = () => {
                 }
               />
 
-              <CButton color="dark" onClick={handleGuardarEdicion}>
+              <CButton onClick={handleGuardarEdicion} style={{ background: 'linear-gradient(135deg, #FF6600 0%, #FF8533 100%)', border: 'none', padding: '12px 20px', fontWeight: '700', borderRadius: '10px', color: 'white' }}>
                 <CIcon icon={cilSave} className="me-2" />
                 Guardar Cambios
               </CButton>

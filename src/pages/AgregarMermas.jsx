@@ -47,21 +47,25 @@ const AgregarMermas = () => {
   }
 
   return (
-    <CCard style={{ border: '1px solid #e0e0e0' }}>
-      <CCardHeader
-        className="text-white"
-        style={{
-          background: '#D35400',
-          fontWeight: 'bold',
-          fontSize: '1.2rem',
-          letterSpacing: '1px',
-        }}
-      >
-        <CIcon icon={cilLibraryAdd} className="me-2" />
-        Registrar Nueva Merma
-      </CCardHeader>
+    <div style={{ padding: '20px', background: '#F3F4F6', minHeight: '100vh' }}>
+      <CCard className="fade-in" style={{ border: 'none', borderRadius: '20px', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)' }}>
+        <CCardHeader
+          style={{
+            background: 'white',
+            borderBottom: '3px solid #FF6600',
+            fontWeight: 'bold',
+            fontSize: '1.2rem',
+            padding: '20px 30px',
+            color: '#1A1C20',
+            borderTopLeftRadius: '20px',
+            borderTopRightRadius: '20px'
+          }}
+        >
+          <CIcon icon={cilLibraryAdd} className="me-2" style={{ color: '#FF6600' }} />
+          Registrar Nueva Merma
+        </CCardHeader>
 
-      <CCardBody style={{ background: '#fafafa' }}>
+        <CCardBody style={{ background: 'white', padding: '30px' }}>
         <CForm onSubmit={handleSubmit}>
           <CRow className="mb-4">
 
@@ -165,13 +169,13 @@ const AgregarMermas = () => {
           <div className="text-end">
             <CButton
               type="submit"
-              color="dark"
               style={{
-                background: '#000',
+                background: 'linear-gradient(135deg, #FF6600 0%, #FF8533 100%)',
                 border: 'none',
-                padding: '10px 20px',
-                fontWeight: '600',
-                letterSpacing: '0.5px',
+                padding: '14px 24px',
+                fontWeight: '700',
+                borderRadius: '12px',
+                color: 'white'
               }}
             >
               <CIcon icon={cilSave} className="me-2" />
@@ -181,6 +185,7 @@ const AgregarMermas = () => {
         </CForm>
       </CCardBody>
     </CCard>
+    </div>
   )
 }
 

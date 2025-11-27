@@ -125,25 +125,27 @@ const AgregarInsumos = () => {
   }
 
   // Color principal para títulos y líneas divisorias
-  const primaryColor = '#1e3c72'; // Un azul oscuro/negro para un look profesional
+  const primaryColor = '#FF6600'; // Naranja PizzaHub
 
   return (
     <div
       style={{
         minHeight: '100vh',
-        background: '#f8f9fa', // Fondo muy claro y limpio
+        background: '#F3F4F6',
         padding: '30px 20px',
       }}
     >
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         {/* Header con Sombra Suave */}
         <div
+          className="fade-in"
           style={{
             background: 'white',
-            borderRadius: '16px',
+            borderRadius: '20px',
             padding: '30px',
             marginBottom: '30px',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+            borderBottom: '4px solid #FF6600',
           }}
         >
           <h1
@@ -592,22 +594,21 @@ const AgregarInsumos = () => {
                       style={{
                         padding: '14px 30px',
                         fontWeight: '700',
-                        borderRadius: '10px',
+                        borderRadius: '12px',
                         fontSize: '15px',
-                        // Degradado de color más vibrante y moderno
-                        background: 'linear-gradient(90deg, #1e3c72 0%, #2a5298 100%)',
+                        background: 'linear-gradient(135deg, #FF6600 0%, #FF8533 100%)',
                         border: 'none',
                         color: 'white',
-                        boxShadow: '0 4px 15px rgba(30, 60, 114, 0.4)',
+                        boxShadow: '0 4px 15px rgba(255, 102, 0, 0.4)',
                         transition: 'all 0.3s ease',
                       }}
                       onMouseEnter={(e) => {
                         e.target.style.transform = 'translateY(-2px)'
-                        e.target.style.boxShadow = '0 6px 20px rgba(30, 60, 114, 0.5)'
+                        e.target.style.boxShadow = '0 6px 20px rgba(255, 102, 0, 0.5)'
                       }}
                       onMouseLeave={(e) => {
                         e.target.style.transform = 'translateY(0)'
-                        e.target.style.boxShadow = '0 4px 15px rgba(30, 60, 114, 0.4)'
+                        e.target.style.boxShadow = '0 4px 15px rgba(255, 102, 0, 0.4)'
                       }}
                     >
                       ✅ Registrar Insumo

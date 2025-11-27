@@ -108,37 +108,37 @@ const CompraInsumos = () => {
   const inputStyle = {
     padding: "12px",
     borderRadius: "10px",
-    border: "2px solid #d7dce5",
+    border: "2px solid #E5E7EB",
     transition: "0.25s",
   }
 
-  const inputFocus = (e) => (e.target.style.borderColor = "#2673ff")
-  const inputBlur = (e) => (e.target.style.borderColor = "#d7dce5")
+  const inputFocus = (e) => (e.target.style.borderColor = "#FF6600")
+  const inputBlur = (e) => (e.target.style.borderColor = "#E5E7EB")
 
   return (
     <div
       style={{
-        padding: "25px",
-        background: "#f4f6f9",
-        borderRadius: "20px"
+        padding: "20px",
+        background: "#F3F4F6",
+        minHeight: "100vh"
       }}
     >
       <CCard
-        className="shadow-lg"
+        className="shadow-lg fade-in"
         style={{
           borderRadius: "20px",
           overflow: "hidden",
-          border: "1px solid #e2e6ee"
+          border: "none"
         }}
       >
         <CCardHeader
           style={{
-            background: "linear-gradient(135deg, #0055ff, #00308f)",
-            color: "white",
-            padding: "25px"
+            background: "white",
+            borderBottom: "3px solid #FF6600",
+            padding: "20px 30px"
           }}
         >
-          <h3 className="mb-0" style={{ fontWeight: "700" }}>
+          <h3 className="mb-0" style={{ fontWeight: "700", color: "#1A1C20" }}>
             🛒 Registrar Compra de Insumos
           </h3>
         </CCardHeader>
@@ -269,7 +269,17 @@ const CompraInsumos = () => {
 
               {/* Agregar detalle */}
               <CCol xs={12}>
-                <CButton color="info" onClick={agregarDetalle}>
+                <CButton 
+                  onClick={agregarDetalle}
+                  style={{
+                    background: "white",
+                    border: "2px solid #FF6600",
+                    color: "#FF6600",
+                    fontWeight: "600",
+                    padding: "10px 20px",
+                    borderRadius: "10px"
+                  }}
+                >
                   ➕ Agregar Insumo
                 </CButton>
               </CCol>
@@ -278,8 +288,14 @@ const CompraInsumos = () => {
               <CCol xs={12} className="text-end mt-4">
                 <CButton
                   type="submit"
-                  color="primary"
-                  style={{ padding: "12px 22px", fontWeight: "700" }}
+                  style={{ 
+                    padding: "14px 28px", 
+                    fontWeight: "700",
+                    background: "linear-gradient(135deg, #FF6600 0%, #FF8533 100%)",
+                    border: "none",
+                    borderRadius: "12px",
+                    color: "white"
+                  }}
                 >
                   Registrar Compra
                 </CButton>

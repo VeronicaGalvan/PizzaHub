@@ -177,9 +177,9 @@ const Movimientos = () => {
   ]
 
   return (
-    <>
+    <div style={{ padding: '20px', background: '#F3F4F6', minHeight: '100vh' }}>
       <WidgetsDropdown className="mb-4" />
-      <CCard className="mb-4">
+      <CCard className="mb-4 fade-in" style={{ borderRadius: '20px', border: 'none', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)' }}>
         <CCardBody>
           <CRow>
             <CCol sm={5}>
@@ -189,7 +189,7 @@ const Movimientos = () => {
               <div className="small text-body-secondary">January - July 2023</div>
             </CCol>
             <CCol sm={7} className="d-none d-md-block">
-              <CButton color="primary" className="float-end">
+              <CButton className="float-end" style={{ background: 'linear-gradient(135deg, #FF6600 0%, #FF8533 100%)', border: 'none', color: 'white' }}>
                 <CIcon icon={cilCloudDownload} />
               </CButton>
               <CButtonGroup className="float-end me-3">
@@ -236,7 +236,7 @@ const Movimientos = () => {
       <WidgetsBrand className="mb-4" withCharts />
       <CRow>
         <CCol xs>
-          <CCard className="mb-4">
+          <CCard className="mb-4 fade-in" style={{ borderRadius: '20px', border: 'none', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)' }}>
             <CCardHeader>Traffic {' & '} Sales</CCardHeader>
             <CCardBody>
               <CRow>
@@ -380,7 +380,7 @@ const Movimientos = () => {
           </CCard>
         </CCol>
       </CRow>
-    </>
+    </div>
   )
 }
 

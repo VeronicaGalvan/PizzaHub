@@ -155,33 +155,43 @@ const UsuariosMovil = () => {
 
   return (
     <>
-      <CCard className="shadow-sm mb-3">
+      <div style={{ padding: '20px', background: '#F3F4F6', minHeight: '100vh' }}>
+      <CCard className="fade-in" style={{ borderRadius: '20px', border: 'none', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)' }}>
         <CCardHeader
           style={{
-            background: 'linear-gradient(135deg, #fd7e14 0%, #f39c12 100%)',
-            color: 'white',
-            fontWeight: '600',
+            background: 'white',
+            borderBottom: '3px solid #FF6600',
+            color: '#1A1C20',
+            fontWeight: '700',
             fontSize: '1.2rem',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
+            padding: '20px 30px',
+            borderTopLeftRadius: '20px',
+            borderTopRightRadius: '20px'
           }}
         >
           Clientes
 
           <CButton
-            color="light"
-            className="shadow-sm"
             onClick={() => openModal()}
             size="sm"
-            style={{ fontWeight: '600' }}
+            style={{ 
+              fontWeight: '700', 
+              background: 'linear-gradient(135deg, #FF6600 0%, #FF8533 100%)', 
+              border: 'none', 
+              padding: '10px 20px', 
+              borderRadius: '10px',
+              color: 'white'
+            }}
           >
             <CIcon icon={cilPlus} className="me-2" />
             Agregar
           </CButton>
         </CCardHeader>
 
-        <CCardBody style={{ background: '#f7f9fc' }}>
+        <CCardBody style={{ background: 'white', padding: '30px' }}>
           <CRow className="mb-4">
             <CCol md={6} lg={4}>
               <CInputGroup className="shadow-sm">
@@ -227,9 +237,15 @@ const UsuariosMovil = () => {
                   </div>
 
                   <CButton
-                    color="primary"
                     size="sm"
-                    style={{ fontWeight: '600' }}
+                    style={{ 
+                      fontWeight: '700',
+                      background: 'linear-gradient(135deg, #FF6600 0%, #FF8533 100%)',
+                      border: 'none',
+                      padding: '8px 16px',
+                      borderRadius: '8px',
+                      color: 'white'
+                    }}
                     onClick={(e) => {
                       e.stopPropagation()
                       localStorage.setItem("pedidoClienteId", c.id)
@@ -248,6 +264,7 @@ const UsuariosMovil = () => {
           </CListGroup>
         </CCardBody>
       </CCard>
+      </div>
 
       {/* MODAL */}
       <CModal visible={modalVisible} onClose={() => setModalVisible(false)}>
@@ -304,7 +321,7 @@ const UsuariosMovil = () => {
               Eliminar
             </CButton>
           )}
-          <CButton color="primary" onClick={handleSubmit}>
+          <CButton onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #FF6600 0%, #FF8533 100%)', border: 'none', padding: '10px 20px', fontWeight: '700', borderRadius: '10px', color: 'white' }}>
             {formData.id ? 'Actualizar' : 'Registrar'}
           </CButton>
           <CButton color="secondary" onClick={() => setModalVisible(false)}>

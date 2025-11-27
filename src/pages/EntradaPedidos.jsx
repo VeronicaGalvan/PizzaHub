@@ -116,19 +116,21 @@ const EntradaPedidos = () => {
     <div
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+        background: "#F3F4F6",
         padding: "30px 20px"
       }}
     >
       <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
         {/* HEADER */}
         <div
+          className="fade-in"
           style={{
             background: "white",
-            borderRadius: "16px",
-            padding: "25px 30px",
+            borderRadius: "20px",
+            padding: "30px 35px",
             marginBottom: "30px",
-            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)"
+            boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+            border: "1px solid rgba(0, 0, 0, 0.05)"
           }}
         >
           <h1
@@ -136,34 +138,39 @@ const EntradaPedidos = () => {
               margin: 0,
               fontSize: "32px",
               fontWeight: "800",
-              background: "linear-gradient(135deg, #ff8c00 0%, #ff4500 100%)",
+              background: "linear-gradient(135deg, #FF6600 0%, #FF8533 100%)",
               WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent"
+              WebkitTextFillColor: "transparent",
+              display: "flex",
+              alignItems: "center",
+              gap: "12px"
             }}
           >
-            🛒 Registrar Nuevo Pedido
+            <span style={{ fontSize: "36px" }}>🛒</span>
+            Registrar Nuevo Pedido
           </h1>
 
           <div
             style={{
-              marginTop: "12px",
+              marginTop: "16px",
               display: "flex",
               alignItems: "center",
-              gap: "10px"
+              gap: "12px"
             }}
           >
-            <span style={{ color: "#666", fontSize: "14px" }}>
+            <span style={{ color: "#6B7280", fontSize: "14px", fontWeight: "500" }}>
               Cliente ID:
             </span>
 
             <span
               style={{
-                background: "linear-gradient(135deg, #ff8c00 0%, #ff4500 100%)",
+                background: "linear-gradient(135deg, #FF6600 0%, #FF8533 100%)",
                 color: "white",
-                padding: "4px 16px",
-                borderRadius: "20px",
+                padding: "6px 18px",
+                borderRadius: "24px",
                 fontWeight: "700",
-                fontSize: "14px"
+                fontSize: "14px",
+                boxShadow: "0 4px 6px -1px rgba(255, 102, 0, 0.3)"
               }}
             >
               #{clienteId || "No seleccionado"}
@@ -181,26 +188,30 @@ const EntradaPedidos = () => {
           {/* IZQUIERDA: PRODUCTOS */}
           <div>
             <div
+              className="slide-in"
               style={{
                 background: "white",
-                borderRadius: "16px",
-                padding: "24px",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
-                marginBottom: "20px"
+                borderRadius: "20px",
+                padding: "28px",
+                boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                marginBottom: "20px",
+                border: "1px solid rgba(0, 0, 0, 0.05)"
               }}
             >
               <h3
                 style={{
                   margin: 0,
-                  marginBottom: "20px",
-                  fontSize: "20px",
+                  marginBottom: "24px",
+                  fontSize: "22px",
                   fontWeight: "700",
+                  color: "#1F2937",
                   display: "flex",
                   alignItems: "center",
-                  gap: "10px"
+                  gap: "12px"
                 }}
               >
-                🍕 Menú de Productos
+                <span style={{ fontSize: "28px" }}>🍕</span>
+                Menú de Productos
               </h3>
 
               <div
@@ -214,23 +225,55 @@ const EntradaPedidos = () => {
                   paddingRight: "10px"
                 }}
               >
-                {productos.map((p) => (
+                {productos.map((p, index) => (
                   <div
                     key={p.id}
+                    className="product-card"
                     style={{
-                      background: "#f8f9fa",
-                      borderRadius: "12px",
-                      padding: "16px",
-                      border: "2px solid #e0e0e0",
+                      background: "white",
+                      borderRadius: "16px",
+                      padding: "20px",
+                      border: "none",
                       cursor: "pointer",
-                      transition: "all 0.2s ease"
+                      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+                      animation: `fadeIn 0.3s ease-out ${index * 0.05}s backwards`,
+                      position: "relative",
+                      overflow: "hidden"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "translateY(-8px)";
+                      e.currentTarget.style.boxShadow = "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "translateY(0)";
+                      e.currentTarget.style.boxShadow = "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)";
                     }}
                   >
+                    {/* Placeholder de imagen con icono */}
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "120px",
+                        background: "linear-gradient(135deg, #FFF5EB 0%, #FFE8D6 100%)",
+                        borderRadius: "12px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginBottom: "16px",
+                        fontSize: "48px"
+                      }}
+                    >
+                      🍕
+                    </div>
+
                     <div
                       style={{
                         fontWeight: "700",
-                        fontSize: "16px",
-                        marginBottom: "8px"
+                        fontSize: "17px",
+                        marginBottom: "8px",
+                        color: "#1F2937",
+                        lineHeight: "1.3"
                       }}
                     >
                       {p.nombre}
@@ -238,31 +281,42 @@ const EntradaPedidos = () => {
 
                     <div
                       style={{
-                        fontSize: "20px",
+                        fontSize: "24px",
                         fontWeight: "800",
-                        color: "#ff8c00",
-                        marginBottom: "12px"
+                        background: "linear-gradient(135deg, #FF6600 0%, #FF8533 100%)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        marginBottom: "16px"
                       }}
                     >
-                      ${p.precio}
+                      ${p.precio.toFixed(2)}
                     </div>
 
                     <button
                       onClick={() => agregarProducto(p.id)}
                       style={{
                         width: "100%",
-                        padding: "10px",
-                        background:
-                          "linear-gradient(135deg, #ff8c00 0%, #ff4500 100%)",
+                        padding: "12px",
+                        background: "linear-gradient(135deg, #FF6600 0%, #FF8533 100%)",
                         border: "none",
-                        borderRadius: "8px",
+                        borderRadius: "10px",
                         color: "white",
                         fontWeight: "600",
                         fontSize: "14px",
-                        cursor: "pointer"
+                        cursor: "pointer",
+                        transition: "all 0.2s ease",
+                        boxShadow: "0 4px 6px -1px rgba(255, 102, 0, 0.2)"
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = "scale(0.98)";
+                        e.currentTarget.style.boxShadow = "0 2px 4px -1px rgba(255, 102, 0, 0.3)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = "scale(1)";
+                        e.currentTarget.style.boxShadow = "0 4px 6px -1px rgba(255, 102, 0, 0.2)";
                       }}
                     >
-                      + Agregar
+                      ➕ Agregar
                     </button>
                   </div>
                 ))}
@@ -274,31 +328,40 @@ const EntradaPedidos = () => {
           <div>
             {/* FORMULARIO */}
             <div
+              className="slide-in"
               style={{
                 background: "white",
-                borderRadius: "16px",
-                padding: "24px",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
-                marginBottom: "20px"
+                borderRadius: "20px",
+                padding: "28px",
+                boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                marginBottom: "20px",
+                border: "1px solid rgba(0, 0, 0, 0.05)",
+                animationDelay: "0.1s"
               }}
             >
               <h3
                 style={{
                   margin: 0,
-                  marginBottom: "20px",
-                  fontSize: "18px",
-                  fontWeight: "700"
+                  marginBottom: "24px",
+                  fontSize: "20px",
+                  fontWeight: "700",
+                  color: "#1F2937",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px"
                 }}
               >
-                📋 Información del Pedido
+                <span style={{ fontSize: "24px" }}>📋</span>
+                Información del Pedido
               </h3>
 
               {/* DIRECCIÓN */}
-              <div style={{ marginBottom: "16px" }}>
+              <div style={{ marginBottom: "18px" }}>
                 <label
                   style={{
-                    fontSize: "12px",
-                    fontWeight: "700",
+                    fontSize: "13px",
+                    fontWeight: "600",
+                    color: "#374151",
                     marginBottom: "8px",
                     display: "block"
                   }}
@@ -315,9 +378,20 @@ const EntradaPedidos = () => {
                   placeholder="Ingresa la dirección..."
                   style={{
                     width: "100%",
-                    padding: "12px",
-                    borderRadius: "8px",
-                    border: "2px solid #e0e0e0"
+                    padding: "12px 16px",
+                    borderRadius: "10px",
+                    border: "2px solid #E5E7EB",
+                    fontSize: "14px",
+                    transition: "all 0.2s ease",
+                    outline: "none"
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = "#FF6600";
+                    e.target.style.boxShadow = "0 0 0 3px rgba(255, 102, 0, 0.1)";
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = "#E5E7EB";
+                    e.target.style.boxShadow = "none";
                   }}
                 />
               </div>
@@ -415,22 +489,30 @@ const EntradaPedidos = () => {
 
             {/* RESUMEN */}
             <div
+              className="slide-in"
               style={{
                 background: "white",
-                borderRadius: "16px",
-                padding: "24px",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.08)"
+                borderRadius: "20px",
+                padding: "28px",
+                boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                border: "1px solid rgba(0, 0, 0, 0.05)",
+                animationDelay: "0.2s"
               }}
             >
               <h3
                 style={{
                   margin: 0,
-                  marginBottom: "20px",
-                  fontSize: "18px",
-                  fontWeight: "700"
+                  marginBottom: "24px",
+                  fontSize: "20px",
+                  fontWeight: "700",
+                  color: "#1F2937",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px"
                 }}
               >
-                🧾 Resumen del pedido
+                <span style={{ fontSize: "24px" }}>🧾</span>
+                Resumen del pedido
               </h3>
 
               {detalles.length === 0 ? (
@@ -461,10 +543,20 @@ const EntradaPedidos = () => {
                             display: "flex",
                             justifyContent: "space-between",
                             alignItems: "center",
-                            padding: "12px",
-                            background: "#f8f9fa",
-                            borderRadius: "8px",
-                            marginBottom: "8px"
+                            padding: "14px",
+                            background: "#F9FAFB",
+                            borderRadius: "12px",
+                            marginBottom: "10px",
+                            border: "1px solid #E5E7EB",
+                            transition: "all 0.2s ease"
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background = "#F3F4F6";
+                            e.currentTarget.style.borderColor = "#D1D5DB";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = "#F9FAFB";
+                            e.currentTarget.style.borderColor = "#E5E7EB";
                           }}
                         >
                           <div style={{ flex: 1 }}>
@@ -498,13 +590,24 @@ const EntradaPedidos = () => {
                                 quitarProducto(d.productoId)
                               }
                               style={{
-                                width: "28px",
-                                height: "28px",
-                                border: "2px solid #ff4500",
-                                background: "white",
-                                color: "#ff4500",
+                                width: "32px",
+                                height: "32px",
+                                border: "none",
+                                background: "#FEE2E2",
+                                color: "#DC2626",
                                 fontWeight: "700",
-                                borderRadius: "6px"
+                                borderRadius: "8px",
+                                cursor: "pointer",
+                                transition: "all 0.2s ease",
+                                fontSize: "18px"
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.background = "#DC2626";
+                                e.currentTarget.style.color = "white";
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.background = "#FEE2E2";
+                                e.currentTarget.style.color = "#DC2626";
                               }}
                             >
                               −
@@ -513,9 +616,10 @@ const EntradaPedidos = () => {
                             <span
                               style={{
                                 fontWeight: "700",
-                                fontSize: "16px",
-                                width: "30px",
-                                textAlign: "center"
+                                fontSize: "17px",
+                                width: "35px",
+                                textAlign: "center",
+                                color: "#1F2937"
                               }}
                             >
                               {d.cantidad}
@@ -526,13 +630,24 @@ const EntradaPedidos = () => {
                                 agregarProducto(d.productoId)
                               }
                               style={{
-                                width: "28px",
-                                height: "28px",
-                                border: "2px solid #4caf50",
-                                background: "white",
-                                color: "#4caf50",
+                                width: "32px",
+                                height: "32px",
+                                border: "none",
+                                background: "#DCFCE7",
+                                color: "#16A34A",
                                 fontWeight: "700",
-                                borderRadius: "6px"
+                                borderRadius: "8px",
+                                cursor: "pointer",
+                                transition: "all 0.2s ease",
+                                fontSize: "18px"
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.background = "#16A34A";
+                                e.currentTarget.style.color = "white";
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.background = "#DCFCE7";
+                                e.currentTarget.style.color = "#16A34A";
                               }}
                             >
                               +
@@ -546,19 +661,22 @@ const EntradaPedidos = () => {
                   {/* TOTAL */}
                   <div
                     style={{
-                      background:
-                        "linear-gradient(135deg, #ff8c00 0%, #ff4500 100%)",
-                      borderRadius: "12px",
-                      padding: "20px",
+                      background: "linear-gradient(135deg, #FF6600 0%, #FF8533 100%)",
+                      borderRadius: "16px",
+                      padding: "24px",
                       textAlign: "center",
-                      marginBottom: "20px"
+                      marginBottom: "20px",
+                      boxShadow: "0 10px 15px -3px rgba(255, 102, 0, 0.3)"
                     }}
                   >
                     <div
                       style={{
                         color: "white",
-                        opacity: 0.9,
-                        fontSize: "14px"
+                        opacity: 0.95,
+                        fontSize: "14px",
+                        fontWeight: "600",
+                        letterSpacing: "1px",
+                        textTransform: "uppercase"
                       }}
                     >
                       Total a Pagar
@@ -566,8 +684,10 @@ const EntradaPedidos = () => {
                     <div
                       style={{
                         color: "white",
-                        fontSize: "36px",
-                        fontWeight: "800"
+                        fontSize: "40px",
+                        fontWeight: "800",
+                        marginTop: "8px",
+                        textShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
                       }}
                     >
                       ${calcularTotal().toFixed(2)}
@@ -579,23 +699,25 @@ const EntradaPedidos = () => {
                     onClick={registrarPedido}
                     style={{
                       width: "100%",
-                      padding: "16px",
+                      padding: "18px",
                       border: "none",
-                      borderRadius: "12px",
+                      borderRadius: "14px",
                       fontWeight: "700",
                       fontSize: "16px",
                       cursor: "pointer",
                       color: "white",
-                      background:
-                        "linear-gradient(135deg, #4caf50 0%, #2e7d32 100%)",
-                      transition: "transform 0.2s ease"
+                      background: "linear-gradient(135deg, #10B981 0%, #059669 100%)",
+                      transition: "all 0.2s ease",
+                      boxShadow: "0 4px 6px -1px rgba(16, 185, 129, 0.3)"
                     }}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.transform = "scale(1.03)")
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.transform = "scale(1)")
-                    }
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "translateY(-2px)";
+                      e.currentTarget.style.boxShadow = "0 10px 15px -3px rgba(16, 185, 129, 0.4)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "translateY(0)";
+                      e.currentTarget.style.boxShadow = "0 4px 6px -1px rgba(16, 185, 129, 0.3)";
+                    }}
                   >
                     ✔ Registrar Pedido
                   </button>
