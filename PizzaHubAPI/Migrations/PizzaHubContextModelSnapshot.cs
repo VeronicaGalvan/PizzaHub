@@ -342,8 +342,10 @@ namespace PizzaHubAPI.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("ultima_actualizacion");
 
-                    b.Property<int>("UnidadMedida")
-                        .HasColumnType("integer")
+                    b.Property<string>("UnidadMedida")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
                         .HasColumnName("unidad_medida");
 
                     b.HasKey("Id");

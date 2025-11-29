@@ -117,7 +117,8 @@ public class CrearInsumoDto
     public string Nombre { get; set; } = null!;
     
     [Required]
-    public UnidadMedidaEnum UnidadMedida { get; set; }
+    [MaxLength(10)]
+    public string UnidadMedida { get; set; } = "Uds";
     
     [Range(0, double.MaxValue)]
     public decimal StockInicial { get; set; } = 0;

@@ -19,7 +19,7 @@ namespace PizzaHubAPI.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     nombre = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    unidad_medida = table.Column<int>(type: "integer", nullable: false),
+                    unidad_medida = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     stock_actual = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     stock_minimo = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     ultima_actualizacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)

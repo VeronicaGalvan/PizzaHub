@@ -16,8 +16,10 @@ public class Insumo
     [Column("nombre")]
     public string Nombre { get; set; } = null!;
     
+    [Required]
     [Column("unidad_medida")]
-    public UnidadMedidaEnum UnidadMedida { get; set; } = UnidadMedidaEnum.Uds;
+    [MaxLength(10)]
+    public string UnidadMedida { get; set; } = "Uds";
     
     [Column("stock_actual", TypeName = "decimal(10,2)")]
     public decimal StockActual { get; set; } = 0;
@@ -31,13 +33,4 @@ public class Insumo
     // Relaciones
     [JsonIgnore]
     public virtual ICollection<InventarioLog> InventarioLogs { get; set; } = new List<InventarioLog>();
-}
-
-public enum UnidadMedidaEnum
-{
-    Kg,
-    g,
-    L,
-    ml,
-    Uds
 }
