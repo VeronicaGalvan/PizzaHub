@@ -29,11 +29,15 @@ const AgregarInsumos = () => {
 
   const convertirUnidad = (unidadTexto) => {
     switch (unidadTexto) {
-      case "kg": return 0;
-      case "litros": return 1;
-      case "g": return 2;
-      case "unidades": return 3;
-      default: return 3;
+      case "kg": return "Kg";
+      case "g": return "g";
+      case "litros": return "L";
+      case "ml": return "ml";
+      case "unidades": return "Uds";
+      case "piezas": return "Uds";
+      case "cajas": return "Uds";
+      case "paquetes": return "Uds";
+      default: return "Uds";
     }
   };
 
