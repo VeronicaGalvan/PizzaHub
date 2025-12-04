@@ -245,6 +245,34 @@ app.MapGet("/migrate", async (PizzaHubContext db, IConfiguration config) =>
     }
 }).AllowAnonymous();
 
+// Endpoint temporal para corregir el tipo de dato de unidad_medida
+app.MapGet("/fix-unidad-medida", async (PizzaHubContext db) =>
+{
+    try
+    {
+        // Verificar si hay insumos en la tabla
+        var countInsumos = await db.Insumos.CountAsync();
+        
+        if (countInsumos > 0)
+        {
+            return Results.Problem($"❌ La tabla insumos tiene {countInsumos} registros. Por seguridad, este endpoint no puede ejecutarse con datos existentes. Elimina los registros primero o ejecuta el script SQL manualmente.");
+        }
+        
+        // Ejecutar el ALTER TABLE solo si la tabla está vacía
+        var sql = "ALTER TABLE insumos ALTER COLUMN unidad_medida TYPE VARCHAR(10);";
+        await db.Database.ExecuteSqlRawAsync(sql);
+        
+        return Results.Ok(new { 
+            message = "✅ Tipo de dato de unidad_medida corregido exitosamente",
+            timestamp = DateTime.UtcNow 
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"❌ Error al corregir unidad_medida: {ex.Message}\n\nStack: {ex.StackTrace}");
+    }
+}).AllowAnonymous();
+
 app.MapControllers();
 
 // Configurar puerto dinámico para Render.com

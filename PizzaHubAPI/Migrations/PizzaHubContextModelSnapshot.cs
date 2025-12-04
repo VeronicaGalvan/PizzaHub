@@ -338,7 +338,6 @@ namespace PizzaHubAPI.Migrations
                         .HasColumnName("stock_minimo");
 
                     b.Property<DateTime>("UltimaActualizacion")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("ultima_actualizacion");
 
