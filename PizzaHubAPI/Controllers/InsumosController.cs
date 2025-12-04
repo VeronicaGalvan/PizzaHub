@@ -48,33 +48,45 @@ public class InsumosController : ControllerBase
     [Authorize(Roles = "Administrador,Empleado")]
     public async Task<ActionResult<Insumo>> CreateInsumo(CrearInsumoDto dto)
     {
-        var insumo = new Insumo
+        try
         {
-            Nombre = dto.Nombre,
-            UnidadMedida = dto.UnidadMedida,
-            StockActual = dto.StockInicial,
-            StockMinimo = dto.StockMinimo
-        };
-
-        _context.Insumos.Add(insumo);
-        await _context.SaveChangesAsync();
-
-        // Si hay stock inicial, crear registro en el log de inventario
-        if (dto.StockInicial > 0)
-        {
-            var log = new InventarioLog
+            var insumo = new Insumo
             {
-                InsumoId = insumo.Id,
-                Cantidad = dto.StockInicial,
-                TipoMovimiento = TipoMovimientoEnum.Entrada,
-                Motivo = "Stock inicial al registrar insumo",
-                Fecha = DateTime.UtcNow
+                Nombre = dto.Nombre,
+                UnidadMedida = dto.UnidadMedida,
+                StockActual = dto.StockInicial,
+                StockMinimo = dto.StockMinimo,
+                UltimaActualizacion = DateTime.UtcNow
             };
-            _context.InventarioLogs.Add(log);
-            await _context.SaveChangesAsync();
-        }
 
-        return CreatedAtAction(nameof(GetInsumo), new { id = insumo.Id }, insumo);
+            _context.Insumos.Add(insumo);
+            await _context.SaveChangesAsync();
+
+            // Si hay stock inicial, crear registro en el log de inventario
+            if (dto.StockInicial > 0)
+            {
+                var log = new InventarioLog
+                {
+                    InsumoId = insumo.Id,
+                    Cantidad = dto.StockInicial,
+                    TipoMovimiento = TipoMovimientoEnum.Entrada,
+                    Motivo = "Stock inicial al registrar insumo",
+                    Fecha = DateTime.UtcNow
+                };
+                _context.InventarioLogs.Add(log);
+                await _context.SaveChangesAsync();
+            }
+
+            return CreatedAtAction(nameof(GetInsumo), new { id = insumo.Id }, insumo);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { 
+                message = "Error al crear el insumo", 
+                error = ex.Message,
+                innerError = ex.InnerException?.Message 
+            });
+        }
     }
 
     // PUT: api/Insumos/5

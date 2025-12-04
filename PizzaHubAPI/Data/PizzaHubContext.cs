@@ -69,9 +69,8 @@ public class PizzaHubContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
         // Configuración de Insumo
-        modelBuilder.Entity<Insumo>()
-            .Property(i => i.UltimaActualizacion)
-            .ValueGeneratedOnAddOrUpdate();
+        // PostgreSQL no soporta ValueGeneratedOnAddOrUpdate para timestamps
+        // Se maneja manualmente en el modelo con valor por defecto
 
         // Configuración de Pedido
         modelBuilder.Entity<Pedido>()
