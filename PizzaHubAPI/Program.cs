@@ -134,6 +134,15 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 // CORS
 builder.Services.AddCors(options =>
 {
+    // Política específica para Netlify
+    options.AddPolicy("AllowNetlify", policy =>
+    {
+        policy.WithOrigins("https://pizzahub.netlify.app")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+    
     options.AddDefaultPolicy(policy =>
     {
         var origins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() 
@@ -195,7 +204,7 @@ if (app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
-app.UseCors();
+app.UseCors("AllowNetlify");
 
 app.UseAuthentication();
 app.UseAuthorization();
