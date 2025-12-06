@@ -71,16 +71,7 @@ public class CajaController : ControllerBase
     [Authorize(Roles = "Administrador,Empleado")]
     public async Task<ActionResult<Caja>> AbrirCaja([FromBody] JsonElement body)
     {
-        // 1) Evitar tener dos cajas abiertas simultáneamente
-        var cajaAbierta = await _context.Cajas
-            .FirstOrDefaultAsync(c => c.Estado == EstadoCajaEnum.Abierta);
-
-        if (cajaAbierta != null)
-        {
-            return BadRequest(new { message = "Ya existe una caja abierta" });
-        }
-
-        // 2) Extraer datos del body (tolerante a tipos)
+        // 1) Extraer datos del body (tolerante a tipos)
         decimal saldoInicial = 0m;
         int empleadoId = 0;
         DateTime? fechaEnviada = null;
@@ -139,10 +130,10 @@ public class CajaController : ControllerBase
             fechaEnviada = null;
         }
 
-        // 3) Fecha a usar: fecha enviada o UtcNow
+        // 2) Fecha a usar: fecha enviada o UtcNow
         var fecha = fechaEnviada?.ToUniversalTime() ?? DateTime.UtcNow;
 
-        // 4) Calcular ventana: si windowMinutes >= 1440 usamos el día completo
+        // 3) Calcular ventana: si windowMinutes >= 1440 usamos el día completo
         DateTime start, end;
         if (windowMinutes >= 1440)
         {
@@ -155,17 +146,16 @@ public class CajaController : ControllerBase
             end = fecha.AddMinutes(windowMinutes);
         }
 
-        // 5) Buscar cajas en la ventana, IGNORANDO las cajas ya cerradas
-        //    Esto permite: abrir -> cerrar -> abrir otra dentro de la ventana
-        var cajaParaFecha = await _context.Cajas
-            .FirstOrDefaultAsync(c => c.Fecha >= start && c.Fecha < end && c.Estado != EstadoCajaEnum.Cerrada);
+        // 4) Buscar si hay ya una caja ABIERTA en la ventana (solo ABIERTA bloquea)
+        var cajaAbiertaEnVentana = await _context.Cajas
+            .FirstOrDefaultAsync(c => c.Estado == EstadoCajaEnum.Abierta && c.Fecha >= start && c.Fecha < end);
 
-        if (cajaParaFecha != null)
+        if (cajaAbiertaEnVentana != null)
         {
-            return BadRequest(new { message = "Ya existe una caja en la ventana de tiempo proporcionada" });
+            return BadRequest(new { message = "Ya existe una caja abierta en la ventana de tiempo proporcionada" });
         }
 
-        // 6) Crear la caja
+        // 5) Crear la caja (cajas cerradas no bloquean)
         var caja = new Caja
         {
             Fecha = fecha,
